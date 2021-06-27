@@ -6,6 +6,7 @@ class DBWrapper {
     static property;
     constructor () {
         this.property = DBWrapper.property.database;
+        this.secureBoot = DBWrapper.property.database.bootWithDB;
         this.hostat = this.property.connection.url+this.property.connection.db
         if(this.property.connection.params) {
             this.hostat += this.property.connection.params
@@ -27,7 +28,7 @@ class DBWrapper {
 
     async connect() {
         this.connection = await mongoose.connect(this.hostat, this.property.connection.options).catch(e => {
-            throw new Error('ERROR: failed booting up database');
+            if(this.secureBoot)  throw new Error('ERROR: failed booting up database');
         })
         return this.connection
     }

@@ -103,6 +103,7 @@ class Configurator extends Negotiator(Injector, Base) {
     getDatabaseEnv () {
         return {
             host: this._c.database.host,
+            bootWithDB: this._c.database.bootWithDB,
             connection: this.keySelector(this._c.database.options, this._c.database.host)
         };
     }

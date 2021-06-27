@@ -62,7 +62,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       ServerWrap.initialize(this._g, this.property,this.$app);
       this.internals['server'] = new ServerWrap();
       this.$server = this.internals.server.install();
-      let db = await this.internals.database.connect();
+      await this.connectDbInstsance()
       this.$io = socketio(this.$server);
       SocketAdapter.setIo(this.$io);
       Base.install(this._g, this.property, this.$server, this.$app);
@@ -113,12 +113,21 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       log.msg(`server is up on PORT:  ${this.property.server.port}` );
     })
   }
+
   /**
    * read filestring path
    * @param {filesystem} path 
    */
   getFileSync (path) {
     return this._g.fs.readFileSync(path)
+  }
+
+  /**
+   * connect database instance
+   */
+  async connectDbInstsance () {
+    if(this.property.database.bootWithDB) return await this.internals.database.connect();
+    else return await this.internals.database?.connect();
   }
 
   CheckStaticErrors() {
