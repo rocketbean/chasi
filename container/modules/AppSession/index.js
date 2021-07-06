@@ -1,5 +1,5 @@
 class AppSession {
-    static constructors = ['user'];
+    static constructors = ['users'];
     
     constructor (user,_t = null) {
         this.session_id = user._id;

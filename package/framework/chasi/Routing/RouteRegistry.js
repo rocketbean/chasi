@@ -98,6 +98,11 @@ class RouteRegistry extends ErrorHandler{
         this.activeRoutes.push(route.fullpath)
     }
 
+    /**
+     * Route~Middleware assignment`
+     * @param {Middleware} route 
+     * @param {*} options
+     */
     assignMiddleware (route, options) {
         if(route.middlewares.length > 0) {
             route.middlewares.forEach(middleware => {
@@ -127,6 +132,10 @@ class RouteRegistry extends ErrorHandler{
                 res.send(_r);
             } catch(e) {
                 this.exception(e.stack + `\n Class[${route.controller.constructor}] :: Method(${route.controller.method})`, 1, "danger");
+                if(e.status) {
+                    res.status(e.status).send(e.message)
+                    return
+                }
                 e.message = this.handleError(e);
                 res.status(400).send(e.message)
             }
@@ -134,11 +143,15 @@ class RouteRegistry extends ErrorHandler{
         return;
     }
 
+    /**
+     * 
+     * @param {Error} e 
+     * @returns Sanitized error message
+     */
     handleError (e) {
         let message = RouteRegistry.$responses[e.constructor.name]?.code[e.code]
         if(!message) return RouteRegistry.$responses._default;
         else return this.sanitize(message,e )
-        // console.log(RouteRegistry.$responses)
     }
 
     sanitize(message,e) {

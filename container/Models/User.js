@@ -9,12 +9,6 @@ let UserSchema = new mongoose.Schema({
 		required: true,
 		trim: true
 	},
-	alias: {
-		type: String,
-		required: true,
-		trim: true,
-		unique: true
-	},
 	email: {
 		type: String,
 		unique: true,
@@ -39,16 +33,7 @@ let UserSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	socket: {
-		type: String,
-		trim: true,
-		default: "na"
-	},
 	accountStatus: {
-		default: 0,
-		type: Number,
-	},
-	peerCounts: {
 		default: 0,
 		type: Number,
 	},
@@ -58,45 +43,20 @@ let UserSchema = new mongoose.Schema({
 			tutorials: true
 		}
 	},
-	connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'room' }],
-	communities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'community' }],
-	tokens: [{
-		token: {
-			type: String,
-			required: true
-		}
-	}],
 }, {
 	timestamps: true
 })
-
-UserSchema.virtual('chambers', {
-	ref: 'room',
-	localField: '_id',
-	foreignField: 'owner'
-})
-
-UserSchema.virtual('notifications', {
-	ref: 'notification',
-	localField: '_id',
-	foreignField: 'owner'
-})
-
 
 UserSchema.methods.toJSON = function () {
 	const user = this
 	const userObject = user.toObject()
 	delete userObject.password
-	delete userObject.tokens
-	delete userObject.communities
-	delete userObject.connections
-	userObject.notifications = user.notifications
 	return userObject;
 }
 
 UserSchema.methods.generateAuthToken = async function () {
 	const user = this
-	return await jwt.sign({_id: user._id.toString()}, "test")
+	return await jwt.sign({_id: user._id.toString()}, "Chasi")
 }
 
 UserSchema.statics.findByCredentials = async (email, pass) => {
@@ -119,6 +79,6 @@ UserSchema.pre('save', async function(next) {
 	next()
 })
 
-const User = mongoose.model('user', UserSchema)
+const User = mongoose.model('users', UserSchema)
 
 module.exports = User
