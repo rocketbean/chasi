@@ -14,6 +14,7 @@ class UserController extends Controller {
      * @return {Mailer} 
      */
     get mailer () {
+
         return adapter.getService("Mailer")
     }
 
@@ -22,6 +23,7 @@ class UserController extends Controller {
      * @returns {User, token[String]}
      */
     async login (req) {
+
         const user = await User.findByCredentials(req.body.email, req.body.password);
         await user.populate('notifications').execPopulate()
         const token = await user.generateAuthToken();
@@ -33,6 +35,7 @@ class UserController extends Controller {
      * @returns {User, token[String]}
      */
     async register (req) {
+
         const user = await new User(req.body).save()
         const token = await user.generateAuthToken()
         // await this.mailer.send('UserVerification', {verification, user})
@@ -40,10 +43,11 @@ class UserController extends Controller {
     }
 
     /**
-     * @param { File [BigInt64ArrayConstructor] } req 
+     * @param { File [BigInt64ArrayConstructor] } req[Binary]
      * @returns { fileObject }
      */
     async avatar (req) {
+
         let sec = Object.keys(req.body.files).map(f => f);
         return {filename: req.body.files[sec[1]].public}
     }

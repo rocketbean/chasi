@@ -1,6 +1,20 @@
 
 const fs = require('fs');
 module.exports = {
+  provider: (argument) => {
+    let template =  require ("./templates/defaultProvider");
+    let appendix = argument[0]
+    if(argument[0].includes("/")) {
+      appendix = argument[0].split("/")
+    }
+    if(appendix instanceof Object) appendix = appendix.pop()
+    return {
+      template: template(appendix),
+      filename: appendix,
+      path: ''
+    };
+  },
+
   controller: (argument) => {
     let template =  require ("./templates/defaultController");
     let appendix = argument[0]

@@ -6,6 +6,7 @@ const paths = {
   controller: `${basepath}\\container\\controllers\\`,
   middleware: `${basepath}\\container\\middlewares\\`,
   model: `${basepath}\\container\\Models\\`,
+  provider: `${basepath}\\container\\services\\`,
 }
 
 var arguments = process.argv.slice(2)

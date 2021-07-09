@@ -4,11 +4,13 @@ const bc = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
 let UserSchema = new mongoose.Schema({
+
 	name: {
 		type: String,
 		required: true,
 		trim: true
 	},
+	
 	email: {
 		type: String,
 		unique: true,
@@ -20,6 +22,7 @@ let UserSchema = new mongoose.Schema({
 		},	
 		required: true
 	},
+
 	password:{
 		type: String,
 		trim: true,
@@ -29,20 +32,24 @@ let UserSchema = new mongoose.Schema({
 				throw new Error("entry with the word 'password' cannot be used. ")
 		}
 	},
+
 	avatar: {
 		type: String,
 		required: true,
 	},
+
 	accountStatus: {
 		default: 0,
 		type: Number,
 	},
+
 	settings: {
 		type: {},
 		default: {
 			tutorials: true
 		}
 	},
+	
 }, {
 	timestamps: true
 })

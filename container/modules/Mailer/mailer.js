@@ -20,7 +20,7 @@ module.exports = class Mailer extends Base{
         try {
             return await sgMail.send({
                 to: user.email,
-                from: 'castmonkeys.cm@gmail.com',
+                from: 'youremail@email.com',
                 subject: title,
                 html: await view.render()
             })
