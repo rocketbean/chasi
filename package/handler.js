@@ -66,9 +66,9 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       this.$io = socketio(this.$server);
       SocketAdapter.setIo(this.$io);
       Base.install(this._g, this.property, this.$server, this.$app);
-      await Controller.init(this.property);
       this.injectCorsProperties();
       this.$packages = new PackageLoader();
+      await Controller.init(this.property, this.$packages);
       this.setStatus("setting up server");
       this.instantiate();
     } catch (e) {

@@ -5,6 +5,8 @@ const OpenSocket = require('./OpenSocket');
 const ServiceAdapter = require('./adapters/ServiceAdapter');
 const adapter = require('./adapters/adapters');
 const log = require("../../Logger");
+const Controller = require("../../statics/Controller");
+
 class Chasi extends Base {
     /**
      * $basepath [container];
@@ -18,6 +20,18 @@ class Chasi extends Base {
      */
     static $dependency = [
         '$packages'
+    ];
+
+    /**
+     * [$ServiceGuard] protected services;
+     * list of protected service
+     * this list will not be included
+     * in the global service registry
+     */
+    static $ServiceGuard = [
+        'routers',
+        'auth',
+        'sockets'
     ];
 
     static $packages;
@@ -35,8 +49,18 @@ class Chasi extends Base {
     async autoLoadServiceBootstrap () {
         this.services = new ServiceAdapter(Chasi.property.app.ServiceBootstrap).autoload();
         adapter.services = this.services
+        this.propagateServices()
     }
 
+    async propagateServices () {
+        let service = {}
+        Object.keys(this.services).forEach(serve => {
+            if(!Chasi.$ServiceGuard.includes(serve)) 
+                service[serve] = this.services[serve]
+        })
+        Controller.installServices(service)
+    }
+    
     async use ($instance, $options) {
         this.internals[$instance['name']] = $instance.install(this);
     }
