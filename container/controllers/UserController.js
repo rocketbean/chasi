@@ -26,7 +26,7 @@ class UserController extends Controller {
 
         const user = await User.findByCredentials(req.body.email, req.body.password);
         await user.populate('notifications').execPopulate()
-        const token = await user.generateAuthToken();
+        const token = await user.generateAuthToken('api');
         return {user, token}
     }
     
@@ -37,7 +37,7 @@ class UserController extends Controller {
     async register (req) {
 
         const user = await new User(req.body).save()
-        const token = await user.generateAuthToken()
+        const token = await user.generateAuthToken('api')
         // await this.mailer.send('UserVerification', {verification, user})
         return {user, token};
     }

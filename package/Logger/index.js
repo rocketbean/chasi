@@ -4,7 +4,7 @@ class Log {
     static AllowPadding = [ 'warning', 'severe', 'subsystem']
 
     logType = {
-        system: chalk.yellow.bgBlack,
+        system: chalk.bgGrey.yellow,
         subsystem: chalk.bgBlue.yellow,
         light: chalk.yellow,
         bgpositive: chalk.green.bgBlack,

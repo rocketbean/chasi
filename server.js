@@ -13,7 +13,6 @@ global.events = new Events();
 global.log = log;
 
 const Package = require('./package/handler');
-const singleton = async () => {
+(async () => {
   let ph = await Package.install(__dirname);
-} 
-singleton();
+})()

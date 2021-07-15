@@ -42,7 +42,6 @@ class SessionStorage extends Base{
 
 
     static mapConstructor(obj) {
-        // if(!obj) throw new Error(`SessionStorage| object from MC is null [${obj}]:: ${JSON.stringify(this.constructors,null,2)}`)
         if(!this.constructors.hasOwnProperty(obj?.constructor?.modelName)) throw new Error(`Session Storage doesn't have [${obj.constructor.modelName}] value set as constructor`)
         return this.constructors[obj.constructor.modelName]
     }
@@ -55,7 +54,8 @@ class SessionStorage extends Base{
     }
 
     static find (session) {
-        // let q = this.storage()
+        // find session in
+        // session storage
     }
 
     static CLEARSESSION () {

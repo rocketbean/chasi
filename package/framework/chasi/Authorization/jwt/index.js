@@ -30,7 +30,7 @@ class JWTDriver {
             var gateway = true;
             const url = req.originalUrl.split('?')[0] // Routes with query
             const layer = req.app._router.stack.find(layer => {
-              return layer.regexp.exec(url) && layer.route
+                return layer.regexp.exec(url) && layer.route
             })
             let target = JWTDriver.$routes[layer?.route?.app_session_id]?.target
             try {
@@ -48,7 +48,7 @@ class JWTDriver {
                 }
                 next()
             } catch (e) {
-                res.status(401).send("failed authenticating token")
+                if(!(e instanceof TypeError)) res.status(401).send("failed authenticating token")
             }
         })
     }

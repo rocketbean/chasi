@@ -1,5 +1,13 @@
+let config = require("../../../config/authentication");
+let gw = config.gateway
+const _constructors = []
+Object.keys(gw).map(key => {
+    let model = gw[key]?.model?.modelName;
+    if(!(_constructors.includes(model))) _constructors.push(model)
+})
+
 class AppSession {
-    static constructors = ['users'];
+    static constructors = _constructors;
     
     constructor (user,_t = null) {
         this.session_id = user._id;
@@ -35,6 +43,7 @@ class AppSession {
     writeLog (message) {
         this.logs.push(message);
     }
+
 }
 
 module.exports = AppSession
