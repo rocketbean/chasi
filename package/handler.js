@@ -8,6 +8,7 @@ const Injector = require('./bootloader/injector');
 const ModelHandler = require('./bootloader/Model');
 const framework = require('./framework/frontload');
 const Controller = require('./statics/Controller');
+const Adapter = require('./statics/Adapter');
 const ServerWrap = require('./framework/exec/server');
 const SocketWrapper = require('./framework/exec/socket');
 const Configurator = require('./bootloader/configurator');
@@ -69,6 +70,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       this.injectCorsProperties();
       this.$packages = new PackageLoader();
       await Controller.init(this.property, this.$packages);
+      await Adapter.init(this.property);
       this.setStatus("setting up server");
       this.instantiate();
     } catch (e) {
