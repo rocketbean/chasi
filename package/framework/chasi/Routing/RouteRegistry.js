@@ -160,7 +160,6 @@ class RouteRegistry extends ErrorHandler{
             let matches = regExp.exec(message);
             message = message.replace(matches[0], JSON.stringify(Object.keys(e.keyPattern)))
         }
-
         return message;
     }
 

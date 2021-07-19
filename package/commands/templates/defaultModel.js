@@ -23,7 +23,7 @@ module.exports = (argument) => {
   }
   
   
-  const ${argument} = mongoose.model('${argument}', ${uppercased}Schema)
+  const ${argument} = mongoose.model('${argument.toLowerCase()}', ${uppercased}Schema)
   module.exports = ${argument}`
 }
 

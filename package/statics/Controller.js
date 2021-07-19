@@ -44,7 +44,6 @@ module.exports =  class Controller extends Base {
                 buff.map(filedir => {
                     if(filedir instanceof Error) throw new Error(filedir.message);
                     let key = Reflect.construct(filedir, []).constructor.modelName
-                    if(pluralize.isSingular(key)) key = pluralize(key);
                     if(Controller.$bindMap[key]) key = Controller.$bindMap[key]
                     Controller.$models[key] = filedir
                 })
