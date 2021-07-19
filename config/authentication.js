@@ -3,6 +3,7 @@ module.exports = {
     gateway  : {
         api: {
             driver: 'jwt',
+            enabled: true,
             key: 'Chasi',
             model: require('../container/Models/User'),
             AuthRouteExceptions: [
@@ -17,6 +18,7 @@ module.exports = {
         },
         chasi: {
             driver: 'jwt',
+            enabled: true,
             key: 'Chasi',
             model: require('../container/Models/User'),
             AuthRouteExceptions: [
@@ -28,7 +30,6 @@ module.exports = {
                  */
                 {"m": "POST", "url": "/chasi/login"},
             ]
-        },
-        
+        }
     }
 }

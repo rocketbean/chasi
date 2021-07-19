@@ -18,7 +18,7 @@ class RouterServiceProvider {
                 ControllerDir   : 'controllers/',
                 middleware      : [],
                 AuthRouteExceptions   : []
-            }),
+            })
         ]
     }
 }

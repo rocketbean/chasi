@@ -11,6 +11,7 @@ class JWTDriver {
         this.router = router
         this.model = prop.model;
         this.key = prop.key;
+        this.property = prop;
         this.addTokenExceptions(prop.AuthRouteExceptions);
     }
 
@@ -38,6 +39,7 @@ class JWTDriver {
                     if(t.url === req.path && t.m === req.method)    
                         gateway = false
                 })
+                if(!target.property.enabled) gateway = false
                 if(gateway) {
                     const _t = req.header("Authorization").replace("Bearer ", "")
                     const _d = jwt.verify(_t, target.key)
