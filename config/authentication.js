@@ -28,7 +28,6 @@ module.exports = {
                  * to excempt some routes,
                  * it should be registered here..
                  */
-                {"m": "POST", "url": "/chasi/login"},
             ]
         }
     }

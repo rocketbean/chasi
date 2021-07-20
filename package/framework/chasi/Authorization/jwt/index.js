@@ -39,11 +39,11 @@ class JWTDriver {
                     if(t.url === req.path && t.m === req.method)    
                         gateway = false
                 })
-                if(!target.property.enabled) gateway = false
+                if(!(target?.property?.enabled)) gateway = false
                 if(gateway) {
-                    const _t = req.header("Authorization").replace("Bearer ", "")
-                    const _d = jwt.verify(_t, target.key)
-                    const user = await target.model.findOne({_id:_d._id})
+                    const _t = req.header("Authorization")?.replace("Bearer ", "")
+                    const _d = jwt.verify(_t, target?.key)
+                    const user = await target?.model.findOne({_id:_d._id})
                     let $session = SessionStorage.fetch(user);
                     if(!user) throw new Error()
                     req.auth = {user, _t, $session};
