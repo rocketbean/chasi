@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const _path = require("path")
 module.exports = {
   provider: (argument) => {
     let template =  require ("./templates/defaultProvider");
@@ -59,15 +60,16 @@ module.exports = {
 
   write (container, path) {
 
-    let realpath = `${path}/${container.filename}.js`
+    let realpath = _path.resolve(`${path}`)
+    realpath = realpath.split(_path.sep).join(_path.posix.sep);
+    realpath = realpath.split("\\").join("/");
+    realpath = _path.join(realpath,`${container.filename}.js`)
     let errState = [];
-
     if(fs.existsSync(realpath)) {
       let error = `WriteError: ${container.filename} already exist in path: ${path}`;
       errState.push(error)
       throw error;
     }
-
     if(errState.length < 1) {
       fs.writeFile(realpath, container.template, function(err) {
         if(err) console.log(err);

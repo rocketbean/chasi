@@ -2,6 +2,7 @@ const chalk = require("chalk");
 const { base } = require("./container/Models/User");
 const kernel = require("./package/commands/kernel");
 const basepath = __dirname
+const _path = require("path")
 const paths = {
   controller: `${basepath}\\container\\controllers\\`,
   middleware: `${basepath}\\container\\middlewares\\`,
