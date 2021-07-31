@@ -29,8 +29,8 @@ class Exception {
     #constructMessage (message) {
         switch (this.logging) {
             case 0:
-                if(!(message instanceof String)) 
-                    // return `${this.invoker}: ${message?.message}`;
+                if(!(message instanceof String))  return `${this.invoker}: ${message?.message}`;
+                else return message;
                 break;
 
             case 1:
