@@ -51,7 +51,7 @@ class JWTDriver extends ErrorHandler {
                 }
                 next()
             } catch (e) {
-                if(e.message.includes("invalid signature")) {
+                if(e.message.includes("invalid signature") || e.message.includes("jwt") ) {
                     this.exception(e.message, 0, "danger")
                     res.status(401).send("failed authenticating token")
                 }
