@@ -48,7 +48,7 @@ class ${argument} extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Object} translated as [ExpressResponse] Object
    * */
-  async delete(request) {
+  async update(request) {
     
     
   }
