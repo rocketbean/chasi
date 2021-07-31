@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const SessionStorage = require("../../../storage/session");
 const Gateway = require('../index')
-
-class JWTDriver {
+const ErrorHandler = require("../../../error/ErrorHandler")
+class JWTDriver extends ErrorHandler {
 
     static TokenExceptions = [];
     static $instances = [];
@@ -51,7 +51,10 @@ class JWTDriver {
                 }
                 next()
             } catch (e) {
-                if(!(e instanceof TypeError)) res.status(401).send("failed authenticating token")
+                if(e.message.includes("invalid signature")) {
+                    this.exception(e.message, 0, "danger")
+                    res.status(401).send("failed authenticating token")
+                }
             }
         })
     }
