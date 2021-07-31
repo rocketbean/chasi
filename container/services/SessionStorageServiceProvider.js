@@ -4,7 +4,7 @@ class SessionStorageServiceProvider {
     
     static boot () {
         return {
-            // AppSession
+            AppSession
         }
     }
 }

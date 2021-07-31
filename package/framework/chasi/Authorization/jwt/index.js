@@ -44,7 +44,8 @@ class JWTDriver {
                     const _t = req.header("Authorization")?.replace("Bearer ", "")
                     const _d = jwt.verify(_t, target?.key)
                     const user = await target?.model.findOne({_id:_d._id})
-                    let $session = SessionStorage.fetch(user);
+                    let $session = false;
+                    if(target?.property?.sessions) $session = SessionStorage?.fetch(user);
                     if(!user) throw new Error()
                     req.auth = {user, _t, $session};
                 }

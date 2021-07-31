@@ -4,6 +4,7 @@ module.exports = {
         api: {
             driver: 'jwt',
             enabled: true,
+            sessions: true,
             key: 'Chasi',
             model: require('../container/Models/User'),
             AuthRouteExceptions: [
@@ -19,6 +20,7 @@ module.exports = {
         chasi: {
             driver: 'jwt',
             enabled: true,
+            sessions: true,
             key: 'Chasi',
             model: require('../container/Models/User'),
             AuthRouteExceptions: [
