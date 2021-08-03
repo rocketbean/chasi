@@ -1,6 +1,6 @@
 const Base = require('../base')
 const pluralize = require('pluralize')
-
+const socketAdapter = require("../framework/chasi/adapters/SocketAdapters")
 module.exports =  class Controller extends Base {
     static $app = {}
     static $models = {}
@@ -18,6 +18,10 @@ module.exports =  class Controller extends Base {
         return Controller.$packages
     }
 
+    get $io () {
+        return Controller.$io;
+    }
+
     get services () {
         return Controller.$services
     }
@@ -28,6 +32,7 @@ module.exports =  class Controller extends Base {
 
 
     static init(property, packages) {
+        Controller.$io = socketAdapter.$io
         Controller.$config = property.app
         Controller.$packages = packages.installedPackages;
         Controller.assignModels(Controller.$config.modelsDir);
