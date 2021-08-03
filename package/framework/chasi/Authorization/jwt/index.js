@@ -8,6 +8,7 @@ class JWTDriver extends ErrorHandler {
     static $instances = [];
     static $app = {};
     constructor (prop, router) {
+        super();
         this.router = router
         this.model = prop.model;
         this.key = prop.key;

@@ -44,7 +44,7 @@ class RouteRegistry extends ErrorHandler{
         route.fullpath = this.validateEndpoint(route);
         this.mounted.push({m: route.method.toUpperCase(), url: route.fullpath, route});
         if(RouteRegistry.LogRoute) {
-            let len = 65;
+            let len = Number(checkout(process.env.logCharPad));
             let msg = `${route.fullpath} | `
             let routeType = ` [${route.method.toUpperCase()}]`
             msg +=  routeType
