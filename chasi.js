@@ -41,7 +41,7 @@ var handler = {
  * Get CommandLine function names 
  * [New, View]
  * * * * * * * * * * * * */
-const $commands = ['_new', '_view'];
+const $commands = ['_new', '_view', '_mount'];
 
 class CommandRegistry {
   _new (arg) {
@@ -49,6 +49,10 @@ class CommandRegistry {
     let secondLayerArg = arg.slice(1);
     let container = kernel[arg[0]](secondLayerArg, basepath)
     kernel.write(container, paths[arg[0]])
+  }
+
+  _mount () {
+    require("./server")
   }
 
   _view () {
