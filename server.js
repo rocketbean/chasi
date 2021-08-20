@@ -1,18 +1,19 @@
 console.clear() 
-const Events = require ('./package/events');
-require('dotenv').config()
-basepath = __dirname;
-
-checkout = (val, backup) => {
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config()
+global.basepath = path.resolve(path.dirname(''));
+global.checkout = (val, backup) => {
   if(val == undefined  || val == null) return backup
   else return val
-} 
-const log = require('./package/Logger');
+}
+import {Events} from './package/events/index.js';
+import log from './package/Logger/index.js'
+import Package from './package/handler.js';
 
 global.events = new Events();
 global.log = log;
 
-const Package = require('./package/handler');
 (async () => {
-  let ph = await Package.install(__dirname);
+  let ph = await Package.install(global.basepath);
 })()

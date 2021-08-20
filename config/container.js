@@ -1,4 +1,6 @@
-module.exports = {
+import globals from '../package/globals.js'
+
+export default {
     name: checkout(process.env.APPNAME, 'Chasi'),
     environment: checkout(process.env.environment, 'local'),
     mode: {

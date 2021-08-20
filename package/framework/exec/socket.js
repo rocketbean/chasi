@@ -1,4 +1,4 @@
-class SocketWrapper {
+export class SocketWrapper {
     static property;
     static _g;
     static $server;
@@ -17,5 +17,3 @@ class SocketWrapper {
         else return false;
     }
 }
-
-module.exports = SocketWrapper;

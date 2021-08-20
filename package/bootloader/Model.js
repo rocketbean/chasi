@@ -1,7 +1,7 @@
-const Base = require("../base");
-const pluralize = require("pluralize")
+import {Base} from "../base.js";
+import pluralize from "pluralize";
 
-class Model extends Base{
+export default class Model extends Base{
     static modelPath = 'container/Models/';
     static models = {};
     static container;
@@ -62,5 +62,3 @@ class Model extends Base{
         return Model.container;
     }
 }
-
-module.exports = Model;

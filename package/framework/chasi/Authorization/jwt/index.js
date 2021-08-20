@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const SessionStorage = require("../../../storage/session");
-const Gateway = require('../index')
-const ErrorHandler = require("../../../error/ErrorHandler")
-class JWTDriver extends ErrorHandler {
+import jwt from "jsonwebtoken";
+import SessionStorage from "../../../storage/session.js";
+import {ErrorHandler} from "../../../error/ErrorHandler.js";
+
+export default class JWTDriver extends ErrorHandler {
 
     static TokenExceptions = [];
     static $instances = [];
@@ -66,4 +66,3 @@ class JWTDriver extends ErrorHandler {
     }
 
 }
-module.exports = JWTDriver;

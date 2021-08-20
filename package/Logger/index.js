@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import chalk from 'chalk'
 const log = console.log;
 class Log {
     static AllowPadding = [ 'warning', 'severe', 'subsystem']
@@ -58,4 +58,5 @@ class Log {
 
 }
 
-module.exports = new Log();
+export default new Log();
+// module.exports = new Log();

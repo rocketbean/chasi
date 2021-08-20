@@ -1,13 +1,13 @@
-const Base = require('../../base');
-const Router = require('./Routing/Router');
-const Auth = require('./Authorization');
-const OpenSocket = require('./OpenSocket');
-const ServiceAdapter = require('./adapters/ServiceAdapter');
-const adapter = require('./adapters/adapters');
-const log = require("../../Logger");
-const Controller = require("../../statics/Controller");
+import {Base} from "../../base.js";
+import {Router} from "./Routing/Router.js";
+import Auth from "./Authorization/index.js";
+import {OpenSocket} from "./OpenSocket/index.js";
+import ServiceAdapter from "./adapters/ServiceAdapter.js";
+import adapter from "./adapters/adapters.js";
+import log from "../../Logger/index.js";
+import {Controller} from "../../statics/Controller.js";
 
-class Chasi extends Base {
+export class Chasi extends Base {
     /**
      * $basepath [container];
      * Chasi Container path
@@ -87,5 +87,3 @@ class Chasi extends Base {
         return $chasi;
     }
 }
-
-module.exports = Chasi;

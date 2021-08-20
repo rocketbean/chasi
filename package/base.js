@@ -1,8 +1,8 @@
-const ErrorHandler = require("./framework/error/ErrorHandler");
-const _p = require('path');
-const _fs = require('fs');
+import {ErrorHandler} from "./framework/error/ErrorHandler.js";
+import _p from "path";
+import _fs from "fs";
 
-class Base extends ErrorHandler {
+export class Base extends ErrorHandler {
     static ReadCon = [];
     static _g;
     static property;
@@ -150,4 +150,4 @@ class Base extends ErrorHandler {
     }
 }
 
-module.exports = Base;
+// module.exports = Base;

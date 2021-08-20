@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     MongoError: {
         code: {
             11000: "Oops! the ${field} you've entered is already on our records! please choose a different one."

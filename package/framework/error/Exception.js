@@ -1,6 +1,6 @@
-const log = require("../../Logger");
+import log from "../../Logger/index.js";
 
-class Exception {
+export default class Exception {
     static errors;
     /**
      * Error Response types:
@@ -96,5 +96,3 @@ class Exception {
         Exception.errors = errors;
     }
 }
-
-module.exports = Exception;

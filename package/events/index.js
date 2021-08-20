@@ -1,7 +1,7 @@
-const EventEmitter = require('events');
+// const EventEmitter = require('events');
+import EventEmitter from 'events'
 
-
-class Events extends EventEmitter{
+export class Events extends EventEmitter{
     static EventsRegistry = {}
 
 
@@ -15,4 +15,4 @@ class Events extends EventEmitter{
     }
 }
 
-module.exports = Events;
+// module.exports = Events;

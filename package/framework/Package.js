@@ -1,6 +1,6 @@
-const Base =require("../base");
+import {Base} from "../base.js";
 
-class PKG extends Base{
+export default class PKG extends Base{
     static logging = process.env.adapterLogging > 0 ? true:false;
     
     constructor (alias, path, staticfunc) {
@@ -26,5 +26,3 @@ class PKG extends Base{
         return Base.ReadCon[this.alias][this.staticfunc](PKG.property, PKG._g, PKG.$server, PKG.$app);
     }
 }
-
-module.exports = PKG;

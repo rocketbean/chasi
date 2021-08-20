@@ -1,5 +1,5 @@
 
-class RouteGroup {
+export class RouteGroup {
     static groups = [];
     constructor (stack) {
         this.group = stack.group;
@@ -67,5 +67,3 @@ class RouteGroup {
         return str;
     }
 }
-
-module.exports = RouteGroup;

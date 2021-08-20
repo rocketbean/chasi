@@ -1,6 +1,6 @@
-const Exception = require('./Exception');
-const log = require("../../Logger");
-class ErrorHandler {
+import Exception from "./Exception.js";
+import log from "../../Logger/index.js";
+export class ErrorHandler {
     static errors = [];
     static all = [];
     /**
@@ -43,5 +43,3 @@ class ErrorHandler {
         })
     }
 }
-
-module.exports = ErrorHandler

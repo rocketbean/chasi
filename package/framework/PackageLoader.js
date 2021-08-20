@@ -1,8 +1,8 @@
 
-const pkg = require('./Package');
-const Base = require('../base');
+import pkg from "./Package.js";
+import {Base} from "../base.js";
 
-class PackageLoader extends Base{
+export class PackageLoader extends Base{
     static registry = [];
     static pkgs = {};
     static packages = {};
@@ -58,5 +58,3 @@ class PackageLoader extends Base{
     }
 
 }
-
-module.exports = PackageLoader

@@ -1,4 +1,6 @@
-module.exports = {
+import globals from '../package/globals.js'
+
+export default {
     default  : 'jwt',
     gateway  : {
         api: {
@@ -6,7 +8,7 @@ module.exports = {
             enabled: true,
             sessions: true,
             key: 'Chasi',
-            model: require('../container/Models/User'),
+            model:  '../container/Models/User',
             AuthRouteExceptions: [
                 /**
                  * By default, all routes will
@@ -22,7 +24,7 @@ module.exports = {
             enabled: true,
             sessions: true,
             key: 'Chasi',
-            model: require('../container/Models/User'),
+            model: '../container/Models/User',
             AuthRouteExceptions: [
                 /**
                  * By default, all routes will

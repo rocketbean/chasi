@@ -1,4 +1,4 @@
-module.exports = (baseClass, ...mixins) => {
+export default (baseClass, ...mixins) => {
     class base extends baseClass {
         constructor (...args) {
             super(...args);

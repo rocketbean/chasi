@@ -1,5 +1,6 @@
-const Adapter = require('./adapters')
-class ServiceAdapter extends Adapter {
+import Adapter from "./adapters.js";
+
+export default class ServiceAdapter extends Adapter {
     static buffervar = 'serviceadapter'
     static logging = process.env.adapterLogging > 0 ? true:false;
 
@@ -32,4 +33,3 @@ class ServiceAdapter extends Adapter {
     }
 
 }
-module.exports = ServiceAdapter;

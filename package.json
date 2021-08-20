@@ -2,6 +2,7 @@
 	"name": "upbeat",
 	"version": "0.1.0",
 	"author": "Nikko Mesina",
+	"type": "module",
 	"scripts": {
 		"start": "node server.js",
 		"dev": "nodemon index.js"

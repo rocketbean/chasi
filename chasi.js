@@ -39,7 +39,7 @@ var handler = {
 
 /* * * * * * * * * * * * *
  * Get CommandLine function names 
- * [New, View]
+ * [New, Mount, View]
  * * * * * * * * * * * * */
 const $commands = ['_new', '_view', '_mount'];
 
@@ -56,7 +56,7 @@ class CommandRegistry {
   }
 
   _view () {
-    console.log("test")
+    
   }
 }
 _c = new CommandRegistry()

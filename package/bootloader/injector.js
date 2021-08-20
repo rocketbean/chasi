@@ -1,13 +1,13 @@
-const fs = require('fs');
-const cors = require("cors");
-const http = require("http");
-const path = require("path");
-const https = require('https');
-const express = require("express");
-const bodyParser = require('body-parser');
-const events = require('events');
+import fs from "fs";
+import cors from "cors";
+import http from "http";
+import path from "path";
+import https from "https";
+import express from "express";
+import bodyParser from "body-parser";
+import events from "events";
 
-class Injector {
+export class Injector {
   constructor () {
     this._g = {
       fs,
@@ -22,4 +22,3 @@ class Injector {
   }
 
 }
-module.exports = Injector

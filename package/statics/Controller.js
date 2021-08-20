@@ -1,7 +1,8 @@
-const Base = require('../base')
-const pluralize = require('pluralize')
-const socketAdapter = require("../framework/chasi/adapters/SocketAdapters")
-module.exports =  class Controller extends Base {
+import {Base} from "../base.js";
+import pluralize from "pluralize";
+import socketAdapter from "../framework/chasi/adapters/SocketAdapters.js";
+
+export class Controller extends Base {
     static $app = {}
     static $models = {}
     static $services = {}

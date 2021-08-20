@@ -1,8 +1,6 @@
-const Base = require("../../../base");
-const { Error } = require("mongoose");
+import { Base } from "../../../base.js";
 
-
-class OpenSocket extends Base{
+export class OpenSocket extends Base{
     /**
      * static *properties
      * [Required property]
@@ -80,5 +78,3 @@ class OpenSocket extends Base{
         OpenSocket.fetchMiddlewares();
     }
 }
-
-module.exports = OpenSocket;

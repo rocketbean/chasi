@@ -1,7 +1,7 @@
-const socketio = require("socket.io")
+import * as socketio from "socket.io";
 
 
-class ServerWrap {
+export class ServerWrap {
     static _g;
     static property;
     static $app;
@@ -41,5 +41,3 @@ class ServerWrap {
         ServerWrap.$app = $app;
     }
 }
-
-module.exports = ServerWrap;

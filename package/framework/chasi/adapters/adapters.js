@@ -1,6 +1,6 @@
-const Base = require("../../../base");
+import {Base} from "../../../base.js";
 
-class Adapter extends Base {
+export default class Adapter extends Base {
     static services = {}
     constructor () {
         super()
@@ -10,5 +10,3 @@ class Adapter extends Base {
         return Adapter.services[service]
     }
 }
-
-module.exports = Adapter

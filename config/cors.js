@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     /**
      * allow connections from this resource
      * [Arr|Str] 

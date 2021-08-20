@@ -1,22 +1,22 @@
-const Base = require('./base');
-const log = require('./Logger');
-const socketio = require("socket.io");
-const Negotiator = require('./cluster');
-const Chasi = require('./framework/chasi/chasi')
-const fileUpload = require('express-fileupload');
-const Injector = require('./bootloader/injector');
-const ModelHandler = require('./bootloader/Model');
-const framework = require('./framework/frontload');
-const Controller = require('./statics/Controller');
-const Adapter = require('./statics/Adapter');
-const ServerWrap = require('./framework/exec/server');
-const SocketWrapper = require('./framework/exec/socket');
-const Configurator = require('./bootloader/configurator');
-const PackageLoader = require('./framework/PackageLoader');
-const ErrorHandler = require('./framework/error/ErrorHandler');
-const SocketAdapter = require('./framework/chasi/adapters/SocketAdapters');
+import {Base} from "./base.js";
+import log from "./Logger/index.js";
+import {Server} from "socket.io";
+import Negotiator from "./cluster.js";
+import {Chasi} from "./framework/chasi/chasi.js";
+import fileUpload from "express-fileupload";
+import {Injector} from "./bootloader/injector.js";
+import ModelHandler from "./bootloader/Model.js";
+import {framework} from "./framework/frontload/index.js";
+import {Controller} from "./statics/Controller.js";
+import Adapter from "./statics/Adapter.js";
+import {ServerWrap} from "./framework/exec/server.js";
+import {SocketWrapper} from "./framework/exec/socket.js";
+import {Configurator} from "./bootloader/configurator.js";
+import {PackageLoader} from "./framework/PackageLoader.js";
+import {ErrorHandler} from "./framework/error/ErrorHandler.js";
+import SocketAdapter from "./framework/chasi/adapters/SocketAdapters.js";
 
-class PackageHandler extends Negotiator(Injector, ErrorHandler) {
+export default class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   constructor (property) {
     super();
     this.property = property
@@ -60,11 +60,12 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async before () {
     try {
       this.$app = this.internals.app;
+      console.log(this.internals.app)
       ServerWrap.initialize(this._g, this.property,this.$app);
       this.internals['server'] = new ServerWrap();
       this.$server = this.internals.server.install();
       await this.connectDbInstsance()
-      this.$io = socketio(this.$server);
+      this.$io = new Server(this.$server);
       SocketAdapter.setIo(this.$io);
       Base.install(this._g, this.property, this.$server, this.$app);
       this.injectCorsProperties();
@@ -141,9 +142,11 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   }
 
   static async install(dir) {
-    let ph = new PackageHandler(new Configurator().bootload());
+    let configurator = new Configurator();
+    await configurator.setProps()
+    let ph = new PackageHandler(configurator.bootload());
     await ph.init();
     return ph;
   }
 }
-module.exports = PackageHandler;
+// module.exports = PackageHandler;

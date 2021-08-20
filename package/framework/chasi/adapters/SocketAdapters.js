@@ -1,4 +1,4 @@
-class SocketAdapters {
+export default class SocketAdapters {
     static $io;
     static $sockets = [];
 
@@ -6,5 +6,3 @@ class SocketAdapters {
         SocketAdapters.$io = $io
     }
 }
-
-module.exports = SocketAdapters;

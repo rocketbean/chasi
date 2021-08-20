@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     emailContainer: "container/modules/Mailer/emails/",
     authentication: {
         key: checkout(process.env.mailerKey, "SG."),

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   host: checkout(process.env.dbhost, 'local'),
   bootWithDB: false,
   options: {

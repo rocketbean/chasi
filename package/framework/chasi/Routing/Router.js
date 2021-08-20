@@ -1,9 +1,8 @@
-const RouteManager = require("./Manager");
-const RouteRegistry = require('./RouteRegistry');
+import {RouteManager} from "./Manager.js";
+import {RouteRegistry} from "./RouteRegistry.js";
+import {Base} from "../../../base.js";
 
-const Base = require("../../../base");
-
-class Router extends Base {
+export class Router extends Base {
     static $app;
     static $server;
 
@@ -45,5 +44,3 @@ class Router extends Base {
         RouteRegistry.init($app, $server, Router.property);
     }
 }
-
-module.exports = Router;

@@ -1,6 +1,6 @@
-const Base = require("../../base");
+import {Base} from "../../base.js";
 
-class SessionStorage extends Base{
+export default class SessionStorage extends Base{
     /**
      * Boot FilePath
      * 
@@ -81,4 +81,3 @@ class SessionStorage extends Base{
 
     
 }
-module.exports = SessionStorage;

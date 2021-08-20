@@ -1,11 +1,11 @@
-const _r = require('./RouteRegistry');
-const ErrorHandler = require('../../error/ErrorHandler');
-const RouteGroup = require('./RouteGroup');
-const Router = require('./Router');
-const mongoose = require("mongoose")
+import {RouteRegistry} from "./RouteRegistry.js";
+import {ErrorHandler} from "../../error/ErrorHandler.js";
+import {RouteGroup} from "./RouteGroup.js";
+import mongoose from "mongoose";
+
 const ObjectId = mongoose.Types.ObjectId; 
 
-class Route extends ErrorHandler{
+export class Route extends ErrorHandler{
     static prefer;
     static groups = [];
     static prefixes = [];
@@ -71,59 +71,59 @@ class Route extends ErrorHandler{
     }
     
     static post(endpoint, controller,options = {}) {
-        let _r = new Route({
+        let RouteRegistry = new Route({
             method: 'post',
             controller,
             endpoint,
             options,
         })
-        Route.prefer(_r);
-        return _r;
+        Route.prefer(RouteRegistry);
+        return RouteRegistry;
 
     }
 
     static get(endpoint, controller, options = {}) {
-        let _r = new Route({
+        let RouteRegistry = new Route({
             method: 'get',
             controller,
             endpoint,
             options,
         })
-        Route.prefer(_r);
-        return _r;
+        Route.prefer(RouteRegistry);
+        return RouteRegistry;
     }
 
     static update(endpoint, controller, options = {}) {
-        let _r = new Route({
+        let RouteRegistry = new Route({
             method: 'update',
             controller,
             endpoint,
             options,
         })
-        Route.prefer(_r);
-        return _r;
+        Route.prefer(RouteRegistry);
+        return RouteRegistry;
     }
 
     static delete(endpoint, controller, options = {}) {
-        let _r = new Route({
+        let RouteRegistry = new Route({
             method: 'delete',
             controller,
             endpoint,
             options,
         })
-        Route.prefer(_r);
-        return _r;
+        Route.prefer(RouteRegistry);
+        return RouteRegistry;
     }
 
     static patch(endpoint, controller, options = {}) {
-        let _r = new Route({
+        let RouteRegistry = new Route({
             method: 'patch',
             controller,
             endpoint,
             options,
         })
-        Route.prefer(_r);
-        return _r;
+        Route.prefer(RouteRegistry);
+        return RouteRegistry;
     }
 
     static group(stack, fn) {
@@ -152,4 +152,3 @@ class Route extends ErrorHandler{
         Route.groups.push(_group);
     }
 }
-module.exports = Route;

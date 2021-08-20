@@ -1,11 +1,13 @@
-const Base = require('../../../base');
-const baseroute = require('./Route');
-const RouteGroup = require('./RouteGroup');
-const Route = require('./Route');
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
+import {Base} from "../../../base.js";
+// import baseroute from "./Route.js";
+import {RouteGroup} from "./RouteGroup.js";
+import {Route} from "./Route.js";
+import log from "../../../Logger/index.js";
+
 const ObjectId = mongoose.Types.ObjectId; 
-const log = require('../../../Logger')
-class RouteManager extends Base{
+
+export class RouteManager extends Base{
     static $RoutePath = '/routes';
     static $app;
     static $server;
@@ -114,5 +116,3 @@ class RouteManager extends Base{
     }
     
 }
-
-module.exports = RouteManager;

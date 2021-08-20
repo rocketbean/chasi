@@ -1,10 +1,10 @@
-const container = require('../../config/container');
-const Injector = require('./injector');
-const server = require('../../config/server');
-const Base = require('../base');
-const Negotiator = require('../cluster');
+import container from "../../config/container.js";
+import {Injector} from "./injector.js";
+import server from "../../config/server.js";
+import {Base} from "../base.js";
+import Negotiator from "../cluster.js";
 
-class Configurator extends Negotiator(Injector, Base) {
+export class Configurator extends Negotiator(Injector, Base) {
 
     /**
      * Removes from readers list of autoloaded configurations
@@ -21,30 +21,36 @@ class Configurator extends Negotiator(Injector, Base) {
         this.container = container;
         this.bootfiles = [];
         this._c = {}
-        this.setProps()
-
     }
 
     /**
      * Get Config properties
      * at basepath [./config]
      */
-    setProps () {
+    async setProps () {
         var normalizedPath = this._g.path.join(basepath, "config");
         this.bootfiles = this._g.fs.readdirSync(normalizedPath).map(fn => {
             let _n = fn.replace('.js', ''); 
-            return {[_n]: normalizedPath + "/" + fn}
-        }).map(this.register.bind(this));
+            return {[_n]: normalizedPath + "\\" + fn}
+        });
 
+        await Promise.all(this.bootfiles.map(async fp => {
+            let reg = this.register.bind(this)
+            await reg(fp) 
+        }))
     }
 
     /**
      * enlist the file to registry
      * @param {registry} file 
      */
-    register (file) {
-        let key = Object.keys(file);
-        this._c[key] = require(file[key]);
+    async register (file) {
+        try {
+            let key = Object.keys(file);
+            this._c[key] = (await import('file:///' + file[key])).default
+        } catch(e) {
+            console.log(e, `@2@@@@@ ERR ${ Object.keys(file) }`)
+        }
     }
 
     /**
@@ -109,5 +115,3 @@ class Configurator extends Negotiator(Injector, Base) {
     }
 
 }
-
-module.exports = Configurator;

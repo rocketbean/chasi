@@ -1,17 +1,14 @@
-const Router = require('./Router');
-const log = require('../../../Logger');
-const ErrorHandler = require('../../error/ErrorHandler');
-const Events = require('../../../events');
-const EventEmitter = require('events');
-const { OutgoingCallerIdContext } = require('twilio/lib/rest/api/v2010/account/outgoingCallerId');
+import {Router} from "./Router.js";
+import log from "../../../Logger/index.js";
+import {ErrorHandler} from "../../error/ErrorHandler.js";
 
-class RouteRegistry extends ErrorHandler{
+export class RouteRegistry extends ErrorHandler{
     
     static $app;
     static $server;
     static $responses;
     static RouteCollection;
-    static LogRoute = checkout(process.env.routeLogging, 0) > 0 ? true:false;
+    static LogRoute = process.env.routeLogging > 0 ? true:false;
     
     constructor (stack, controllers, router) {
         super();
@@ -224,5 +221,3 @@ class RouteRegistry extends ErrorHandler{
         RouteRegistry.middlewares = property.app.middlewares;
     }
 }
-
-module.exports = RouteRegistry;

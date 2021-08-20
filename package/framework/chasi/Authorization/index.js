@@ -1,8 +1,6 @@
-const Events  = require ('../../../events')
-const EventEmitter = require('events');
-const JWTDriver = require('./jwt')
+import JWTDriver from "./jwt/index.js";
 
-class AuthorizationDriver {
+export default class AuthorizationDriver {
     /**
      * Allowed Authentication Drivers
      */
@@ -12,9 +10,6 @@ class AuthorizationDriver {
     static property;
     static routes = {};
 
-    constructor () {
-        
-    }
 
     static SetGuards(params) {
         let _c = AuthorizationDriver.property.gateway[params.router]
@@ -60,4 +55,3 @@ class AuthorizationDriver {
         return new AuthorizationDriver();
     }
 }
-module.exports = AuthorizationDriver;

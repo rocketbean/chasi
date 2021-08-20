@@ -1,4 +1,4 @@
-class framework {
+export class framework {
     static global;
     static property;
     constructor () {
@@ -9,8 +9,8 @@ class framework {
     }
     
     async callstack (_g) {
-        _g.fs.readdirSync(__dirname).map(fn => {
-            var _p = _g.path.join(__dirname, fn);
+        _g.fs.readdirSync(basepath).map(fn => {
+            var _p = _g.path.join(basepath, fn);
             if(_g.fs.statSync(_p).isDirectory()) {
                 this.registry[fn] = _p
             }
@@ -20,11 +20,15 @@ class framework {
     }
 
     async #bootStack () {
-        Object.keys(this.registry).map(boot => {
+        Object.keys(this.registry).map(async boot => {
             try{
-                this.stack[boot] = require(this.registry[boot])({global: framework.global, property: framework.property});
+                let bootdir = this.registry[boot].replace(/\\/g, '/')
+                console.log(bootdir)
+                // let content = await import(`file:///${bootdir}`)
+                console.log(content)
+                // this.stack[boot] = require(this.registry[boot])({global: framework.global, property: framework.property});
             } catch(e) {
-                console.log(e.message) 
+                // console.log(e.message) 
             }
         })
         return await this.#bootup();
@@ -47,5 +51,3 @@ class framework {
         framework.property = property
     }
 }
-
-module.exports = framework
