@@ -126,6 +126,18 @@ class Route extends ErrorHandler{
         return _r;
     }
 
+    static put(endpoint, controller, options = {}) {
+        let _r = new Route({
+            method: 'put',
+            controller,
+            endpoint,
+            options,
+        })
+        Route.prefer(_r);
+        return _r;
+    }
+
+
     static group(stack, fn) {
         let track = {
             groups: '',

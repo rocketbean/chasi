@@ -38,7 +38,6 @@ class UserController extends Controller {
 
         const user = await new User(req.body).save()
         const token = await user.generateAuthToken('api')
-        // await this.mailer.send('UserVerification', {verification, user})
         return {user, token};
     }
 

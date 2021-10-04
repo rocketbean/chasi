@@ -10,17 +10,17 @@ module.exports = class Mailer extends Base{
         this.renders = this.stackDirObject(this.config.emailContainer);
     }
 
-    async send(render, props) {
-        let baselink = this.config.authentication.baseUrl + this.config.authentication.verificationUrl + `/${props.verification._id}`
-        let view = new this.renders[render](baselink);
-        return await this.submit(view, props.user)
+    async send(template, props, title = "email verification") {
+        if(!props?.email) throw new error("property parameters must have email property.");
+        let view = new this.renders[template](this.config, props);
+        return await this.submit(view, props.email, title)
     }
 
-    async submit (view, user, title = "email verification") {
+    async submit (view, email, title) {
         try {
             return await sgMail.send({
-                to: user.email,
-                from: 'youremail@email.com',
+                to: email,
+                from: 'chasi@gmail.com',
                 subject: title,
                 html: await view.render()
             })

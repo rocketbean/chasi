@@ -29,17 +29,16 @@ class JWTDriver extends ErrorHandler {
     
     setAuthorization () {
         return (async (req, res, next) => {
-            var gateway = true;
-            const url = req.originalUrl.split('?')[0] // Routes with query
-            const layer = req.app._router.stack.find(layer => {
-                return layer.regexp.exec(url) && layer.route
-            })
-            let target = JWTDriver.$routes[layer?.route?.app_session_id]?.target
+            let layer = JWTDriver.$app.routeLayer(req.originalUrl.split('?')[0], req.method)
+            var gateway = layer?.$chasi?.guarded;
+            if(!(layer?.$chasi)) {
+                this.exception(`${req.originalUrl} uknnown route layer`,0) 
+                next()
+                return;
+            }
+
+            let target = layer.$chasi.route.target
             try {
-                JWTDriver.TokenExceptions.map(t => {
-                    if(t.url === req.path && t.m === req.method)    
-                        gateway = false
-                })
                 if(!(target?.property?.enabled)) gateway = false
                 if(gateway) {
                     const _t = req.header("Authorization")?.replace("Bearer ", "")
@@ -53,7 +52,7 @@ class JWTDriver extends ErrorHandler {
                 next()
             } catch (e) {
                 if(e.message.includes("invalid signature") || e.message.includes("jwt") ) {
-                    this.exception(e.message, 0, "danger")
+                    this.exception(e.message, 1, "danger")
                     res.status(401).send("failed authenticating token")
                 }
             }

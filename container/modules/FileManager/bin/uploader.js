@@ -19,8 +19,20 @@ module.exports = class FileUploader {
 
     setFilePath (setpath, params) {
         let _p = ''
+        if(setpath.includes('rooms')) {
+          _p+= `rooms/${params.room}/`
+          if(setpath.includes('avatar')) {
+            _p+= `avatars/`
+          }
+        }
         if(setpath.includes('users')) {
           _p+= `users/${params.user}/`
+          if(setpath.includes('avatar')) {
+            _p+= `avatars/`
+          }
+        }
+        if(setpath.includes('community')) {
+          _p+= `community/${params.com}/`
           if(setpath.includes('avatar')) {
             _p+= `avatars/`
           }

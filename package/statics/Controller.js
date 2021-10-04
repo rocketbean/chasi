@@ -10,6 +10,11 @@ module.exports =  class Controller extends Base {
         'notification-entry': 'entry',
         'notification-dispatcher': 'dispatcher',
     }
+
+    get $config () {
+        return Controller.$config;
+    }
+    
     get models () {
         return Controller.$models
     }
@@ -33,9 +38,9 @@ module.exports =  class Controller extends Base {
 
     static init(property, packages) {
         Controller.$io = socketAdapter.$io
-        Controller.$config = property.app
+        Controller.$config = property
         Controller.$packages = packages.installedPackages;
-        Controller.assignModels(Controller.$config.modelsDir);
+        Controller.assignModels(Controller.$config.app.modelsDir);
     }
 
     static installServices($services) {

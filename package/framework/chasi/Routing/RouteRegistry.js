@@ -11,7 +11,6 @@ class RouteRegistry extends ErrorHandler{
     static $server;
     static $responses;
     static RouteCollection;
-    static LogRoute = checkout(process.env.routeLogging, 0) > 0 ? true:false;
     
     constructor (stack, controllers, router) {
         super();
@@ -20,12 +19,13 @@ class RouteRegistry extends ErrorHandler{
         this.router = router
         this.stack = stack
         this.controllers = controllers;
+        this.LogRoute = checkout(process.env.routeLogging, 1) > 0 ? true:false;
         this.collector()
         this.pushRoutes();
     }
 
     collector () {
-        if(RouteRegistry.LogRoute) log.msg(`RouteRegistry::${this.router}`, 65, "subsystem")
+        if(this.LogRoute) log.msg(`RouteRegistry::${this.router}`, 65, "subsystem")
         Object.keys(this.stack).map(_r => {
             this.activateRoutes(this.stack[_r])
         })
@@ -43,7 +43,7 @@ class RouteRegistry extends ErrorHandler{
     activateRoutes (route) {
         route.fullpath = this.validateEndpoint(route);
         this.mounted.push({m: route.method.toUpperCase(), url: route.fullpath, route});
-        if(RouteRegistry.LogRoute) {
+        if(this.LogRoute) {
             let len = Number(checkout(process.env.logCharPad));
             let msg = `${route.fullpath} | `
             let routeType = ` [${route.method.toUpperCase()}]`
@@ -71,7 +71,7 @@ class RouteRegistry extends ErrorHandler{
         param = param.replace(/,/g, '');
         param = param.replace(/\/\//g, '');
         param = this.validPathStartString(param)
-        return param
+        return param.UrlStringFormat()
     }
     
 
@@ -90,6 +90,8 @@ class RouteRegistry extends ErrorHandler{
         this.assignController(route)
         let options = this.optionCollector(route)
         _route = RouteRegistry.$app[route.method](route.fullpath, ...options)
+        route.layer = RouteRegistry.$app.getRouteLayer(route.fullpath, route.method)
+        route.layer.route.id = route.id
         let routes = RouteRegistry.$app._router.stack.filter(st => st.route!=undefined);
         let indx = routes.find(r => r.route.path == route.fullpath);
         indx.route.network = this.router

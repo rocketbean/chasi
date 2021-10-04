@@ -1,5 +1,6 @@
 const Base = require("../base");
 const pluralize = require("pluralize")
+const mongoose = require("mongoose")
 
 class Model extends Base{
     static modelPath = 'container/Models/';
@@ -47,7 +48,7 @@ class Model extends Base{
                 schema.methods[m] = methods[m]
             })
         } catch(e) {
-            Model.container.exception(e.message, 1)
+            // Model.container.exception(e.message, 1)
         }
 
     }

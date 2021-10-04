@@ -32,7 +32,7 @@ module.exports = class imageResizer {
             }
         }))
         return await this.images;
-    }
+    }zz
 
     async imageResize () {
         await Promise.all(this.cuts.map(async cut => {

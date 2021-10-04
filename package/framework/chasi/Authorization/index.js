@@ -18,10 +18,10 @@ class AuthorizationDriver {
 
     static SetGuards(params) {
         let _c = AuthorizationDriver.property.gateway[params.router]
+        let reflector = Reflect.construct(JWTDriver, [_c, params.router])
+        AuthorizationDriver.$instances[params.router] = reflector
+        AuthorizationDriver.register(params, reflector)
         if(_c !== undefined) {
-            let reflector = Reflect.construct(JWTDriver, [_c, params.router])
-            AuthorizationDriver.$instances[params.router] = reflector
-            AuthorizationDriver.register(params, reflector)
             AuthorizationDriver.$app.use(Reflect.apply(reflector.setAuthorization, AuthorizationDriver.$instances[params.router], []))
         } else {
             AuthorizationDriver.setRouteGuardException(params)
@@ -33,7 +33,7 @@ class AuthorizationDriver {
             AuthorizationDriver.routes[r.route.id] = {
                 method: r.m,
                 url: r.url,
-                target: reflector
+                target: reflector 
             }
         })
     }
@@ -44,8 +44,18 @@ class AuthorizationDriver {
         })
     }
     
-    static implementAppGuard () {
-
+    static implementAppGuard (layer) {
+        let route = AuthorizationDriver.routes[layer.route.id]
+        if(route.url == '/users/') {
+            console.log(new URL(route.url))
+            console.log(route.target.property.AuthRouteExceptions)
+        }
+        if(!route) console.dir(layer)
+        let unguarded = route.target.property.AuthRouteExceptions.find(exc => exc.url.UrlStringFormat() == route.url.UrlStringFormat())
+        layer.$chasi = {
+            route,
+            guarded: unguarded ? false:true
+        }
     }
 
     static setListeners () {

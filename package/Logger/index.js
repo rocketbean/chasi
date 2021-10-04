@@ -27,6 +27,7 @@ class Log {
     }
 
     msg (message, padding = 80, type = 'system') {
+        if(Number(checkout(process.env.logCharPad))) padding = Number(checkout(process.env.logCharPad))
         if(message instanceof Object) {
             let _n = this.setAsHeader(message.constructor.name) + "\n";
             log(this.logType["system"](_n))

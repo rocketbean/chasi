@@ -2,6 +2,7 @@ module.exports = {
   default: 'FileManager',
   drivers: {
     FileManager: {
+      public: checkout(process.env.publicUrl, ''),
       multerConfig: {
         autoRetry: true,
         maxRetries: 2,

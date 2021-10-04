@@ -12,7 +12,8 @@ module.exports = (argument) => {
     * */
 
   }, {
-    timestamps: true
+    timestamps: true,
+	  
   })
   
   ${uppercased}Schema.methods.toJSON = function () {

@@ -42,15 +42,25 @@ class SessionStorage extends Base{
 
 
     static mapConstructor(obj) {
-        if(!this.constructors.hasOwnProperty(obj?.constructor?.modelName)) throw new Error(`Session Storage doesn't have [${obj.constructor.modelName}] value set as constructor`)
-        return this.constructors[obj.constructor.modelName]
+        try {
+            if(!this.constructors.hasOwnProperty(obj?.constructor?.modelName)) throw new Error(`Session Storage doesn't have [${obj.constructor.modelName}] value set as constructor`)
+            return this.constructors[obj.constructor.modelName]
+        } catch (e) {
+            // console.log(e)
+        }
+
     }
 
     static fetch (obj) {
-        let cn = SessionStorage.mapConstructor(obj);
-        let q = SessionStorage.storage[cn].find(session => session.session_id.toString() === obj._id.toString());
-        if(!q) SessionStorage.add(obj)
-        return SessionStorage.storage[cn].find(session => session.session_id.toString() === obj._id.toString());
+        try {
+            let cn = SessionStorage.mapConstructor(obj);
+            let q = SessionStorage.storage[cn].find(session => session.session_id.toString() === obj._id.toString());
+            if(!q) SessionStorage.add(obj)
+            return SessionStorage.storage[cn].find(session => session.session_id.toString() === obj._id.toString());
+        } catch(e) {
+
+        }
+
     }
 
     static find (session) {
@@ -63,8 +73,13 @@ class SessionStorage extends Base{
     }
 
     static add (obj) {
-        let cn = SessionStorage.mapConstructor(obj);
-        this.storage[cn].push(new SessionStorage.ClassMap[cn](obj));
+        try {
+            let cn = SessionStorage.mapConstructor(obj);
+            this.storage[cn].push(new SessionStorage.ClassMap[cn](obj));
+        } catch(e) {
+
+        } 
+
     }
 
     static debug () {

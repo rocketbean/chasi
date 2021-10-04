@@ -15,6 +15,7 @@ const Configurator = require('./bootloader/configurator');
 const PackageLoader = require('./framework/PackageLoader');
 const ErrorHandler = require('./framework/error/ErrorHandler');
 const SocketAdapter = require('./framework/chasi/adapters/SocketAdapters');
+const AuthorizationDriver = require('./framework/chasi/Authorization');
 
 class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   constructor (property) {
@@ -86,6 +87,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async instantiate () {
     try {
       this.$app.use(this._g.express.json())
+      this.setupRouteLayerNet()
       this.$app.use(fileUpload())
       this.$app.use(this._g.bodyParser.urlencoded({extended: true}));
       this.$chasi = Chasi.install(this.$app, {
@@ -93,6 +95,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
         $server: this.$server,
         $io: this.$io
       });
+
       this.setStatus("Instantiating App Class");
       this.after(); 
     } catch (e) {
@@ -100,10 +103,20 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     }
   }
 
+  async setupQueRoutes() {
+    this.$app._router.stack.map(async layer => {
+      if(layer?.route) {
+        await AuthorizationDriver.implementAppGuard(layer)
+      }
+    })
+  }
+
   async after () {
     this.boot()
     this.setStatus("after App Instance");
     this.CheckStaticErrors();
+    await this.setupQueRoutes()
+
     this.$app.use((req, res, next) => {
       res.status(404);
       res.send('404: Path Not Found');
@@ -111,7 +124,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   }
 
   boot () {
-    this.$server.listen(this.property.server.port, () => {
+    this.$server.listen(this.property.server.port, async () => {
       log.msg(`server is up on PORT:  ${this.property.server.port}` );
     })
   }
@@ -130,6 +143,30 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async connectDbInstsance () {
     if(this.property.database.bootWithDB) return await this.internals.database.connect();
     else return await this.internals.database?.connect();
+  }
+
+  /**
+   * setup route layer network
+   */
+  setupRouteLayerNet () {
+    this.$app.getRouteLayer = function (url, method) {
+      let parsed = url.split('?')[0] // Routes with query
+      parsed = parsed.UrlStringFormat()
+      return this._router.stack.find(layer => {
+        if(!method) return (layer.regexp.exec(parsed) && layer.route);
+        return (layer.regexp.exec(parsed) && layer.route) &&
+          (layer.route.stack[0].method.toLowerCase() == method.toLowerCase())
+      })
+    }
+
+    this.$app.routeLayer = function (url, method) {
+      let parsed = url.split('?')[0] // Routes with query
+      parsed = parsed.UrlStringFormat()
+      return this._router.stack.find(layer => {
+        return (layer.regexp.exec(parsed) && layer.route) &&
+          (layer.$chasi.route.method.toLowerCase() == method.toLowerCase())
+      })
+    }
   }
 
   CheckStaticErrors() {

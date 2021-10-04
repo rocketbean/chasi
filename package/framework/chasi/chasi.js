@@ -46,7 +46,7 @@ class Chasi extends Base {
         this.services = {};
     }
 
-    async autoLoadServiceBootstrap () {
+    autoLoadServiceBootstrap () {
         this.services = new ServiceAdapter(Chasi.property.app.ServiceBootstrap).autoload();
         adapter.services = this.services
         this.propagateServices()

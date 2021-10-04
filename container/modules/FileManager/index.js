@@ -17,6 +17,12 @@ module.exports = class FileManager {
           imageResizer
         }
     }
+
+
+    attachFile () {
+   
+    }
+
     async avatar (req, res, next) {
       req.body.files = {}
       let config = property.drivers[property.default].multerConfig;
@@ -31,6 +37,42 @@ module.exports = class FileManager {
         }
       }))
     }
+
+    async RoomAttachments (req,res) {
+      let files = Object.keys(req.files);
+      let uploader = new FileUploader();
+      req.body.files = {}
+      if(req.files[files[0]] instanceof Array) {
+        await Promise.all( req.files[files[0]].map(async file =>  {
+          await FileManager.$instance.processFile(file, req.body.files)
+        }))
+      } else {
+        await FileManager.$instance.processFile(req.files[files[0]], req.body.files)
+      }
+      await Promise.all( Object.keys(req.body.files).map(async file => {
+        req.body.files[file] = await uploader.upload(req.body.files[file], req).catch(e => {
+          throw new Error(e.message)
+        })
+      })).catch(e=>{})
+  }
+
+  async PostAttachments (req,res) {
+    let files = Object.keys(req.files);
+    let uploader = new FileUploader();
+    req.body.files = {}
+    if(req.files[files[0]] instanceof Array) {
+      await Promise.all( req.files[files[0]].map(async file =>  {
+        await FileManager.$instance.processFile(file, req.body.files)
+      }))
+    } else {
+      await FileManager.$instance.processFile(req.files[files[0]], req.body.files)
+    }
+    await Promise.all( Object.keys(req.body.files).map(async file => {
+      req.body.files[file] = await uploader.upload(req.body.files[file], req).catch(e => {
+        throw new Error(e.message)
+      })
+    })).catch(e=>{})
+  }
 
     async processFile (file, container) {
       file.name = file.name.trim();
