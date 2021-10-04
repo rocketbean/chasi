@@ -31,11 +31,11 @@ node chasi new controller <*ControllerName*>
   which can be pointed to a certain route in route containers
   **e.g.**
   >> route.get("yourpath", "yourcontroller@method");
-  route.post("yourpath", "yourcontroller@method");
+  >> route.post("yourpath", "yourcontroller@method");
 
   >>  route.group({ prefix: "yourPathPrefix", middleware: [ "yourMiddlewareAlias" ]}, (() => {
-        route.post('endpoint', "yourcontroller@method");
-    }));
+  >>      route.post('endpoint', "yourcontroller@method");
+  >>  }));
 
 node chasi new model <*ModelName*>
 
