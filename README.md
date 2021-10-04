@@ -26,6 +26,7 @@ and plus you can also add some discussions if you have any suggestions*
 chasi command lines: 
 
 node chasi new controller <*ControllerName*>
+
   > this will generate your controller inside **./container/controllers/** path, 
   which can be pointed to a certain route in route containers
   **e.g.**
@@ -37,6 +38,7 @@ node chasi new controller <*ControllerName*>
     }));
 
 node chasi new model <*ModelName*>
+
   > by default, in your **Controller** the registered models is accessible via **this.models**
    you can try to check it out:
   **e.g.**
@@ -44,12 +46,15 @@ node chasi new model <*ModelName*>
   console.log(this.models) // or try this instead to see the registered models
 
 node chasi new provider <*ServiceProvider*>
+
   > please note that ServiceProviders must be declared in **./config/container** under **ServiceBootstrap** property before it can be utilized, by then it will be registered to the chasi third party container, and will be accessible to any registered controller via the get method
   *e.g.*
   >> get yourModule () {
 	 return this.services.yourModule
   }
+  
 node chasi new middleware <*middlewareName*>
+
   > middlewares must also be registered in **./config/container** under **middlewares** property, before it can
     be attached to any route/ route group/ route container.
   **e.g.**
