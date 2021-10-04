@@ -46,7 +46,7 @@ node chasi new model <*ModelName*>
 node chasi new provider <*ServiceProvider*>
   > please note that ServiceProviders must be declared in **./config/container** under **ServiceBootstrap** property before it can be utilized, by then it will be registered to the chasi third party container, and will be accessible to any registered controller via the get method
   *e.g.*
-  >>get yourModule () {
+  >> get yourModule () {
 	 return this.services.yourModule
   }
 node chasi new middleware <*middlewareName*>
