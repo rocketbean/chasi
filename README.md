@@ -22,6 +22,14 @@ and plus you can also add some discussions if you have any suggestions*
   fork this repo,
   then run npm i
   
+## starting the server
+```
+ // run 
+ >>   node server.js
+ //or if on development, you can install nodemon then run
+ >>   nodemon server.js
+ ```
+  
 # Scripts
 chasi command lines: 
 
