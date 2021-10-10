@@ -32,42 +32,64 @@ and plus you can also add some discussions if you have any suggestions*
   
 # Scripts
 chasi command lines: 
-
-node chasi new controller <*ControllerName*>
-
+> ### Creating Controller
+```
+> node chasi new controller <*ControllerName*>
+```
+ 
   > this will generate your controller inside **./container/controllers/** path, 
   which can be pointed to a certain route in route containers
-  **e.g.**
-  >> 		route.get("yourpath", "yourcontroller@method");
-  >> 		route.post("yourpath", "yourcontroller@method");
+  **e.g.**  
+  ```
+route.get("yourpath", "yourcontroller@method");
+route.post("yourpath2", "yourcontroller2@method2");
 
-  >>      route.group({ prefix: "yourPathPrefix", middleware: [ "yourMiddlewareAlias" ]}, (() => {
-  >>        route.post('endpoint', "yourcontroller@method");
-  >>      }));
+route.group({ prefix: "yourPathPrefix", middleware: [ "yourMiddlewareAlias" ]}, (() => {
+    route.post('endpoint', "yourcontroller3@method3");
+}));
+  ```
+<hr/>
 
-node chasi new model <*ModelName*>
+> ### Creating  Model
+  
+```
+> node chasi new model <*ModelName*>
+```
 
   > by default, in your **Controller** the registered models is accessible via **this.models**
    you can try to check it out:
   **e.g.**
-  >> 		this.models.user //inside your controller methods
-  >>		console.log(this.models) // or try this instead to see the registered models
-
-node chasi new provider <*ServiceProvider*>
-
+ ```
+this.models.user //inside your controller methods
+console.log(this.models) // or try this instead to see the registered models
+ ```
+ <hr/>
+ 
+  > ### Creating Service Provider
+  
+```
+> node chasi new provider <*ServiceProvider*>
+```
   > please note that ServiceProviders must be declared in **./config/container** under **ServiceBootstrap** property before it can be utilized, by then it will be registered to the chasi third party container, and will be accessible to any registered controller via the get method
   *e.g.*
-  >> 		get yourModule () {
-  >>		  return this.services.yourModule
-  >>		}
-  
-node chasi new middleware <*middlewareName*>
+```
+get yourModule () {
+    return this.services.yourModule
+}
+```
+<hr/>
 
+> ### Creating Middleware
+
+```  
+> node chasi new middleware <*middlewareName*>
+```
   > middlewares must also be registered in **./config/container** under **middlewares** property, before it can
     be attached to any route/ route group/ route container.
   **e.g.**
-  >> 		route.post("yourpath", "yourcontroller@method").middleware("yourmiddleware");
-  
+  ```
+route.post("yourpath", "yourcontroller@method").middleware("yourmiddleware");
+  ```
   *or you can add in the alias in ./config/services/RouterServiceProvider under middlewares array, this will be applied to all the routes under that routeContainer* 
 
 # Notes
