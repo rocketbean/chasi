@@ -23,10 +23,12 @@ and plus you can also add some discussions if you have any suggestions*
   then run npm i
   
 ## starting the server
+    // after setting up your .env file 
+
 ```
  // run 
  >>   node server.js
- //or if on development, you can install nodemon then run
+ // or if on development, you can install nodemon then run
  >>   nodemon server.js
  ```
   
