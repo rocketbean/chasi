@@ -18,6 +18,10 @@ i'll release some API docs, please checkout: https://castmonkeys.com/
 *and find the community for chasi, as i'll be posting any upcommings in that website, 
 and plus you can also add some discussions if you have any suggestions*
 
+here's a brief insight about chasi:
+
+https://www.youtube.com/watch?v=abgdgOFOMLA
+
 # Installation
   fork this repo,
   then run npm i
