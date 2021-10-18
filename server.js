@@ -1,3 +1,4 @@
+require('dotenv').config()
 const helpers = require('./package/helper')
 const Events = require ('./package/events');
 const log = require('./package/Logger');
