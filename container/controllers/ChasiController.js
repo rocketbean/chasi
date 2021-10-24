@@ -21,16 +21,20 @@ class ChasiController extends Controller {
   async index(request) {
     return `
       <html>
-        <body style = "height:100vh; width:100vw;">
-          <div style = "height:100%; width:100%; display:flex; justify-content: center; align-items: center">
-            <h3>
-              Welcome To Chasi Framework
-            </h3>
+        <body style = "margin: 0; padding 0; height:100vh; width:100vw;">
+          <div style = "height:100%; width:100%; flex-direction:column; display:flex; justify-content: center; align-items: center">
+            <h2 style = "margin-bottom: 4px">
+              <u>
+                Chasi Framework
+              </u>
+            </h2>
+            <small>
+              build something amazing!
+            </small>
           </div>
         </body>
       </html>
-    `
-
+      `
   }
 
   /**
