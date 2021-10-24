@@ -26,13 +26,17 @@ class RouteManager extends Base{
         this.loadControllers(property.ControllerDir);
     }
 
-    loadControllers (dir) {
+    loadControllers (dirs) {
         let ef = '';
         try {
-            var buff = this.stackDir(`container/${dir}`);
-            buff.map(filedir => {
-                if(filedir instanceof Error) throw new Error(filedir.message);
-                this.controllers[filedir.constructor.name] = filedir
+            dirs.map(dir => {
+                var buff = this.stackDir(`container/${dir}`);
+                buff.map(filedir => {
+                    if(filedir != undefined) {
+                        if(filedir instanceof Error) throw new Error(filedir.message);
+                        this.controllers[filedir.constructor.name] = filedir
+                    }
+                })
             })
         } catch(e) {
             this.exception(e.message + `\ncontroller:: error at ${buff}`, 3);

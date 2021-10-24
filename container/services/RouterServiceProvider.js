@@ -7,7 +7,7 @@ class RouterServiceProvider {
                 name            : 'api',
                 prefix          : '/api',
                 namespace       : '/http/api.js',
-                ControllerDir   : 'controllers/',
+                ControllerDir   : ['controllers/'],
                 middleware      : [],
                 AuthRouteExceptions   : []
             }),
@@ -15,7 +15,15 @@ class RouterServiceProvider {
                 name            : 'chasi',
                 prefix          : '/chasi',
                 namespace       : '/http/chasi.js',
-                ControllerDir   : 'controllers/',
+                ControllerDir   : ['controllers/'],
+                middleware      : [],
+                AuthRouteExceptions   : []
+            }),
+            new Router({
+                name            : 'web',
+                prefix          : '/',
+                namespace       : '/http/web.js',
+                ControllerDir   : ['controllers/'],
                 middleware      : [],
                 AuthRouteExceptions   : []
             })

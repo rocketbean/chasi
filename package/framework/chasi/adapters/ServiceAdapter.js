@@ -25,7 +25,7 @@ class ServiceAdapter extends Adapter {
             try {
                 this.booted[b] = this.bootfiles[b].boot()
             } catch(e) {
-                this.exception(`${b}::Error \n failed to boot service \n ${b}:: ${e.message}`, 1);
+                this.exception(`${b}::Error \n failed to boot service \n ${b}:: ${e.stack}`, 1);
             }
         })
         return this.booted;

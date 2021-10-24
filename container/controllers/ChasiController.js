@@ -1,7 +1,7 @@
 
 const Controller = require("../../package/statics/Controller");
 
-class TestController extends Controller {
+class ChasiController extends Controller {
 
   /**
    * Write a New ModelEntry
@@ -19,7 +19,17 @@ class TestController extends Controller {
    * @return {Object} translated as [ExpressResponse] Object
    * */
   async index(request) {
-    
+    return `
+      <html>
+        <body style = "height:100vh; width:100vw;">
+          <div style = "height:100%; width:100%; display:flex; justify-content: center; align-items: center">
+            <h3>
+              Welcome To Chasi Framework
+            </h3>
+          </div>
+        </body>
+      </html>
+    `
 
   }
 
@@ -53,4 +63,4 @@ class TestController extends Controller {
   }
 }
 
-module.exports = new TestController()
+module.exports = new ChasiController()

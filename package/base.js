@@ -64,8 +64,10 @@ class Base extends ErrorHandler {
      */
     stackDir (path) {
         var normalizedPath = Base._g.path.join(basepath, path);
-        return Base._g.fs.readdirSync(normalizedPath).map(fn => {
-            return this.assignFile(`${path}${fn}`) 
+        return  Base._g.fs.readdirSync(normalizedPath).map(fn => {
+            if(fn.includes(".js")) {
+                return this.assignFile(`${path}${fn}`) 
+            }
         });
     }
 
@@ -125,21 +127,32 @@ class Base extends ErrorHandler {
      * removes any special character from string
      * @param {str} str 
      */
-    cleanString(str, exception = []) {
+    cleanString(param, exception = []) {
+        if(Array.isArray(param)) {
+            return param.map(str => this.stringSanitizer(str, exception));
+        } else {
+            return this.stringSanitizer(param,exception)
+        }
+    }
+
+    stringSanitizer(str, exception) {
         let invalid = `[&\/\\#,+()$~%.'":*?!<>{}]`
         exception.map(e => {
             invalid = invalid.replace(e, '');
         })
-
-       return str.replace(eval(`/${invalid}/g`), '');
+        return str.replace(eval(`/${invalid}/g`), '');
     }
 
     /**
      * remove whitespaces on string
      * @param {str} str 
      */
-    removeSpaces(str) {
-        return str.replace(/\s/g, '');
+    removeSpaces(param) {
+        if(Array.isArray(param)) {
+            return param.map(str => str.replace(/\s/g, '') )
+        } else {
+            return param.replace(/\s/g, '');
+        }
     }
 
     static install (_g, property, server, app) {

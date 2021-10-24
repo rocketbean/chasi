@@ -12,11 +12,12 @@ class RouteRegistry extends ErrorHandler{
     static $responses;
     static RouteCollection;
     
-    constructor (stack, controllers, router) {
+    constructor (stack, controllers, property) {
         super();
         this.activeRoutes = [];
         this.mounted = [];
-        this.router = router
+        this.router = property.name
+        this.property = property
         this.stack = stack
         this.controllers = controllers;
         this.LogRoute = checkout(process.env.routeLogging, 1) > 0 ? true:false;
@@ -25,12 +26,12 @@ class RouteRegistry extends ErrorHandler{
     }
 
     collector () {
-        if(this.LogRoute) log.msg(`RouteRegistry::${this.router}`, 65, "subsystem")
+        let GateWayAuth = this.property.gateway.enabled ? "ENABLED" : "DISABLED";
+        if(this.LogRoute) log.msg(`[AuthGW::${GateWayAuth}] RouteRegistry::${this.router}`, 65, "subsystem")
         Object.keys(this.stack).map(_r => {
             this.activateRoutes(this.stack[_r])
         })
         global.events.call('NewRouterEntry', {router: this.router, routes: this.mounted});
-
     }
 
     pushRoutes () {
@@ -39,13 +40,14 @@ class RouteRegistry extends ErrorHandler{
         })
     }
 
-
     activateRoutes (route) {
+        route.container = this.property
         route.fullpath = this.validateEndpoint(route);
         this.mounted.push({m: route.method.toUpperCase(), url: route.fullpath, route});
         if(this.LogRoute) {
             let len = Number(checkout(process.env.logCharPad));
             let msg = `${route.fullpath} | `
+            let color = this.checkGwExceptions(route) ? 'magenta' : 'positive'
             let routeType = ` [${route.method.toUpperCase()}]`
             msg +=  routeType
             len += routeType.length;
@@ -54,9 +56,16 @@ class RouteRegistry extends ErrorHandler{
                 msg +=  excess
                 len += excess.length;
             }
-            log.msg(msg, len, "positive")
+            log.msg(msg, len, color)
         }
         this.validateController(route); 
+    }
+
+    checkGwExceptions(route) {
+        let _excptn = this.property.gateway.AuthRouteExceptions.
+            find(_r => (_r.url == route.fullpath && _r.m.toLowerCase() == route.method.toLowerCase()));
+        if(!route.container.gateway.enabled) return true
+        return _excptn ? true : false;
     }
 
     validateController (route) {

@@ -16,7 +16,7 @@ const PackageLoader = require('./framework/PackageLoader');
 const ErrorHandler = require('./framework/error/ErrorHandler');
 const SocketAdapter = require('./framework/chasi/adapters/SocketAdapters');
 const AuthorizationDriver = require('./framework/chasi/Authorization');
-
+const os = require('os');
 class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   constructor (property) {
     super();

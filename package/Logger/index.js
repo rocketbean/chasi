@@ -9,6 +9,8 @@ class Log {
         light: chalk.yellow,
         bgpositive: chalk.green.bgBlack,
         positive: chalk.green,
+        negative: chalk.red,
+        magenta: chalk.magenta,
         json: chalk.white,
         clear: chalk,
         danger: chalk.red.bgWhite,
@@ -23,7 +25,6 @@ class Log {
             charpad += char
         }
         return charpad + str + charpad
-        //  console.log(charpad)
     }
 
     msg (message, padding = 80, type = 'system') {
@@ -47,7 +48,7 @@ class Log {
             }
         }
 
-        if(type === 'positive') {
+        if(type === 'positive' || type === 'magenta') {
             message = message.padStart(padding, '-')
         }
 

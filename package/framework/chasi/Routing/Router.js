@@ -12,6 +12,7 @@ class Router extends Base {
         this.setProperty(args);
         this.setRouteManager();
         this.loadRoutes();
+
     }
 
     setProperty(args) {
@@ -21,6 +22,7 @@ class Router extends Base {
             namespace     : this.removeSpaces( this.cleanString(args.namespace,['/', '.'])),
             ControllerDir : this.removeSpaces( this.cleanString(args.ControllerDir,['/', '.'])),
             middleware    : args.middleware,
+            gateway       : Router.property.authentication.gateway[args.name]
         }
     }
 
@@ -33,7 +35,7 @@ class Router extends Base {
 
     loadRoutes () {
         this.manager.sanitizeList();
-        this.registry = new RouteRegistry(this.manager.listed, this.manager.controllers, this.property.name)
+        this.registry = new RouteRegistry(this.manager.listed, this.manager.controllers, this.property)
     }
 
 
