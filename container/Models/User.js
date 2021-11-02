@@ -88,5 +88,5 @@ UserSchema.pre('save', async function(next) {
 	next()
 })
 
-const User = Adapter.getConnection('local').model('users', UserSchema);
+const User = Adapter.getConnection().model('users', UserSchema);
 module.exports = User;
