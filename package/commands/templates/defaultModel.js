@@ -5,6 +5,7 @@ module.exports = (argument) => {
   return `
   const mongoose = require("mongoose")
   const __v = require("validator")
+  const Adapter = require("../../package/statics/Adapter")
   
   let ${uppercased}Schema = new mongoose.Schema({
     /* *
@@ -23,8 +24,7 @@ module.exports = (argument) => {
     return ${argument}Object;
   }
   
-  
-  const ${argument} = mongoose.model('${argument.toLowerCase()}', ${uppercased}Schema)
+  const ${argument} = Adapter.getConnection().model('${argument.toLowerCase()}', ${uppercased}Schema)
   module.exports = ${argument}`
 }
 

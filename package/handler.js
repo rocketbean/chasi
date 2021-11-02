@@ -26,6 +26,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     this.status = 'untapped'
     this.internals = {};
     this.packages = null;
+    this.dbconnections = {};
   }
 
 
@@ -70,14 +71,13 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       Base.install(this._g, this.property, this.$server, this.$app);
       this.injectCorsProperties();
       this.$packages = new PackageLoader();
+      await Adapter.init(this.property, this.dbconnections);
       await Controller.init(this.property, this.$packages);
-      await Adapter.init(this.property);
       this.setStatus("setting up server");
       this.instantiate();
     } catch (e) {
       log.msg(e.stack, 0 , "danger")
     }
-
   }
 
   /**
@@ -141,8 +141,8 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
    * connect database instance
    */
   async connectDbInstsance () {
-    if(this.property.database.bootWithDB) return await this.internals.database.connect();
-    else return await this.internals.database?.connect();
+    if(this.property.database.bootWithDB) this.dbconnections = await this.internals.database.connectAll();
+    else this.dbconnections = await this.internals.database?.connectAll();
   }
 
   /**

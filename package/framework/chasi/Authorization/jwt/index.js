@@ -2,15 +2,18 @@ const jwt = require("jsonwebtoken");
 const SessionStorage = require("../../../storage/session");
 const Gateway = require('../index')
 const ErrorHandler = require("../../../error/ErrorHandler")
+const Adapter = require("../../../../statics/Adapter")
+const ModelHandler = require("../../../../bootloader/Model")
+const Controller = require("../../../../statics/Controller")
 class JWTDriver extends ErrorHandler {
 
     static TokenExceptions = [];
     static $instances = [];
     static $app = {};
+
     constructor (prop, router) {
         super();
         this.router = router
-        this.model = prop.model;
         this.key = prop.key;
         this.property = prop;
         this.addTokenExceptions(prop.AuthRouteExceptions);
@@ -36,14 +39,15 @@ class JWTDriver extends ErrorHandler {
                 next()
                 return;
             }
-
             let target = layer.$chasi.route.target
+            let model = Controller.$models[target.property.model]
+            
             try {
                 if(!(target?.property?.enabled)) gateway = false
                 if(gateway) {
                     const _t = req.header("Authorization")?.replace("Bearer ", "")
                     const _d = jwt.verify(_t, target?.key)
-                    const user = await target?.model.findOne({_id:_d._id})
+                    const user = await model.findOne({_id:_d._id})
                     let $session = false;
                     if(target?.property?.sessions) $session = SessionStorage?.fetch(user);
                     if(!user) throw new Error()

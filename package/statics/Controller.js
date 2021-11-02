@@ -1,6 +1,7 @@
 const Base = require('../base')
 const pluralize = require('pluralize')
 const socketAdapter = require("../framework/chasi/adapters/SocketAdapters")
+
 module.exports =  class Controller extends Base {
     static $app = {}
     static $models = {}
@@ -59,7 +60,7 @@ module.exports =  class Controller extends Base {
                 })
             })
         } catch(e) {
-            console.log(e)
+            console.log(e.message)
         }
     }
 }

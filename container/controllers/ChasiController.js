@@ -10,7 +10,6 @@ class ChasiController extends Controller {
    * */
   async create(request) {
     
-
   }
 
   /**

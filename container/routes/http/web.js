@@ -11,6 +11,6 @@ module.exports = function() {
     * will be protected by JWT unless registered in 
     * [AuthRouteExceptions] array option.
     */
-    route.get("/", "ChasiController@index")
+    route.get("/", "ChasiController@index");
     
 }

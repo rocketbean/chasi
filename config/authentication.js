@@ -6,7 +6,7 @@ module.exports = {
             enabled: true,
             sessions: true,
             key: 'Chasi',
-            model: require('../container/Models/User'),
+            model: 'users',
             AuthRouteExceptions: [
                 /**
                  * By default, all routes will
@@ -23,7 +23,7 @@ module.exports = {
             enabled: true,
             sessions: true,
             key: 'Chasi',
-            model: require('../container/Models/User'),
+            model: 'users',
             AuthRouteExceptions: [
                 /**
                  * By default, all routes will
@@ -39,7 +39,7 @@ module.exports = {
             enabled: false,
             sessions: true,
             key: 'Chasi',
-            model: require('../container/Models/User'),
+            model: 'users',
             AuthRouteExceptions: [
                 /**
                  * By default, all routes will

@@ -30,9 +30,10 @@ class Configurator extends Negotiator(Injector, Base) {
      * at basepath [./config]
      */
     setProps () {
+
         var normalizedPath = this._g.path.join(basepath, "config");
         this.bootfiles = this._g.fs.readdirSync(normalizedPath).map(fn => {
-            let _n = fn.replace('.js', ''); 
+            let _n = fn.replace('.js', '');
             return {[_n]: normalizedPath + "/" + fn}
         }).map(this.register.bind(this));
 
@@ -52,6 +53,7 @@ class Configurator extends Negotiator(Injector, Base) {
      * configurations
      */
     bootload () {
+
         let extras = this.autoLoadConfigs();
         return {
             app: this.configureApp(),
@@ -74,6 +76,7 @@ class Configurator extends Negotiator(Injector, Base) {
      * {App}
      */
     configureApp () {
+
         let args = this.excludeFromProperty(Configurator.ContainerPropertyLoadException, this._c.container)
         return {
             name: this._c.container.name,
@@ -104,7 +107,9 @@ class Configurator extends Negotiator(Injector, Base) {
         return {
             host: this._c.database.host,
             bootWithDB: this._c.database.bootWithDB,
-            connection: this.keySelector(this._c.database.options, this._c.database.host)
+            default: this._c.database.default,
+            connection: this.keySelector(this._c.database.connections, this._c.database.host),
+            connections: this._c.database.connections,
         };
     }
 

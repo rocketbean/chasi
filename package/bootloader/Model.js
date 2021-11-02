@@ -21,7 +21,7 @@ class Model extends Base{
     async has (model, col = null) {
         if(col === null) col = model.toLowerCase() + "_id";
         let index = this[col]
-	    const modelObject = this.toObject(); 
+        const modelObject = this.toObject(); 
         modelObject[model.toLowerCase()] = await Model.models[model].findById(index);
         return modelObject;
     }
@@ -30,7 +30,6 @@ class Model extends Base{
         const modelObject = this.toObject(); 
         if(pluralize.isPlural(this.collection.collectionName)) col = pluralize.singular(this.collection.collectionName)
         col += "_id"
-        console.log(col)
         modelObject[pluralize(model.toLowerCase())] = await Model.models[model].where({[col]: modelObject._id});
         return modelObject;
     }
@@ -58,8 +57,8 @@ class Model extends Base{
     }
 
     static async ready () {
-        Model.container = await new Model();
-        Model.getModels();
+        // Model.container = await new Model();
+        // Model.getModels();
         return Model.container;
     }
 }

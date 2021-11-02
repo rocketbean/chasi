@@ -11,4 +11,5 @@ module.exports = function() {
     * will be protected by JWT unless registered in 
     * [AuthRouteExceptions] array option.
     */
+//    route.post('/login', "UserController@login")
 }

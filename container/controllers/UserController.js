@@ -23,11 +23,18 @@ class UserController extends Controller {
      * @returns {User, token[String]}
      */
     async login (req) {
-
-        const user = await User.findByCredentials(req.body.email, req.body.password);
-        await user.populate('notifications').execPopulate()
-        const token = await user.generateAuthToken('api');
-        return {user, token}
+        
+        try {
+            const user = await User.findByCredentials(req.body.email, req.body.password);
+            await user.populate('notifications').execPopulate()
+            const token = await user.generateAuthToken('api');
+            return {user, token}
+        } catch(e) {
+            throw {
+                status: 400,
+                message: e.message
+            }
+        }
     }
     
     /**
