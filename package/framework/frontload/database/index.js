@@ -22,11 +22,16 @@ class DBWrapper extends ErrorHandler{
     }
 
     parseRemoteString(connection) {
-        let ConString = connection.url+connection.db
-        if(connection.params) {
-            ConString += connection.params
+        try {
+            let ConString = connection.url+connection.db
+            if(connection.params) {
+                ConString += connection.params
+            }
+            return ConString;
+        } catch(e) {
+            throw new Error(e.message, "errstring")
         }
-        return ConString;
+
     }
 
     async init() {
@@ -37,32 +42,42 @@ class DBWrapper extends ErrorHandler{
         }
     }
 
-    async connect(connection) {
-        let conString = this.parseRemoteString(connection)
-        return await mongoose.createConnection(conString, connection.options).then(con => {
-            let matched = conString.match(/\/\/(.*?)\//g)[0]
-            let starlength = matched.length
-            let stars = "*".repeat(starlength/2)
-            let _at = matched.indexOf("@")
-            stars = stars.split("");
-            stars[_at/2] = matched[_at/2];
-            stars[_at/2-1] = matched[_at/2-1];
-            stars[_at/2+1] = matched[_at/2+1];
-            stars[0] = matched[0];
-            stars[starlength/2-1] = matched[starlength/2-1];
-            stars =  stars.join("")
-            logger.msg(`DB::${conString.replace(/\/\/(.*?)\//g, stars)}`, 0, "subsystem")
-            return con
-        }).catch(e => {
-            if(this.secureBoot)  throw new Error('ERROR: failed booting up database');
-        })
+    async connect(connection, instance) {
+        try {
+            let conString = this.parseRemoteString(connection)
+            return await mongoose.createConnection(conString, connection.options).then((con, e) => {
+                let matched = conString.match(/\/\/(.*?)\//g)[0]
+                let starlength = matched.length
+                let stars = "*".repeat(starlength/2)
+                let _at = matched.indexOf("@")
+                stars = stars.split("");
+                stars[_at/2] = matched[_at/2];
+                stars[_at/2-1] = matched[_at/2-1];
+                stars[_at/2+1] = matched[_at/2+1];
+                stars[0] = matched[0];
+                stars[starlength/2-1] = matched[starlength/2-1];
+                stars =  stars.join("")
+                logger.msg(`DB::${conString.replace(/\/\/(.*?)\//g, stars)}`, 0, "subsystem")
+                return con
+            }).catch(e => {
+                if(this.secureBoot)  throw new Error(`ERROR: failed booting up database[${instance}]`);
+                throw new Error(`${connection} `)
+            })
+        } catch(e) {
+            if(this.secureBoot)  throw new Error(`DBConnError:: ${instance}`);
+            this.exception(`DBConnectionWarning::Failed connecting to [${instance}]`)
+            return false
+        }
+
     }
 
     async connectAll() {
         await Promise.all( Object.keys(this.property.connections).map( async connection => {
-            this.connections[connection] = await this.connect(this.property.connections[connection])
+            let con = await this.connect(this.property.connections[connection], connection)
+            if(con) this.connections[connection] = con
         }))
         return this.connections
+
     }
 
     static bootstrap (global, property) {

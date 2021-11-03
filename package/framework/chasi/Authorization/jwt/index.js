@@ -39,9 +39,9 @@ class JWTDriver extends ErrorHandler {
                 next()
                 return;
             }
+            
             let target = layer.$chasi.route.target
             let model = Controller.$models[target.property.model]
-            
             try {
                 if(!(target?.property?.enabled)) gateway = false
                 if(gateway) {

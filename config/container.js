@@ -39,7 +39,7 @@ module.exports = {
     ServiceBootstrap: {
         /* * * * * * * * * * * * * * * * * *
          * this settings is mostly for 
-         * * * * [Chasi] extensions * * * *
+         * * * * * * * [Chasi] extensions * * * *
          * this services is left outside the Chasi box due to the
          * interactions developers need to associate with this services,
          * therefore giving more versatility for dev's 
