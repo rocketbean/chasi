@@ -33,7 +33,8 @@ module.exports = {
       params: '?authSource=admin',
       options: {
           useNewUrlParser: true,
-          useUnifiedTopology: true
+          useUnifiedTopology: true,
+          useCreateIndex: true
       }
     },
 
@@ -42,7 +43,8 @@ module.exports = {
       db: checkout(process.env.databaseName),
       options: {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
       }
     },
 
@@ -51,7 +53,9 @@ module.exports = {
       db: checkout(process.env.stageDatabaseName),
       options: {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
+
       }
     }
   }
