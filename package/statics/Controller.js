@@ -1,23 +1,40 @@
-const Base = require('../base')
-const pluralize = require('pluralize')
-const socketAdapter = require("../framework/chasi/adapters/SocketAdapters")
+const Base = require('../base');
+const Model = require('./Models');
+const pluralize = require('pluralize');
+const socketAdapter = require('../framework/chasi/adapters/SocketAdapters');
 
 module.exports =  class Controller extends Base {
+
     static $app = {}
+    
+    /**
+     * [Mongoose::Model]
+     * container of models
+     */
     static $models = {}
+
+    /**
+     * [chasi::Services]
+     * container of services registered 
+     * to $chasi service container
+     */
     static $services = {}
+
+    /**
+     * [chasi::Package]
+     * $chasi package is an internal
+     * package or services 
+     * initiated by chasi instance
+     */
     static $packages = {}
-    static $bindMap = {
-        'notification-entry': 'entry',
-        'notification-dispatcher': 'dispatcher',
-    }
+    
 
     get $config () {
         return Controller.$config;
     }
     
     get models () {
-        return Controller.$models
+        return Model.$models
     }
 
     get packages () {
@@ -26,6 +43,10 @@ module.exports =  class Controller extends Base {
 
     get $io () {
         return Controller.$io;
+    }
+
+    get $observer () {
+        return Controller.$observer;
     }
 
     get services () {
@@ -37,30 +58,15 @@ module.exports =  class Controller extends Base {
     }
 
 
-    static init(property, packages) {
+    static init(property, packages, observer) {
         Controller.$io = socketAdapter.$io
         Controller.$config = property
         Controller.$packages = packages.installedPackages;
-        Controller.assignModels(Controller.$config.app.modelsDir);
+        Controller.$observer = observer.events;
     }
 
     static installServices($services) {
         Controller.$services = $services;
     }
 
-    static assignModels(directory) {
-        try {
-            directory.forEach( dir => {
-                var buff = Controller.staticStackDir(`${dir}`);
-                buff.map(filedir => {
-                    if(filedir instanceof Error) throw new Error(filedir.message);
-                    let key = Reflect.construct(filedir, []).constructor.modelName
-                    if(Controller.$bindMap[key]) key = Controller.$bindMap[key]
-                    Controller.$models[key] = filedir
-                })
-            })
-        } catch(e) {
-            console.log(e.message)
-        }
-    }
 }

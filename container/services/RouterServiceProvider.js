@@ -11,6 +11,7 @@ class RouterServiceProvider {
                 middleware      : [],
                 AuthRouteExceptions   : []
             }),
+
             new Router({
                 name            : 'chasi',
                 prefix          : '/chasi',
@@ -19,6 +20,7 @@ class RouterServiceProvider {
                 middleware      : [],
                 AuthRouteExceptions   : []
             }),
+
             new Router({
                 name            : 'web',
                 prefix          : '/',

@@ -1,6 +1,5 @@
 const EventEmitter = require('events');
 
-
 class Events extends EventEmitter{
     static EventsRegistry = {}
 

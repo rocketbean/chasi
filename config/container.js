@@ -3,7 +3,7 @@ module.exports = {
     environment: checkout(process.env.environment, 'local'),
     mode: {
         dev: {
-        key: checkout(process.env.SSLcontainerKey, 'local'),
+            key: checkout(process.env.SSLcontainerKey, 'local'),
             cert: checkout(process.env.SSLcontainerCrt, 'local'),
             protocol: 'https',
         },
@@ -16,8 +16,9 @@ module.exports = {
 
     /**
      * Chasi will autoload this dirs,
-     * look for models it will then bind this 
-     * @ [Model|Controller] Class
+     * look for models / schemas
+     * then bind it to
+     * [Event|Controller]Class
      */
     modelsDir: [
         'container/Models/'
@@ -45,7 +46,6 @@ module.exports = {
          * therefore giving more versatility for dev's 
          * 
          */
-        'events': 'container/services/EventsServiceProvider',
         'routers': 'container/services/RouterServiceProvider',
         'auth': 'container/services/AuthServiceProvider',
         'sockets': 'container/services/SocketServiceProvider',

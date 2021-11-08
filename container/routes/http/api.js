@@ -12,5 +12,5 @@ module.exports = function() {
     * [AuthRouteExceptions] array option.
     */
 
-    // route.post('/login', "UserController@login")
+    route.post('/login', "UserController@login")
 }

@@ -74,7 +74,7 @@ class Chasi extends Base {
             $chasi.exception("failed to boot installation, dependency did not meet the requirement", 3);
     }
 
-    static install ($app, dependency) {
+    static async install ($app, dependency) {
         Chasi.$app = $app;
         Chasi.$packages = dependency.$packages;
         Chasi.$server = dependency.$server;

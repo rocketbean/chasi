@@ -1,5 +1,6 @@
 
-const Controller = require("../../package/statics/Controller");
+const Controller = handle("/package/statics/Controller");
+const EventEmitter = require('events');
 
 class ChasiController extends Controller {
 
@@ -18,7 +19,8 @@ class ChasiController extends Controller {
    * @return {Object} translated as [ExpressResponse] Object
    * */
   async index(request) {
-    return `
+    try {
+      return `
       <html>
         <body style = "margin: 0; padding 0; height:100vh; width:100vw;">
           <div style = "height:100%; width:100%; flex-direction:column; display:flex; justify-content: center; align-items: center">
@@ -34,6 +36,10 @@ class ChasiController extends Controller {
         </body>
       </html>
       `
+    } catch (e) {
+      console.log(e)
+    }
+
   }
 
   /**

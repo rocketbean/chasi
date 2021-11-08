@@ -9,6 +9,11 @@ module.exports = (() => {
         if(val == undefined  || val == null) return backup
         else return val
     }
+
+    handle = (path) => {
+        return require(`${basepath}${path}`);
+    }
+
     String.prototype.$setAvatarSize = function (size) {
         let sizes = ["orig",360,128,64,32]
         if(!this) return null;
@@ -31,12 +36,11 @@ module.exports = (() => {
         for ( var i = 0; i < length; i++ ) {
           result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-       return `${this}${separator}${result}`;
+        return `${this}${separator}${result}`;
     }
 
     String.prototype.UrlStringFormat = function () {
         let arr = this.split("");
-        // if(arr[0] == '/') arr.splice(0,1)
         if(arr[arr.length-1] == '/') arr.splice(arr.length-1,1)
         return arr.join("")
     }

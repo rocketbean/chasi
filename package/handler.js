@@ -8,6 +8,7 @@ const Injector = require('./bootloader/injector');
 const ModelHandler = require('./bootloader/Model');
 const framework = require('./framework/frontload');
 const Controller = require('./statics/Controller');
+const Models = require('./statics/Models');
 const Adapter = require('./statics/Adapter');
 const ServerWrap = require('./framework/exec/server');
 const SocketWrapper = require('./framework/exec/socket');
@@ -16,8 +17,11 @@ const PackageLoader = require('./framework/PackageLoader');
 const ErrorHandler = require('./framework/error/ErrorHandler');
 const SocketAdapter = require('./framework/chasi/adapters/SocketAdapters');
 const AuthorizationDriver = require('./framework/chasi/Authorization');
-const os = require('os');
+const Observer = require("./observer");
+const { networkInterfaces } = require('os');
+
 class PackageHandler extends Negotiator(Injector, ErrorHandler) {
+
   constructor (property) {
     super();
     this.property = property
@@ -35,7 +39,9 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
    * @param {RunTime Log} message 
    */
   setStatus (message) {
-    log.msg(message, 30, "system")
+    log.full("", "system")
+    log.full(message.toUpperCase(), "system")
+
     this.status = message
   }
 
@@ -45,6 +51,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async init() {
     try {
       framework.loadStaticProperty(this._g, this.property)
+      this.$observer = await Observer.init(this.property.events)
       await ModelHandler.ready();
       let fw = new framework()
       this.internals = await fw.callstack(this._g);
@@ -71,8 +78,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       Base.install(this._g, this.property, this.$server, this.$app);
       this.injectCorsProperties();
       this.$packages = new PackageLoader();
-      await Adapter.init(this.property, this.dbconnections);
-      await Controller.init(this.property, this.$packages);
+      await this.initializeServices();
       this.setStatus("setting up server");
       this.instantiate();
     } catch (e) {
@@ -90,12 +96,11 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       this.setupRouteLayerNet()
       this.$app.use(fileUpload())
       this.$app.use(this._g.bodyParser.urlencoded({extended: true}));
-      this.$chasi = Chasi.install(this.$app, {
+      this.$chasi = await Chasi.install(this.$app, {
         $packages: this.$packages,
         $server: this.$server,
         $io: this.$io
       });
-
       this.setStatus("Instantiating App Class");
       this.after(); 
     } catch (e) {
@@ -103,6 +108,16 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     }
   }
 
+  async initializeServices() {
+    await Adapter.init(this.property, this.dbconnections);
+    Models.assignModels(this.property.app.modelsDir);
+    await Controller.init(
+      this.property,
+      this.$packages,
+      this.$observer
+    );
+
+  }
   async setupQueRoutes() {
     this.$app._router.stack.map(async layer => {
       if(layer?.route) {
@@ -116,7 +131,6 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     this.setStatus("after App Instance");
     this.CheckStaticErrors();
     await this.setupQueRoutes()
-
     this.$app.use((req, res, next) => {
       res.status(404);
       res.send('404: Path Not Found');
@@ -125,7 +139,16 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
 
   boot () {
     this.$server.listen(this.property.server.port, async () => {
-      log.msg(`server is up on PORT:  ${this.property.server.port}` );
+      log.center('SERVING IN:', 'cool')
+      let nets = networkInterfaces();
+      Object.keys(nets).forEach(key => {
+        nets[key].filter(addr => addr.family == 'IPv4')
+          .forEach(net =>{
+            let protocol = this.internals.server.property.cert.protocol
+            let ipv = net.address=='127.0.0.1'? 'localhost' : net.address
+            log.full(`  ${protocol}://${ipv}:${this.property.server.port}`, 'silver', ' ');
+          })
+      })
     })
   }
 

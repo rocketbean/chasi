@@ -1,6 +1,6 @@
 module.exports = (argument) => {
   return `
-  const SessionStorage = require("../../package/framework/storage/session")
+  const SessionStorage = handle("/package/framework/storage/session")
   const User = require("../Models/User");
 
   /*

@@ -8,6 +8,7 @@ const paths = {
   middleware: `${basepath}\\container\\middlewares\\`,
   model: `${basepath}\\container\\Models\\`,
   provider: `${basepath}\\container\\services\\`,
+  event: `${basepath}\\container\\events\\`,
 }
 
 var arguments = process.argv.slice(2)

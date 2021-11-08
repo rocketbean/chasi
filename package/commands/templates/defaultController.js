@@ -1,6 +1,6 @@
 module.exports = (argument) => {
 return `
-const Controller = require("../../package/statics/Controller");
+const Controller = handle("/package/statics/Controller");
 
 class ${argument} extends Controller {
 

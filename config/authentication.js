@@ -36,7 +36,7 @@ module.exports = {
         
         web: {
             driver: 'jwt',
-            enabled: false,
+            enabled: true,
             sessions: true,
             key: 'Chasi',
             model: 'users',
@@ -47,6 +47,7 @@ module.exports = {
                  * to excempt some routes,
                  * it should be registered here..
                  */
+                {"m": "GET", "url": ""},
             ]
         },
     }

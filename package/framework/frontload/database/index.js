@@ -57,7 +57,7 @@ class DBWrapper extends ErrorHandler{
                 stars[0] = matched[0];
                 stars[starlength/2-1] = matched[starlength/2-1];
                 stars =  stars.join("")
-                logger.msg(`DB::${conString.replace(/\/\/(.*?)\//g, stars)}`, 0, "subsystem")
+                logger.msg(`  ${instance.toUpperCase()}::${conString.replace(/\/\/(.*?)\//g, stars)}`, 0, "light")
                 return con
             }).catch(e => {
                 if(this.secureBoot)  throw new Error(`ERROR: failed booting up database[${instance}]`);

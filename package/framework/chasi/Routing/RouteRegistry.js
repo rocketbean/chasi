@@ -27,7 +27,11 @@ class RouteRegistry extends ErrorHandler{
 
     collector () {
         let GateWayAuth = this.property.gateway.enabled ? "ENABLED" : "DISABLED";
-        if(this.LogRoute) log.msg(`[AuthGW::${GateWayAuth}] RouteRegistry::${this.router}`, 65, "subsystem")
+        if(this.LogRoute) {
+            log.full(" ", "system")
+            log.center(`  [AuthGW::${GateWayAuth}]RouteContainer::${this.router}`, "subsystem")
+
+        } 
         Object.keys(this.stack).map(_r => {
             this.activateRoutes(this.stack[_r])
         })
@@ -56,7 +60,7 @@ class RouteRegistry extends ErrorHandler{
                 msg +=  excess
                 len += excess.length;
             }
-            log.msg(msg, len, color)
+            log.startTrace(msg, color, '-')
         }
         this.validateController(route); 
     }

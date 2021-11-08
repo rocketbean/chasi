@@ -36,8 +36,17 @@ class ErrorHandler {
         ErrorHandler.errors.push(exception)
     }
 
+    static pushStaticError(err, severity = 0, stage) {
+        let exc = new Exception(err, severity, stage)
+        ErrorHandler.errors.push(exc)
+    }
+
     static tail () {
-        if(ErrorHandler.errors.length <= 0) log.msg("clean: empty error list", 20, "positive");
+        if(ErrorHandler.errors.length <= 0) {
+            log.startTrace("clean: empty error list", "positive", "-");
+            log.full(" ");
+
+        }
         ErrorHandler.errors.forEach(err => {
             err.logMessage()
         })

@@ -1,6 +1,5 @@
 const socketio = require("socket.io")
 
-
 class ServerWrap {
     static _g;
     static property;

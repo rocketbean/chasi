@@ -1,12 +1,12 @@
 module.exports = {
-  host: checkout(process.env.database, 'local'),
+  host: checkout(process.env.database, 'dev'),
   /*
     * enabling "bootWithDB" property will throw a
     * BreakExecutionError if any of the 
     * declared connection failed on boot
    */
   bootWithDB: false,
-  default: checkout(process.env.database, 'local'),
+  default: checkout(process.env.database, 'dev'),
 
   /**
    * 

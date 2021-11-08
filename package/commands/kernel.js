@@ -30,6 +30,22 @@ module.exports = {
     };
   },
 
+  event: (argument) => {
+    let template =  require ("./templates/defaultEvent");
+    let appendix = argument[0]
+    
+    if(argument[0].includes("/")) {
+      appendix = argument[0].split("/")
+    }
+
+    if(appendix instanceof Object) appendix = appendix.pop()
+    return {
+      template: template(appendix),
+      filename: appendix,
+      path: ''
+    };
+  },
+
   middleware: (argument) => {
     let template =  require ("./templates/defaultMiddleware");
     let appendix = argument[0]

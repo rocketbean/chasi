@@ -3,10 +3,12 @@ const pkg = require('./Package');
 const Base = require('../base');
 
 class PackageLoader extends Base{
+    
     static registry = [];
     static pkgs = {};
     static packages = {};
     static logging = process.env.adapterLogging > 0 ? true:false;
+    
     constructor () {
         super();
         this.verifyLoadPack();
