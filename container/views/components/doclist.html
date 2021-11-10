@@ -1,0 +1,16 @@
+<article class="panel panel-shadow-0 is-info">
+  <p class="panel-heading">
+    <i class="fas fa-book" aria-hidden="true"></i>
+    Chasi Docs
+  </p>
+  <p class="panel-tabs">
+    <a class="is-active">All</a>
+    <a>Public</a>
+  </p>
+  ${logic(function () {
+    return (data.listings.map((item) => { 
+      return component("item", item)
+    })).join("")
+  })}
+
+</article>

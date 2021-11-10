@@ -17,7 +17,7 @@ class Log {
         clear: chalk,
         danger: chalk.red.bgWhite,
         severe: chalk.red.bgBlack,
-        warning: chalk.yellow.bgRed,
+        warning: chalk.yellow,
     }
 
 
@@ -80,6 +80,8 @@ class Log {
 
     center (message, type = 'system', char = ' ') {
         let logMsg = ''
+        message = message.replace(/(\r\n|\n|\r)/gm, "")
+        message = message.replace(/   /gm, "")
         let mid = Math.round(message.length)/2;
         let posx = Math.round(process.stdout.columns)/2
         let pos = Math.round(posx-mid);
@@ -100,6 +102,8 @@ class Log {
 
     full (message, type = 'system', char = ' ') {
         let logMsg = ''
+        message = message.replace(/(\r\n|\n|\r)/gm, "")
+        message = message.replace(/   /gm, "")
         let msg = Math.round(message.length);
         let posx = Math.round(process.stdout.columns)
         let pos = Math.round(posx-msg);

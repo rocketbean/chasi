@@ -76,12 +76,11 @@ class Configurator extends Negotiator(Injector, Base) {
      * {App}
      */
     configureApp () {
-
         let args = this.excludeFromProperty(Configurator.ContainerPropertyLoadException, this._c.container)
         return {
             name: this._c.container.name,
-            mode: this._c.container.environment,
-            cert: this.keySelector(this._c.container.mode, this._c.container.environment),
+            mode: this._c.server.environment,
+            cert: this.keySelector(this._c.server.mode, this._c.server.environment),
             ...args
         };
     }

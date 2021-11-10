@@ -9,7 +9,7 @@ module.exports = {
             model: 'users',
             AuthRouteExceptions: [
                 /**
-                 * By default, all routes will
+                 * when enabled, all routes will
                  * Be protected by [JWT]
                  * to excempt some routes,
                  * it should be registered here..
@@ -20,14 +20,14 @@ module.exports = {
         
         chasi: {
             driver: 'jwt',
-            enabled: true,
+            enabled: false,
             sessions: true,
             key: 'Chasi',
             model: 'users',
             AuthRouteExceptions: [
                 /**
-                 * By default, all routes will
-                 * Be protected by [JWT]
+                 * when enabled, all routes will
+                 * Be protected by [JWT] when
                  * to excempt some routes,
                  * it should be registered here..
                  */
@@ -42,7 +42,7 @@ module.exports = {
             model: 'users',
             AuthRouteExceptions: [
                 /**
-                 * By default, all routes will
+                 * when enabled, all routes will
                  * Be protected by [JWT]
                  * to excempt some routes,
                  * it should be registered here..

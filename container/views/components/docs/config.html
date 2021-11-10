@@ -1,0 +1,143 @@
+<div class="stackedit__html"><h1 id="configs">Configs</h1>
+  <hr>
+  <p>App level configurations is placed under “./config” path, this includes:</p>
+  <ul>
+  <li>Container</li>
+  <li>Authentication</li>
+  <li>Cors</li>
+  <li>Database</li>
+  <li>Server</li>
+  <li>Storage</li>
+  </ul>
+  <h2 id="container">Container</h2>
+  <hr>
+  <p>[./config/container.js] this configuration holds the settings for the app, including chasi instance.</p>
+  <h4 id="container.modelsdirarray">| container.modelsDir:[Array]</h4>
+  <p><code>the instance will autoload schemas in the listed dirs inside this property</code><br>
+  default settings:</p>
+  <pre><code>/**
+  * Chasi will autoload this dirs,
+  * look for models / schemas
+  * then bind it to
+  * [Event|Controller]Class
+  */
+  modelsDir:  [
+  'container/Models/'
+  ],
+  </code></pre>
+  <h4 id="container.blueprintobject">| container.blueprint:[Object]</h4>
+  <p><code>this is where you can register your kernel file to control the View module and operations</code><br>
+  default settings:</p>
+  <pre><code>/**
+  * View Blueprints
+  * kernel file locations
+  */
+  blueprint:  {
+     config:  'default',  //default view kernel to use
+     stack:  {
+       'default':  '/container/views/kernel.js',
+     }
+  },
+  </code></pre>
+  <h4 id="container.loadpackobject">| container.LoadPack:[Object]</h4>
+  <p><code>Registry for Chasi's service extension packages</code><br>
+  default settings:</p>
+  <pre><code>/**
+  * install out of the box packages
+  * into the app container
+  */
+  LoadPack:  {
+     'Sessions':  'package/framework/storage/session::init',
+     'FileManager':  'container/modules/FileManager::init',
+  },
+  </code></pre>
+  <h4 id="container.servicebootstrapobject">| container.ServiceBootstrap:[Object]</h4>
+  <pre><code>Service Registry,the registered services will be available in chasi's
+  instance, and will be accessible in the container, controllers and events.
+  this config is also where you can implement microservices arch. 
+  </code></pre>
+  <p>default settings:</p>
+  <pre><code>ServiceBootstrap:  {
+     'routers':  'container/services/RouterServiceProvider',
+     'auth':  'container/services/AuthServiceProvider',
+     'sockets':  'container/services/SocketServiceProvider',
+  }
+  </code></pre>
+  <h4 id="container.middlewaresobject">| container.middlewares:[Object]</h4>
+  <pre><code>any middlewares pointed to a route or route group 
+  or even in a route containers, must be registered here.
+  this config is autoloaded on boot. 
+  </code></pre>
+  <p>default settings:</p>
+  <pre><code>middlewares:  {
+     /**
+     * Register your middlewares here.
+     * [alias] =&gt; require("&lt;your middleware path in (container/middlewares/*)&gt;")
+     * after registration the middlewares will then
+     * be installed to that Chasi Route MWs Repository,
+     * then you can use it in your routes
+     */
+  }
+  </code></pre>
+  <h2 id="server">Server</h2>
+  <hr>
+  <p>[./config/server.js] this configuration sets the server environment.</p>
+  <h4 id="server.enablesocketserver-bool">| server.enableSocketServer: [bool]</h4>
+  <pre><code>the instance will automatically boot the
+  socketServer if enabled
+  </code></pre>
+  <h4 id="server.enablesocketserver-array">| server.enableSocketServer: [Array]</h4>
+  <pre><code>A list of middlewares that will be automatically implemented
+  on all socket connections.
+  </code></pre>
+  <h4 id="server.portnumber">| server.port:[Number]</h4>
+  <pre><code>a [BreakExecutionError] will be thrown if the port selected
+  is unavailable.
+  </code></pre>
+  <h4 id="server.environment-string">| server.environment: [String]</h4>
+  <pre><code>the configuration which the handler will use for starting the server 
+  </code></pre>
+  <h4 id="server.mode-object">| server.mode: [Object]</h4>
+  <pre><code>a way to setup a server environment, so switching environment will 
+  be easier, if you have multiple environments.
+  *Note: it is recommended to remove extra parameters on [live]* 
+  </code></pre>
+  <pre><code>mode:  {
+    dev:  {
+      key:  checkout(process.env.SSLcontainerKey,  'local'),
+      cert:  checkout(process.env.SSLcontainerCrt,  'local'),
+      protocol:  'https',
+    },
+    local:  {
+      key:  checkout(process.env.SSLcontainerKey2,  'null'),
+      cert:  checkout(process.env.SSLcontainerCrt2,  'null'),
+      protocol:  'http',
+    }
+  },
+  </code></pre>
+  <h2 id="athentication">Athentication</h2>
+  <hr>
+  <p>[./config/authentication.js] by default, Chasi provide an authentication[Auth0] module, but you can always create your own.</p>
+  <h4 id="authentication.gateway-object">| authentication.gateway: [Object]</h4>
+  <pre><code>this will contain all RouteContainer configs, Containers
+   must registered in this list, before it can be used.
+  </code></pre>
+  <p><em>the object must be named after the “<a href="http://RouteContainer.name">RouteContainer.name</a>”<br>
+  listed in ‘./container/services/RouterServiceProvider.js’</em></p>
+  <pre><code>chasi:  {
+    driver:  'jwt',
+    enabled:  false,
+    sessions:  true,
+    key:  'Chasi',
+    model:  'users',
+    AuthRouteExceptions:  [
+      /**
+      * when enabled, all routes will
+      * Be protected by [JWT] when
+      * to excempt some routes,
+      * it should be registered here..
+      */
+    ]
+  }
+  </code></pre>
+  </div>

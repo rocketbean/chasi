@@ -57,6 +57,14 @@ class UserController extends Controller {
         let sec = Object.keys(req.body.files).map(f => f);
         return {filename: req.body.files[sec[1]].public}
     }
+
+    async dashboard (req) {
+        return true;
+    }
+
+    async index (req) {
+        return true;
+    }
 }
 
 module.exports = new UserController();

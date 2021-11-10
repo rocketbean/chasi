@@ -6,6 +6,7 @@ const ServiceAdapter = require('./adapters/ServiceAdapter');
 const adapter = require('./adapters/adapters');
 const log = require("../../Logger");
 const Controller = require("../../statics/Controller");
+const Compiler = require("./ViewCompiler");
 
 class Chasi extends Base {
     /**
@@ -58,6 +59,7 @@ class Chasi extends Base {
             if(!Chasi.$ServiceGuard.includes(serve)) 
                 service[serve] = this.services[serve]
         })
+        Controller.bindViewInstance(new Compiler)
         Controller.installServices(service)
     }
     
@@ -78,6 +80,7 @@ class Chasi extends Base {
         Chasi.$app = $app;
         Chasi.$packages = dependency.$packages;
         Chasi.$server = dependency.$server;
+        await Compiler.init(Chasi.property.app.blueprint);
         OpenSocket.init($app, Chasi.property, dependency.$io);
         Router.init($app, dependency.$server);
         Router.init($app, dependency.$server);

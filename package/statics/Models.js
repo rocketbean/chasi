@@ -28,7 +28,8 @@ module.exports = class Model extends Base {
             })
         })
     } catch(e) {
-      this.exception(e.message, 0)
+      Model.pushStaticError(e.message, 0)
+      // this.exception(e.message, 0)
     }
   }
 }

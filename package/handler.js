@@ -69,7 +69,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async before () {
     try {
       this.$app = this.internals.app;
-      ServerWrap.initialize(this._g, this.property,this.$app);
+      ServerWrap.initialize(this._g, this.property, this.$app);
       this.internals['server'] = new ServerWrap();
       this.$server = this.internals.server.install();
       await this.connectDbInstsance()

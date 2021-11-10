@@ -1,0 +1,52 @@
+.flex {
+  display: flex;
+}
+.full-width {
+  width:100%;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.panel {
+  box-shadow: none !important;
+}
+html {
+  overflow: hidden !important;
+}
+body {
+  display: grid;
+  grid-template-columns: minmax(150px, 15%) 1fr;
+  padding: 0;
+  margin: 0;
+  font-family: system-ui, serif;
+
+}
+
+.sidebar {
+  height: 100vh;
+  background: lightgray;
+  text-align: center;
+  color: white
+}
+
+.content {
+  padding: 2rem;
+}
+
+.content-heading {
+  font-size: 2rem;
+}

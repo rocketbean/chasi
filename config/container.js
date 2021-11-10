@@ -1,18 +1,5 @@
 module.exports = {
     name: checkout(process.env.APPNAME, 'Chasi'),
-    environment: checkout(process.env.environment, 'local'),
-    mode: {
-        dev: {
-            key: checkout(process.env.SSLcontainerKey, 'local'),
-            cert: checkout(process.env.SSLcontainerCrt, 'local'),
-            protocol: 'https',
-        },
-        local: {
-            key: checkout(process.env.SSLcontainerKey2, 'null'),
-            cert: checkout(process.env.SSLcontainerCrt2, 'null'),
-            protocol: 'http',
-        }
-    },
 
     /**
      * Chasi will autoload this dirs,
@@ -23,9 +10,20 @@ module.exports = {
     modelsDir: [
         'container/Models/'
     ],
+    
+    /**
+     * View Blueprints
+     * kernel file locations
+     */
+    blueprint: {
+        config: 'default', //default view kernel to use
+        stack: {
+            'default': '/container/views/kernel.js',
+        }
+    },
 
     /**
-     * install third party apps 
+     * install out of the box packages
      * into the app container
      */
     LoadPack: {
@@ -38,6 +36,7 @@ module.exports = {
      * boostrapping app services
      */
     ServiceBootstrap: {
+
         /* * * * * * * * * * * * * * * * * *
          * this settings is mostly for 
          * * * * * * * [Chasi] extensions * * * *

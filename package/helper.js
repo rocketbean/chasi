@@ -2,7 +2,6 @@ const log = require('./Logger');
 
 
 module.exports = (() => {
-
     console.clear() 
     logger = log;
     checkout = (val, backup) => {
@@ -27,6 +26,10 @@ module.exports = (() => {
 
     String.prototype.trimEllip = function (length) {
         return this.length > length ? this.substring(0, length) + "..." : this;
+    }
+
+    String.prototype.capitalize = function () {
+        return this.charAt(0).toUpperCase() + this.slice(1);
     }
 
     String.prototype.randomString = function (length, separator = "_") {

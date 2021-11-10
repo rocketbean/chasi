@@ -15,6 +15,7 @@ class DBWrapper extends ErrorHandler{
         }
         this.connection = null
         this.connections = {}
+        this.failedConnections = {}
     }
 
     middleware () {
@@ -42,21 +43,25 @@ class DBWrapper extends ErrorHandler{
         }
     }
 
+    hideStrings (conString) {
+        let matched = conString.match(/\/\/(.*?)\//g)[0]
+        let starlength = matched.length
+        let stars = "*".repeat(starlength/2)
+        let _at = matched.indexOf("@")
+        stars = stars.split("");
+        stars[_at/2] = matched[_at/2];
+        stars[_at/2-1] = matched[_at/2-1];
+        stars[_at/2+1] = matched[_at/2+1];
+        stars[0] = matched[0];
+        stars[starlength/2-1] = matched[starlength/2-1];
+        return stars.join("")
+    }
+
     async connect(connection, instance) {
+        let conString = this.parseRemoteString(connection)
         try {
-            let conString = this.parseRemoteString(connection)
             return await mongoose.createConnection(conString, connection.options).then((con, e) => {
-                let matched = conString.match(/\/\/(.*?)\//g)[0]
-                let starlength = matched.length
-                let stars = "*".repeat(starlength/2)
-                let _at = matched.indexOf("@")
-                stars = stars.split("");
-                stars[_at/2] = matched[_at/2];
-                stars[_at/2-1] = matched[_at/2-1];
-                stars[_at/2+1] = matched[_at/2+1];
-                stars[0] = matched[0];
-                stars[starlength/2-1] = matched[starlength/2-1];
-                stars =  stars.join("")
+                let stars =  this.hideStrings(conString)
                 logger.msg(`  ${instance.toUpperCase()}::${conString.replace(/\/\/(.*?)\//g, stars)}`, 0, "light")
                 return con
             }).catch(e => {
@@ -64,6 +69,8 @@ class DBWrapper extends ErrorHandler{
                 throw new Error(`${connection} `)
             })
         } catch(e) {
+            let stars =  this.hideStrings(conString)
+            logger.msg(`  ${instance.toUpperCase()}::${conString.replace(/\/\/(.*?)\//g, stars)}`, 0, "negative")
             if(this.secureBoot)  throw new Error(`DBConnError:: ${instance}`);
             this.exception(`DBConnectionWarning::Failed connecting to [${instance}]`)
             return false
@@ -75,6 +82,7 @@ class DBWrapper extends ErrorHandler{
         await Promise.all( Object.keys(this.property.connections).map( async connection => {
             let con = await this.connect(this.property.connections[connection], connection)
             if(con) this.connections[connection] = con
+            else this.failedConnections[connection] = con
         }))
         return this.connections
 

@@ -1,0 +1,63 @@
+<div class="stackedit__html"><h1 id="scripts">Scripts</h1>
+  <hr>
+  <p>chasi command lines:</p>
+  <blockquote>
+  <h3 id="creating-controller">Creating Controller</h3>
+  </blockquote>
+  <pre><code>&gt; node chasi new controller &lt;*ControllerName*&gt;
+  </code></pre>
+  <blockquote>
+  <p>this will generate your controller inside <strong>./container/controllers/</strong> path,<br>
+  which can be pointed to a certain route in route containers<br>
+  <strong>e.g.</strong></p>
+  </blockquote>
+  <pre><code>route.get("yourpath", "yourcontroller@method");
+  route.post("yourpath2", "yourcontroller2@method2");
+  
+  route.group({ prefix: "yourPathPrefix", middleware: [ "yourMiddlewareAlias" ]}, (() =&gt; {
+    route.post('endpoint', "yourcontroller3@method3");
+  }));
+  </code></pre>
+  <hr>
+  <blockquote>
+  <h3 id="creating--model">Creating  Model</h3>
+  </blockquote>
+  <pre><code>&gt; node chasi new model &lt;*ModelName*&gt;
+  </code></pre>
+  <blockquote>
+  <p>by default, in your <strong>Controller</strong> the registered models is accessible via <strong>this.models</strong><br>
+  you can try to check it out:<br>
+  <strong>e.g.</strong></p>
+  </blockquote>
+  <pre><code>this.models.user //inside your controller methods
+  console.log(this.models) // or try this instead to see the registered models
+  </code></pre>
+   <hr>
+  <blockquote>
+  <h3 id="creating-service-provider">Creating Service Provider</h3>
+  </blockquote>
+  <pre><code>&gt; node chasi new provider &lt;*ServiceProvider*&gt;
+  </code></pre>
+  <blockquote>
+  <p>please note that ServiceProviders must be declared in <strong>./config/container</strong> under <strong>ServiceBootstrap</strong> property before it can be utilized, by then it will be registered to the chasi third party container, and will be accessible to any registered controller via the get method<br>
+  <em>e.g.</em></p>
+  </blockquote>
+  <pre><code>get yourModule () {
+      return this.services.yourModule
+  }
+  </code></pre>
+  <hr>
+  <blockquote>
+  <h3 id="creating-middleware">Creating Middleware</h3>
+  </blockquote>
+  <pre><code>&gt; node chasi new middleware &lt;*middlewareName*&gt;
+  </code></pre>
+  <blockquote>
+  <p>middlewares must also be registered in <strong>./config/container</strong> under <strong>middlewares</strong> property, before it can<br>
+  be attached to any route/ route group/ route container.<br>
+  <strong>e.g.</strong></p>
+  </blockquote>
+  <pre><code>route.post("yourpath", "yourcontroller@method").middleware("yourmiddleware");
+  </code></pre>
+  <p><em>or you can add in the alias in ./config/services/RouterServiceProvider under middlewares array, this will be applied to all the routes under that routeContainer</em></p>
+  </div>

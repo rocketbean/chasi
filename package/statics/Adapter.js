@@ -14,21 +14,25 @@ module.exports =  class Adapter extends Base {
   static getConnection(con) {
     try {
       if(con == undefined) con = Adapter.property?.database?.default
-      if(Adapter?.connections && Adapter.connections.hasOwnProperty(con)) {
+      if(Adapter.connections.hasOwnProperty(con)) {
         return Adapter.connections[con]
       } else {
-        if(!(Adapter?.connections?.hasOwnProperty[Adapter.property?.database?.default])) {
+        if(!Adapter.connections.hasOwnProperty(Adapter.property?.database?.default)) {
           return { 
             model: function(name, schema) {
               return schema
             }
           }
         }
+
+      log.center(`
+      [${con}] is not registered as a valid database connection, 
+      the connection is defaulted to [${Adapter.property?.database?.default}]`, "warning")
+
         return Adapter.connections[Adapter.property?.database?.default]
       }
     } catch(e) {
-      console.log(e.stack)
-      // this.exception(e.message, 0)
+      this.exception(e.message, 0)
     }
   }
 }

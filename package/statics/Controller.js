@@ -14,20 +14,30 @@ module.exports =  class Controller extends Base {
     static $models = {}
 
     /**
-     * [chasi::Services]
+     * [Chasi::Services]
      * container of services registered 
-     * to $chasi service container
+     * to $Chasi service container
      */
     static $services = {}
 
     /**
-     * [chasi::Package]
+     * [Chasi::Package]
      * $chasi package is an internal
      * package or services 
      * initiated by chasi instance
      */
     static $packages = {}
+
+    /**
+     * [Chasi::View]
+     * $chasi ViewController instance
+     * initiated by chasi instance
+     */
+    static $view = {}
     
+    get compiler () {
+        return Controller.$view
+    }
 
     get $config () {
         return Controller.$config;
@@ -67,6 +77,10 @@ module.exports =  class Controller extends Base {
 
     static installServices($services) {
         Controller.$services = $services;
+    }
+
+    static bindViewInstance ($view) {
+        Controller.$view = $view;
     }
 
 }

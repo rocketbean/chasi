@@ -10,5 +10,12 @@ module.exports = function() {
     * will be protected by JWT unless registered in 
     * [AuthRouteExceptions] array option.
     */
+
+    route.get("/", "ChasiController@index");
+    
+    route.group({prefix: 'docs'}, (function () {
+        route.get('/', "ChasiController@docs")
+        route.get(':doc', "ChasiController@docs")
+    }));
     
 }

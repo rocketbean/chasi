@@ -1,6 +1,7 @@
 
 const Controller = handle("/package/statics/Controller");
 const EventEmitter = require('events');
+const User = require('../Models/User');
 
 class ChasiController extends Controller {
 
@@ -19,38 +20,46 @@ class ChasiController extends Controller {
    * @return {Object} translated as [ExpressResponse] Object
    * */
   async index(request) {
-    try {
-      return `
-      <html>
-        <body style = "margin: 0; padding 0; height:100vh; width:100vw;">
-          <div style = "height:100%; width:100%; flex-direction:column; display:flex; justify-content: center; align-items: center">
-            <h2 style = "margin-bottom: 4px">
-              <u>
-                Chasi Framework
-              </u>
-            </h2>
-            <small>
-              build something amazing!
-            </small>
-          </div>
-        </body>
-      </html>
-      `
-    } catch (e) {
-      console.log(e)
-    }
-
+    return await this.compiler.view({static: {}})
   }
 
   /**
-   * List of ObjectModel[]
+   * Docs[main]
    * @param {request} [ExpressRequest] Object
    * @return {Array} translated as [ExpressResponse] Object
    * */
-  async list(request) {
-    
-    
+  async docs(request) {
+
+    let content;
+
+    if(!request.params.doc) content = "content"
+    else content = request.params.doc
+
+    return await this.compiler.view({
+      docs: { content },
+      data: {
+        listings: [
+          {
+            title: "installation",
+            url: "/chasi/docs/installation",
+          },
+          {
+            title: "config",
+            url: "/chasi/docs/config",
+          },
+          {
+            title: "scripts",
+            url: "/chasi/docs/scripts",
+          },
+          {
+            title: "database",
+            url: "/chasi/docs/database",
+          },
+        ]
+      }
+    })
   }
+
 
   /**
    * Delete an ObjectModel[]
