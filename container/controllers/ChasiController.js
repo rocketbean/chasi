@@ -1,6 +1,7 @@
 
 const Controller = handle("/package/statics/Controller");
 const EventEmitter = require('events');
+const { response } = require('express');
 const User = require('../Models/User');
 
 class ChasiController extends Controller {
@@ -19,8 +20,18 @@ class ChasiController extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Object} translated as [ExpressResponse] Object
    * */
-  async index(request) {
-    return await this.compiler.view({static: {}})
+  async index(request, response) {
+
+    return await this.next.render(request, response, '/')
+  }
+
+  /**
+   * Single ObjectModel[index]
+   * @param {request} [ExpressRequest] Object
+   * @return {Object} translated as [ExpressResponse] Object
+   * */
+  async page(request, response) {
+    return await this.next.render(request, response, `/${request.params.page}`)
   }
 
   /**
@@ -30,34 +41,6 @@ class ChasiController extends Controller {
    * */
   async docs(request) {
 
-    let content;
-
-    if(!request.params.doc) content = "content"
-    else content = request.params.doc
-
-    return await this.compiler.view({
-      docs: { content },
-      data: {
-        listings: [
-          {
-            title: "installation",
-            url: "/chasi/docs/installation",
-          },
-          {
-            title: "config",
-            url: "/chasi/docs/config",
-          },
-          {
-            title: "scripts",
-            url: "/chasi/docs/scripts",
-          },
-          {
-            title: "database",
-            url: "/chasi/docs/database",
-          },
-        ]
-      }
-    })
   }
 
 

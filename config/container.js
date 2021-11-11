@@ -10,17 +10,6 @@ module.exports = {
     modelsDir: [
         'container/Models/'
     ],
-    
-    /**
-     * View Blueprints
-     * kernel file locations
-     */
-    blueprint: {
-        config: 'default', //default view kernel to use
-        stack: {
-            'default': '/container/views/kernel.js',
-        }
-    },
 
     /**
      * install out of the box packages
@@ -60,7 +49,7 @@ module.exports = {
     middlewares: {
         /**
          * Register your middlewares here.
-         * [alias] => require("<your middleware path in (container/middlewares/*)>")
+         * [alias] => "<your middleware path in (container/middlewares/*)>"
          * after registration the middlewares will then 
          * be installed to that Chasi Route MWs Repository,
          * then you can use it in your routes

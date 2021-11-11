@@ -32,7 +32,8 @@ module.exports =  class Adapter extends Base {
         return Adapter.connections[Adapter.property?.database?.default]
       }
     } catch(e) {
-      this.exception(e.message, 0)
+      console.log(e)
+      // this.exception(e.message, 1)
     }
   }
 }

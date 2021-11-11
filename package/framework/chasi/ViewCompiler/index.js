@@ -2,7 +2,14 @@ const Compiler = require("./Compiler");
 const Fetcher = require("./fileFetcher");
 class ViewCompiler {
   static $property;
-
+  
+  /**
+   * You can also use 
+   * frameworks like 
+   * Next.js 
+   */
+  static $next;
+  static $nuxt;
   /*
   * Kernel Config
   * Registry
@@ -21,9 +28,14 @@ class ViewCompiler {
     return await compiler.render(property)
   }
 
+
   static async init (property) {
     ViewCompiler.$property = property
     await this.getKernel();
+  }
+
+  static async initCompiler(compiler){
+    ViewCompiler.$next = compiler
   }
 
   static async getKernel () {

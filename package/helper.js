@@ -1,6 +1,5 @@
 const log = require('./Logger');
 
-
 module.exports = (() => {
     console.clear() 
     logger = log;
@@ -11,17 +10,6 @@ module.exports = (() => {
 
     handle = (path) => {
         return require(`${basepath}${path}`);
-    }
-
-    String.prototype.$setAvatarSize = function (size) {
-        let sizes = ["orig",360,128,64,32]
-        if(!this) return null;
-        if(!sizes.includes(size)) return null;
-        if(this.includes("__$orig__")) return this.replace("__$orig__", `__$${size}__`);
-        if(this.includes("__$360__")) return this.replace("__$360__", `__$${size}__`);
-        if(this.includes("__$128__")) return this.replace("__$128__", `__$${size}__`);
-        if(this.includes("__$64__")) return this.replace("__$64__", `__$${size}__`);
-        if(this.includes("__$32__")) return this.replace("__$32__", `__$${size}__`);
     }
 
     String.prototype.trimEllip = function (length) {

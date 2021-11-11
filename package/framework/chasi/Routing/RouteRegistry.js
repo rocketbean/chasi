@@ -3,7 +3,7 @@ const log = require('../../../Logger');
 const ErrorHandler = require('../../error/ErrorHandler');
 const Events = require('../../../events');
 const EventEmitter = require('events');
-const { OutgoingCallerIdContext } = require('twilio/lib/rest/api/v2010/account/outgoingCallerId');
+const Middlewares = handle("/package/statics/Middlewares");
 
 class RouteRegistry extends ErrorHandler{
     
@@ -29,7 +29,13 @@ class RouteRegistry extends ErrorHandler{
         let GateWayAuth = this.property.gateway.enabled ? "ENABLED" : "DISABLED";
         if(this.LogRoute) {
             log.full(" ", "system")
-            log.center(`  [AuthGW::${GateWayAuth}]RouteContainer::${this.router}`, "subsystem")
+            log.center({
+                left: [{
+                    text: `[AuthGW::${GateWayAuth}]`,
+                    type: 'cool'
+                }],
+                message: `RouteContainer::[${this.router.capitalize()}]`,
+            }, "subsystem")
 
         } 
         Object.keys(this.stack).map(_r => {
@@ -41,6 +47,7 @@ class RouteRegistry extends ErrorHandler{
     pushRoutes () {
         Object.keys(this.stack).map(_r => {
             this.registerRoute(this.stack[_r])
+
         })
     }
 
@@ -49,18 +56,23 @@ class RouteRegistry extends ErrorHandler{
         route.fullpath = this.validateEndpoint(route);
         this.mounted.push({m: route.method.toUpperCase(), url: route.fullpath, route});
         if(this.LogRoute) {
-            let len = Number(checkout(process.env.logCharPad));
-            let msg = `${route.fullpath} | `
+            let msg = `${route.fullpath}|`
             let color = this.checkGwExceptions(route) ? 'magenta' : 'positive'
-            let routeType = ` [${route.method.toUpperCase()}]`
-            msg +=  routeType
-            len += routeType.length;
-            if(route.middlewares.length > 0) {
-                let excess = ` [${route.middlewares.map(mw => mw)}]`;
-                msg +=  excess
-                len += excess.length;
+            let routeType = {
+                text: `[${route.method.toUpperCase()}]`,
+                type: 'warning'
             }
-            log.startTrace(msg, color, '-')
+            let excess= [];
+            if(route.middlewares.length > 0)
+                excess.push({
+                    text: `${route.middlewares.map(mw => `[${mw}]`)}`,
+                    type: 'cool'
+                });
+            log.startTrace({
+                left: [routeType],
+                message: msg,
+                right: [...excess],
+            }, color, '-')
         }
         this.validateController(route); 
     }
@@ -121,9 +133,9 @@ class RouteRegistry extends ErrorHandler{
     assignMiddleware (route, options) {
         if(route.middlewares.length > 0) {
             route.middlewares.forEach(middleware => {
-                if(!RouteRegistry.middlewares[middleware]) this.exception(`${middleware} is not a registered middleware`, 2, "danger");
-                let mw = RouteRegistry.middlewares[middleware];
-                route.options[middleware] = { use: RouteRegistry.middlewares[middleware], type: 'middleware'}
+                if(!Middlewares.$container[middleware]) this.exception(`${middleware} is not a registered middleware`, 2, "danger");
+                let mw = Middlewares.$container[middleware];
+                route.options[middleware] = { use: Middlewares.$container[middleware], type: 'middleware'}
             })
         }
     }
@@ -133,7 +145,7 @@ class RouteRegistry extends ErrorHandler{
      * $app class (express) || [Controller]
      **/
     assignController (route) {
-        route.options["controller"] = {use: async (req, res) => {
+        route.options["controller"] = {use: async (req, res, render = {}) => {
             try {
                 req.app_session_id = route.id;
                 let callable = await new Proxy(this.controllers[route.controller.constructor][route.controller.method], {
@@ -143,14 +155,17 @@ class RouteRegistry extends ErrorHandler{
                         return await Reflect.apply(target, this.controllers[route.controller.constructor], [...args])
                     }
                 })
-                let _r = await callable(req)
+                let _r = await callable(req, res)
                 res.send(_r);
             } catch(e) {
-                this.exception(e.stack + `\n Class[${route.controller.constructor}] :: Method(${route.controller.method})`, 1, "danger");
+                let message = e.stack ? e.stack : e.message;
+                message += `\n [${route.controller.constructor}] :: Method(${route.controller.method})`;
+                this.exception(message, 1,route.controller.method);
                 if(e.status) {
                     res.status(e.status).send(e.message)
                     return
                 }
+                
                 e.message = this.handleError(e);
                 res.status(400).send(e.message)
             }

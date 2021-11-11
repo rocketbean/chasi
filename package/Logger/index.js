@@ -6,7 +6,7 @@ class Log {
     logType = {
         system: chalk.dim.bold.yellow,
         silver: chalk.bgGrey.yellow,
-        subsystem: chalk.bgGreen.rgb(0,0,0),
+        subsystem: chalk.bgGreen.bold.rgb(0,70,0),
         light: chalk.green,
         bgpositive: chalk.green.bgBlack,
         positive: chalk.green,
@@ -18,6 +18,8 @@ class Log {
         danger: chalk.red.bgWhite,
         severe: chalk.red.bgBlack,
         warning: chalk.yellow,
+        coolText: chalk.hex('986498'),
+        lightGreen: chalk.bgGreenBright.rgb(0,0,0),
     }
 
 
@@ -29,7 +31,7 @@ class Log {
         return charpad + str + charpad
     }
 
-    msg (message, padding = 80, type = 'system') {
+    msg (message, padding = 80, type = 'system', style = null) {
         if(Number(checkout(process.env.logCharPad))) padding = Number(checkout(process.env.logCharPad))
         if(message instanceof Object) {
             let _n = this.setAsHeader(message.constructor.name) + "\n";
@@ -58,46 +60,77 @@ class Log {
         log(this.logType[type](message))
     }
 
+    constructLogType(context) {
+        let len = context.length;
+        if(context instanceof Object) {
+            len = context.text.length;
+            context = this.logType[context.type](context.text)
+        }
+        return {context, len}
+    }
+
+    synthMessage (message) {
+        let msg = message
+        let left = [];
+        let right = [];
+        let ln = 0;
+        let rn = 0;
+        if(message instanceof Object) {
+            msg = message.message;
+            let clt = this.constructLogType.bind(this)
+            left = message.left.map(clt).map(clt => {
+                ln += clt.len;
+                return clt.context
+            });
+            if(message.right) {
+                right = [...message.right.map(clt).map(clt => {
+                    rn += clt.len;
+                    return clt.context
+                })];
+            }
+        }
+        return {msg, left, right, ln, rn};
+    }
+
     startTrace (message, type = 'system', char = ' ') {
+        let {msg, left, right} = this.synthMessage(message);
         let logMsg = ''
-        let posx = Math.round(process.stdout.columns/1.5)
-        let pos = Math.round(posx-message.length);
-
+        let posx = Math.round(process.stdout.columns/1.3)
+        let pos = Math.round(posx-msg.length);
+        pos -= [...left.join("")].length
         logMsg = logMsg.padStart(pos, char)
-        logMsg += message
-        log(this.logType[type](logMsg))
-
+        logMsg += msg
+        log(...left,this.logType[type](logMsg), ...right)
     }
 
     endTrace (message, type = 'system', char = ' ') {
         let posx = Math.round(process.stdout.columns/1.5)
         let pos = Math.round(posx-message.length);
-
         message += message.padEnd(pos, char)
         log(this.logType[type](message))
 
     }
 
     center (message, type = 'system', char = ' ') {
+        let {msg, left, right, ln} = this.synthMessage(message);
         let logMsg = ''
-        message = message.replace(/(\r\n|\n|\r)/gm, "")
-        message = message.replace(/   /gm, "")
-        let mid = Math.round(message.length)/2;
+        msg = msg.replace(/(\r\n|\n|\r)/gm, "")
+        msg = msg.replace(/   /gm, "")
+        let mid = Math.round(msg.length)/2;
         let posx = Math.round(process.stdout.columns)/2
+        posx -= ln
         let pos = Math.round(posx-mid);
         if((pos*2+mid*2) > process.stdout.columns) {
             pos -= (pos*2+mid*2) - process.stdout.columns
         }
-
         logMsg = logMsg.padStart(pos, char)
-        logMsg += message
-        logMsg += logMsg.replace(message, "").padEnd(pos, char)
-        if(logMsg.length < process.stdout.columns) {
-            let total =process.stdout.columns - logMsg.length 
-            logMsg += char.repeat(total)
+        logMsg += msg
+        logMsg += logMsg.replace(msg, "").padEnd(pos, char)
+        if((logMsg.length + ln) < process.stdout.columns) {
+            let total =process.stdout.columns - (ln + logMsg.length) 
+            logMsg += char.repeat(total -1)
         }
-
-        log(this.logType[type](logMsg))
+        log(...left, this.logType[type](logMsg), ...right)
     }
 
     full (message, type = 'system', char = ' ') {

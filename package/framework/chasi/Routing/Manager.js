@@ -28,8 +28,10 @@ class RouteManager extends Base{
 
     loadControllers (dirs) {
         let ef = '';
+        let currBuffExec;
         try {
             dirs.map(dir => {
+                currBuffExec = dir;
                 var buff = this.stackDir(`container/${dir}`);
                 buff.map(filedir => {
                     if(filedir != undefined) {
@@ -39,7 +41,7 @@ class RouteManager extends Base{
                 })
             })
         } catch(e) {
-            this.exception(e.message + `\ncontroller:: error at ${buff}`, 3);
+            this.exception(e.message + `\ncontroller:: error at ${currBuffExec}`, 3);
         }
     }
 

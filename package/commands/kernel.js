@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const _path = require("path")
+
 module.exports = {
   provider: (argument) => {
     let template =  require ("./templates/defaultProvider");

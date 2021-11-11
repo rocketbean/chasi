@@ -110,7 +110,11 @@ class Base extends ErrorHandler {
      * @param {path} file 
      */
     static staticAssignFile (path) {
-        return require(Base._g.path.join(basepath, path));
+        try {
+            return require(Base._g.path.join(basepath, path));
+        } catch(e) {
+            throw new Error(e.message, `on path: ${path}`)
+        }
     }
 
     /** STATIC
@@ -122,6 +126,7 @@ class Base extends ErrorHandler {
         return Base._g.fs.readdirSync(normalizedPath).map(fn => {
             return Base.staticAssignFile(`${path}${fn}`) 
         });
+
     }
     /**
      * removes any special character from string

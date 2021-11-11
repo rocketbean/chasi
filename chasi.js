@@ -1,14 +1,17 @@
 const chalk = require("chalk");
-const { base } = require("./container/Models/User");
 const kernel = require("./package/commands/kernel");
 const basepath = __dirname
+const helpers = require('./package/helper');
 const _path = require("path")
+const { exec } = require('child_process');
+
 const paths = {
   controller: `${basepath}\\container\\controllers\\`,
   middleware: `${basepath}\\container\\middlewares\\`,
   model: `${basepath}\\container\\Models\\`,
   provider: `${basepath}\\container\\services\\`,
   event: `${basepath}\\container\\events\\`,
+  install: `container\\views`,
 }
 
 var arguments = process.argv.slice(2)
@@ -42,7 +45,7 @@ var handler = {
  * Get CommandLine function names 
  * [New, View]
  * * * * * * * * * * * * */
-const $commands = ['_new', '_view', '_mount'];
+const $commands = ['_new', '_view', '_mount', '_install'];
 
 class CommandRegistry {
   _new (arg) {
@@ -52,8 +55,20 @@ class CommandRegistry {
     kernel.write(container, paths[arg[0]])
   }
 
+  _install (arg) {
+    var normalizedPath = _path.join(basepath,paths["install"])
+    exec(`cd "${normalizedPath}" && npm install `, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    })
+  }
+
+
   _mount () {
-    require("./server")
+    // require("./server")
   }
 
   _view () {

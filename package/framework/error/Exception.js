@@ -29,7 +29,7 @@ class Exception {
     #constructMessage (message) {
         switch (this.logging) {
             case 0:
-                if(!(message instanceof String)) return `\n [${this.invoker}] \n ${message?.message}\n`;
+                if(message instanceof Object) return `\n [${this.invoker}] \n ${message?.message}\n`;
                 else return message;
                 break;
 
@@ -89,7 +89,7 @@ class Exception {
     }
 
     logMessage () {
-        this.LogErrorMessage(this.message, "light");
+        this.LogErrorMessage(this.message, "warning");
     }
 
     static initializeException (errors) {

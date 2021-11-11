@@ -4,9 +4,6 @@ module.exports = {
      * [Arr|Str] 
      */
     origin: '*',
-    // origin: [
-    //     'https://localhost:8080',
-    //     '],
     allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Request-Headers"],
     credentials: true,
     enablePreflight: true

@@ -13,4 +13,5 @@ module.exports = function() {
     */
     
     route.get("/", "ChasiController@index");
+
 }

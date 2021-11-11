@@ -1,6 +1,7 @@
 class framework {
     static global;
     static property;
+
     constructor () {
         this.registry = {}
         this.bootstrap = {}

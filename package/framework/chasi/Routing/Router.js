@@ -1,6 +1,6 @@
 const RouteManager = require("./Manager");
 const RouteRegistry = require('./RouteRegistry');
-
+const Middlewares = handle("/package/statics/Middlewares")
 const Base = require("../../../base");
 
 class Router extends Base {

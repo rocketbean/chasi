@@ -4,7 +4,8 @@ const Gateway = require('../index')
 const ErrorHandler = require("../../../error/ErrorHandler")
 const Adapter = require("../../../../statics/Adapter")
 const ModelHandler = require("../../../../bootloader/Model")
-const Controller = require("../../../../statics/Controller")
+const Models = handle("/package/statics/Models")
+
 class JWTDriver extends ErrorHandler {
 
     static TokenExceptions = [];
@@ -35,13 +36,14 @@ class JWTDriver extends ErrorHandler {
             let layer = JWTDriver.$app.routeLayer(req.originalUrl.split('?')[0], req.method)
             var gateway = layer?.$chasi?.guarded;
             if(!(layer?.$chasi)) {
-                this.exception(`${req.originalUrl} uknnown route layer`,0) 
+                this.exception(`${req.originalUrl} \n uknown route layer`,1) 
                 next()
                 return;
             }
             
             let target = layer.$chasi.route.target
-            let model = Controller.$models[target.property.model]
+            let model = Models.$container[target.property.model]
+
             try {
                 if(!(target?.property?.enabled)) gateway = false
                 if(gateway) {

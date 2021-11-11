@@ -1,5 +1,5 @@
 const Base = require('../base');
-const Model = require('./Models');
+const Models = require('./Models');
 const pluralize = require('pluralize');
 const socketAdapter = require('../framework/chasi/adapters/SocketAdapters');
 
@@ -7,12 +7,6 @@ module.exports =  class Controller extends Base {
 
     static $app = {}
     
-    /**
-     * [Mongoose::Model]
-     * container of models
-     */
-    static $models = {}
-
     /**
      * [Chasi::Services]
      * container of services registered 
@@ -34,7 +28,13 @@ module.exports =  class Controller extends Base {
      * initiated by chasi instance
      */
     static $view = {}
+
+    static $next = {}
     
+    get next () {
+        return Controller.$next
+    }
+
     get compiler () {
         return Controller.$view
     }
@@ -44,7 +44,7 @@ module.exports =  class Controller extends Base {
     }
     
     get models () {
-        return Model.$models
+        return Models.$container
     }
 
     get packages () {
@@ -63,10 +63,17 @@ module.exports =  class Controller extends Base {
         return Controller.$services
     }
 
+    /**
+     * binds the controller into a given model
+     * used mostly in dynamic routes
+     * it will autopopulate 
+     * [request.params]
+     * @param {model} String
+     * @returns {Schma::Model} instance
+     */
     model(model) {
-        return Controller.$models[model]
+        return Models.$container[model]
     }
-
 
     static init(property, packages, observer) {
         Controller.$io = socketAdapter.$io
@@ -83,4 +90,7 @@ module.exports =  class Controller extends Base {
         Controller.$view = $view;
     }
 
+    static bindNextInstance ($next) {
+        Controller.$next = $next;
+    }
 }

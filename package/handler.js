@@ -9,6 +9,7 @@ const ModelHandler = require('./bootloader/Model');
 const framework = require('./framework/frontload');
 const Controller = require('./statics/Controller');
 const Models = require('./statics/Models');
+const Middlewares = require('./statics/Middlewares');
 const Adapter = require('./statics/Adapter');
 const ServerWrap = require('./framework/exec/server');
 const SocketWrapper = require('./framework/exec/socket');
@@ -19,6 +20,7 @@ const SocketAdapter = require('./framework/chasi/adapters/SocketAdapters');
 const AuthorizationDriver = require('./framework/chasi/Authorization');
 const Observer = require("./observer");
 const { networkInterfaces } = require('os');
+const nextApp = require("../container/views/");
 
 class PackageHandler extends Negotiator(Injector, ErrorHandler) {
 
@@ -73,6 +75,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       this.internals['server'] = new ServerWrap();
       this.$server = this.internals.server.install();
       await this.connectDbInstsance()
+      await this.prepareCompiler();
       this.$io = socketio(this.$server);
       SocketAdapter.setIo(this.$io);
       Base.install(this._g, this.property, this.$server, this.$app);
@@ -111,12 +114,12 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async initializeServices() {
     await Adapter.init(this.property, this.dbconnections);
     Models.assignModels(this.property.app.modelsDir);
+    Middlewares.assignMiddlewares(this.property.app.middlewares);
     await Controller.init(
       this.property,
       this.$packages,
       this.$observer
     );
-
   }
   async setupQueRoutes() {
     this.$app._router.stack.map(async layer => {
@@ -132,9 +135,13 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     this.CheckStaticErrors();
     await this.setupQueRoutes()
     this.$app.use((req, res, next) => {
-      res.status(404);
-      res.send('404: Path Not Found');
+      return "Nan"
     });
+
+  }
+
+  async prepareCompiler () {
+    Controller.bindNextInstance( await nextApp(this.$app));
   }
 
   boot () {

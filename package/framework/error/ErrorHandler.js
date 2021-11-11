@@ -20,11 +20,15 @@ class ErrorHandler {
         this.invoker = this.constructor.name;
     }
 
-    exception (message, severity = 1) {
+    exception (message, severity = 1, invoker = null) {
         let err = new Error(message);
         Error.captureStackTrace(err, this.exception);
-        let exc = new Exception(err, severity, this.invoker)
+        if(invoker == null) invoker = this.invoker;
+        let exc = new Exception(err, severity, invoker)
         ErrorHandler.all.push(exc);
+        if(process.env.logRuntimeRequestError > 0) {
+            exc.logMessage()
+        }
         return this.takeAction(exc);
     }
 
@@ -45,7 +49,6 @@ class ErrorHandler {
         if(ErrorHandler.errors.length <= 0) {
             log.startTrace("clean: empty error list", "positive", "-");
             log.full(" ");
-
         }
         ErrorHandler.errors.forEach(err => {
             err.logMessage()

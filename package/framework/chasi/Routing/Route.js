@@ -10,6 +10,7 @@ class Route extends ErrorHandler{
     static groups = [];
     static prefixes = [];
     static middlewares = [];
+    
     constructor (property) {
         super();
         this.endpoint = property.endpoint
