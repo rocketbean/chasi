@@ -1,6 +1,6 @@
 {
-	"name": "upbeat",
-	"version": "0.1.0",
+	"name": "Chasi Framework",
+	"version": "1.0.0",
 	"author": "Nikko Mesina",
 	"scripts": {
 		"start": "node server.js",

@@ -1,17 +1,16 @@
-# chasi
-an **RESTApi** boilerplate, or template for **node.js**,  best starting point for dev's who already have the knowledge on how MVC framework works,
-in terms of:
+
+# Chasi
+**RESTApi** Framework for **node.js**
+this framework implements services such as
 - Database
 - Routing
 - Middlewares
-- Bindings
+- Services
 - Model
 - View
 - Controller
-
  
 it might still be missing some features, please take a note on that, and if you're interested, we can open a discussion about that.
-i'll release some API docs, please checkout: https://castmonkeys.com/
 
 *and find the community for chasi, as i'll be posting any upcommings in that website, 
 and plus you can also add some discussions if you have any suggestions*
@@ -92,14 +91,24 @@ get yourModule () {
 route.post("yourpath", "yourcontroller@method").middleware("yourmiddleware");
   ```
   *or you can add in the alias in ./config/services/RouterServiceProvider under middlewares array, this will be applied to all the routes under that routeContainer* 
+# View
+now utilizes Next.js for SSR.
+please be sure to run :
+```
+node chasi install
+```
+or go to path: "./container/views/" and run
+```
+npm install
+```
 
 # Notes
   as of this moment, MongoDB is the only database it supports, though Databases can be imported directly unto controller,
   so you can have your DB wrapper *(only if you are not using MongoDB as your database)*
   
   Might release a version built with TS. this repo was built in the most simpliest way to support any type of devs.
+
 # Requirements 
 this template requires 
 - nodejs: ^14.0.0
 - mongoDB: ^3.0.0
-
