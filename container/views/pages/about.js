@@ -10,15 +10,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.borderBox}>
-          <h1 className={styles.title} >
-            <a> Chasi! </a>
-          </h1>
-
-          <p className={styles.description}>
-            build it with modules!
-          </p>
-        </div>
+        <h1>
+          about!
+        </h1>
       </main>
 
     

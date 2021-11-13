@@ -20,6 +20,8 @@ module.exports = (() => {
         return this.charAt(0).toUpperCase() + this.slice(1);
     }
 
+    
+
     String.prototype.randomString = function (length, separator = "_") {
         var result           = '';
         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

@@ -32,11 +32,11 @@ module.exports =  class Controller extends Base {
     static $next = {}
     
     get next () {
-        return Controller.$next
+        return Controller.$next.app;
     }
 
     get compiler () {
-        return Controller.$view
+        return Controller.$next.next;
     }
 
     get $config () {

@@ -22,7 +22,13 @@ class ChasiController extends Controller {
    * */
   async index(request, response) {
 
-    return await this.next.render(request, response, '/')
+    try {
+      // await this.compiler.build()
+      return await this.next.render(request, response, '/about')
+    } catch(e) {
+      // console.log(e)
+    }
+
   }
 
   /**

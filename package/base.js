@@ -160,6 +160,19 @@ class Base extends ErrorHandler {
         }
     }
 
+    static throughDirs (dir) {
+        let files = []
+        function ThroughDirectory (Directory) {
+            _fs.readdirSync(Directory).forEach(File => {
+                const Absolute = _p.join(Directory, File);
+                if (_fs.statSync(Absolute).isDirectory()) return ThroughDirectory(Absolute);
+                else return files.push({[File]: Absolute});
+            });
+        }
+        let dirs = ThroughDirectory(dir);
+        return files;
+    }
+
     static install (_g, property, server, app) {
         Base._g = _g;
         Base.property = property;

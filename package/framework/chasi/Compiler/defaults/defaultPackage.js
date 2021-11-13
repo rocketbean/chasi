@@ -1,9 +1,11 @@
+module.exports = (path) => {
+return`
 {
-  "name": "test",
+  "name": "${process.env.APPNAME}--compiler",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && next export -o ${path}",
     "start": "next start",
     "lint": "next lint"
   },
@@ -16,4 +18,6 @@
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.3"
   }
+}
+`
 }

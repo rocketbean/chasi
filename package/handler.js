@@ -21,6 +21,7 @@ const AuthorizationDriver = require('./framework/chasi/Authorization');
 const Observer = require("./observer");
 const { networkInterfaces } = require('os');
 const nextApp = require("../container/views/");
+const Compiler = require("./framework/chasi/Compiler")
 
 class PackageHandler extends Negotiator(Injector, ErrorHandler) {
 
@@ -134,6 +135,11 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     this.setStatus("after App Instance");
     this.CheckStaticErrors();
     await this.setupQueRoutes()
+
+    this.$app.use('/static',
+      this._g.express.static(`${basepath}/public`)
+    );
+
     this.$app.use((req, res, next) => {
       return "Nan"
     });
@@ -141,7 +147,9 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   }
 
   async prepareCompiler () {
-    Controller.bindNextInstance( await nextApp(this.$app));
+    let compiler = new Compiler(this.property.compiler);
+    await compiler.setup();
+    Controller.bindNextInstance( await compiler.engine.start(this.$app) );
   }
 
   boot () {
