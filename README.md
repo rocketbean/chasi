@@ -9,8 +9,7 @@ this framework implements services such as
 - Model
 - View
 - Controller
- 
-it might still be missing some features, please take a note on that, and if you're interested, we can open a discussion about that.
+
 
 *and find the community for chasi, as i'll be posting any upcommings in that website, 
 and plus you can also add some discussions if you have any suggestions*
@@ -92,15 +91,10 @@ route.post("yourpath", "yourcontroller@method").middleware("yourmiddleware");
   ```
   *or you can add in the alias in ./config/services/RouterServiceProvider under middlewares array, this will be applied to all the routes under that routeContainer* 
 # View
-now utilizes Next.js for SSR.
-please be sure to run :
-```
-node chasi install
-```
-or go to path: "./container/views/" and run
-```
-npm install
-```
+Chasi now utilizes Next.js for SSR.
+please check './container/views' directorty,
+or you can declare another NextJs directory outside the chasi root dir,
+by setting the configuration on "./config/compiler.js".
 
 # Notes
   as of this moment, MongoDB is the only database it supports, though Databases can be imported directly unto controller,
