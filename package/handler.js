@@ -20,7 +20,6 @@ const SocketAdapter = require('./framework/chasi/adapters/SocketAdapters');
 const AuthorizationDriver = require('./framework/chasi/Authorization');
 const Observer = require("./observer");
 const { networkInterfaces } = require('os');
-const nextApp = require("../container/views/");
 const Compiler = require("./framework/chasi/Compiler")
 
 class PackageHandler extends Negotiator(Injector, ErrorHandler) {
@@ -34,6 +33,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     this.internals = {};
     this.packages = null;
     this.dbconnections = {};
+    this.$compiler = {}
   }
 
 
@@ -76,12 +76,12 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       this.internals['server'] = new ServerWrap();
       this.$server = this.internals.server.install();
       await this.connectDbInstsance()
-      await this.prepareCompiler();
       this.$io = socketio(this.$server);
       SocketAdapter.setIo(this.$io);
       Base.install(this._g, this.property, this.$server, this.$app);
       this.injectCorsProperties();
       this.$packages = new PackageLoader();
+      await this.prepareCompiler();
       await this.initializeServices();
       this.setStatus("setting up server");
       this.instantiate();
@@ -90,9 +90,9 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     }
   }
 
-  /**
-   * create Chasis instance
-   * *
+  /* * *
+   * create Chasi instance
+   * * *
    */
   async instantiate () {
     try {
@@ -141,15 +141,21 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     );
 
     this.$app.use((req, res, next) => {
-      return "Nan"
+      if(this.property['error-responses'].hasOwnProperty('404')) {
+        res.send(this.property['error-responses']['404']);
+      } else {
+        res.send(this.property['error-responses']._default);
+      }
     });
 
   }
 
   async prepareCompiler () {
-    let compiler = new Compiler(this.property.compiler);
-    await compiler.setup();
-    Controller.bindNextInstance( await compiler.engine.start(this.$app) );
+    if(this.$packages.installedPackages.hasOwnProperty("Compiler")) {
+      await this.$packages.installedPackages.Compiler.setup();
+      Controller.bindCompilerInstance( await this.$packages.installedPackages.Compiler.engine.start(this.$app) );
+    }
+
   }
 
   boot () {

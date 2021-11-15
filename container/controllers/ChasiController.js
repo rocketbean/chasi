@@ -1,8 +1,5 @@
 
 const Controller = handle("/package/statics/Controller");
-const EventEmitter = require('events');
-const { response } = require('express');
-const User = require('../Models/User');
 
 class ChasiController extends Controller {
 
@@ -11,7 +8,7 @@ class ChasiController extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {} translated as [ExpressResponse] Object
    * */
-  async create(request) {
+  async create(request, response) {
     
   }
 
@@ -23,30 +20,13 @@ class ChasiController extends Controller {
   async index(request, response) {
 
     try {
-      // await this.compiler.build()
-      return await this.next.render(request, response, '/about')
+      return await this.next.render(request, response, '/')
     } catch(e) {
-      // console.log(e)
+      throw {
+        message: e.message,
+        status: 400
+      }
     }
-
-  }
-
-  /**
-   * Single ObjectModel[index]
-   * @param {request} [ExpressRequest] Object
-   * @return {Object} translated as [ExpressResponse] Object
-   * */
-  async page(request, response) {
-    return await this.next.render(request, response, `/${request.params.page}`)
-  }
-
-  /**
-   * Docs[main]
-   * @param {request} [ExpressRequest] Object
-   * @return {Array} translated as [ExpressResponse] Object
-   * */
-  async docs(request) {
-
   }
 
 
@@ -55,7 +35,7 @@ class ChasiController extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Bool} translated as [ExpressResponse] Object
    * */
-  async delete(request) {
+  async delete(request, response) {
     
   }
 
@@ -64,7 +44,7 @@ class ChasiController extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Object} translated as [ExpressResponse] Object
    * */
-  async update(request) {
+  async update(request, response) {
     
     
   }

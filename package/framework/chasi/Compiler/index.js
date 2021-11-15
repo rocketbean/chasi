@@ -4,6 +4,7 @@ const path = require('path');
 
 class Compiler extends Base{
   static dir = `${basepath}/package/framework/chasi/Compiler/drivers`
+
   constructor (property) {
     super()
     this.property = property;
@@ -28,6 +29,10 @@ class Compiler extends Base{
   async setup () {
     await this.setDrivers();
     await this.loadDriver();
+  }
+
+  static init (property) {
+    return new Compiler(property.compiler);
   }
 
 }

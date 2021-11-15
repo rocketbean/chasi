@@ -1,20 +1,72 @@
 module.exports = {
-  driver: 'NextJs', // [default, NextJs, NuxtJs]
+  /**
+   * Compile Drivers
+   */
+  driver: 'NextJs',
   configs: {
+    /**
+     * Driver Configurations
+     * E.G: 
+     * your frontend environment files,
+     * runtime configs,
+     */
     NextJs: {
-      useAbsolutePath: true,
+
+      /**
+       * chasi will append it's root path
+       * to [root] property.
+       * then paths declared as root
+       * Note: Only enable 
+       * when the compiler's root 
+       * is outside Chasi's root dir.
+       */
+      useAbsolutePath: false,
+
+      /**
+       * Chasi's FileServer name
+       * as entrypoint
+       */
       fileServer: 'chasi.server.js',
-      root: 'C:\\Users\\buzzo\\OneDrive\\Desktop\\external\\wat',
+      
+      /**
+       * Chasi's FileServer name
+       * as entrypoint
+       */
+      root:  '/container/views/',
       reactStrictMode: true,
       useFileSystemPublicRoutes: false,
+
+      /**
+       * for Static mode
+       * Note: builing Static will
+       * replace distDir option
+       * on [next.config.js] 
+       */
       useStatic: true,
+
+      /**
+       * Static Directory
+       * on which where the 
+       * build files will be placed
+       */
       staticDir: '/build',
+
+      /**
+       * Static Path
+       * the route[path] to use
+       * when serving the files under
+       * [staticDir]
+       */
       staticPath: '/public',
+
+      /**
+       * NextJS load Configurations
+       */
       load: {
         dev: true,
-        quiet: false,
+        quiet: true,
         conf: {
-          reactStrictMode: true,
+          reactStrictMode: false,
           basePath: '/next',
           useFileSystemPublicRoutes: false,
         }

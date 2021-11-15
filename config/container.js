@@ -17,6 +17,7 @@ module.exports = {
      */
     LoadPack: {
         'Sessions': 'package/framework/storage/session::init',
+        'Compiler': 'package/framework/chasi/Compiler::init',
         'FileManager': 'container/modules/FileManager::init',
     },
 

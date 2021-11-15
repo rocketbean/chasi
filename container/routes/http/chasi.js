@@ -11,11 +11,5 @@ module.exports = function() {
     * [AuthRouteExceptions] array option.
     */
 
-    route.get("/", "ChasiController@index");
-    
-    route.group({prefix: 'docs'}, (function () {
-        route.get('/', "ChasiController@docs")
-        route.get(':doc', "ChasiController@docs")
-    }));
     
 }

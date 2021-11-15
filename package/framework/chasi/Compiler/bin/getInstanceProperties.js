@@ -7,6 +7,10 @@ module.exports =  async (root, state) => {
   return new Promise((res, rej) => {
     let realpath = path.join(root,'/pages')
     let pages = [];
+    if(!fs.existsSync(realpath)) {
+      fs.mkdirSync(realpath);
+    }
+
     Base.throughDirs(realpath).map(page => {
       Object.keys(page).forEach(name => {
         let pagename = name.replace(path.extname(name), "");

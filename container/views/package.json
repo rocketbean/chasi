@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && next export -o C:\\Users\\buzzo\\OneDrive\\Desktop\\external\\chasi\\build",
     "start": "next start",
     "lint": "next lint"
   },

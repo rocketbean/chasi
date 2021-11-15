@@ -161,12 +161,13 @@ class RouteRegistry extends ErrorHandler{
                 let message = e.stack ? e.stack : e.message;
                 message += `\n [${route.controller.constructor}] :: Method(${route.controller.method})`;
                 this.exception(message, 1,route.controller.method);
+                e.message = this.handleError(e);
+
                 if(e.status) {
                     res.status(e.status).send(e.message)
                     return
                 }
                 
-                e.message = this.handleError(e);
                 res.status(400).send(e.message)
             }
         }, type: 'controller'}
@@ -179,8 +180,8 @@ class RouteRegistry extends ErrorHandler{
      * @returns Sanitized error message
      */
     handleError (e) {
-        let message = RouteRegistry.$responses[e.constructor.name]?.code[e.code]
-        if(!message) return RouteRegistry.$responses._default;
+        let message = RouteRegistry.$responses[e.status]
+        if(e.message) return this.sanitize(e.message,e )
         else return this.sanitize(message,e )
     }
 

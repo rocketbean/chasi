@@ -1,5 +1,5 @@
 module.exports = {
-  reactStrictMode: true,
-  basePath: '/next',
-  useFileSystemPublicRoutes: false,
+  "reactStrictMode": true,
+  "basePath": "/public",
+  "useFileSystemPublicRoutes": false
 }

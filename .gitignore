@@ -4,3 +4,4 @@ certs
 .env
 statics/*
 package-lock.json
+build/*

@@ -148,6 +148,29 @@ class Log {
         log(this.logType[type](logMsg))
     }
 
+    loading (message = "") {
+        let timer;
+        let start = () => {
+        var P = ["\\", "|", "/", "-", "*"];
+        var x = 0;
+            timer = setInterval(function() {
+                x++
+                process.stdout.write("\r" + chalk.bold.yellow(message + " ") + chalk.bold.yellow(P[x]) + " ");
+                x %= P.length-1;
+            }, 50);
+
+
+        };
+        let stop = () => {
+            clearInterval(timer)
+            process.stdout.clearLine()
+            process.stdout.cursorTo(0)
+        }
+        return {start, stop}
+    }
+
+
+
     custom (message, option) {
     }
 

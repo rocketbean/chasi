@@ -18,6 +18,7 @@ module.exports = {
    */
   events: {
     'authorized': 'container/events/AuthorizedEvent',
+    'build-compiler': 'container/events/BuildCompiler',
   },
 
   /**
@@ -31,7 +32,6 @@ module.exports = {
    * Event instance.
    */
   afterEmit: async function (params) {
-
-    console.log(`${this.constructor.name} emitted`)
+    log.startTrace(`| Emitted::${this.constructor.name}`, 'positive', '-')
   }
 }

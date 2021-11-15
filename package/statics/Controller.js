@@ -29,14 +29,15 @@ module.exports =  class Controller extends Base {
      */
     static $view = {}
 
-    static $next = {}
-    
-    get next () {
-        return Controller.$next.app;
-    }
+    static $compiler = {}
+
 
     get compiler () {
-        return Controller.$next.next;
+        return Controller.$compiler.app;
+    }
+
+    get next () {
+        return Controller.$compiler.app;
     }
 
     get $config () {
@@ -90,7 +91,7 @@ module.exports =  class Controller extends Base {
         Controller.$view = $view;
     }
 
-    static bindNextInstance ($next) {
-        Controller.$next = $next;
+    static bindCompilerInstance ($compiler) {
+        Controller.$compiler = $compiler;
     }
 }

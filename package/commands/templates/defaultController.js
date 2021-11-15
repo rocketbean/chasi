@@ -9,7 +9,7 @@ class ${argument} extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {} translated as [ExpressResponse] Object
    * */
-  async create(request) {
+  async create(request, response) {
     
 
   }
@@ -19,7 +19,7 @@ class ${argument} extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Object} translated as [ExpressResponse] Object
    * */
-  async index(request) {
+  async index(request, response) {
     
 
   }
@@ -29,7 +29,7 @@ class ${argument} extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Array} translated as [ExpressResponse] Object
    * */
-  async list(request) {
+  async list(request, response) {
     
     
   }
@@ -39,7 +39,7 @@ class ${argument} extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Bool} translated as [ExpressResponse] Object
    * */
-  async delete(request) {
+  async delete(request, response) {
     
   }
 
@@ -48,7 +48,7 @@ class ${argument} extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Object} translated as [ExpressResponse] Object
    * */
-  async update(request) {
+  async update(request, response) {
     
     
   }
