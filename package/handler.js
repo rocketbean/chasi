@@ -149,7 +149,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
 
   async prepareCompiler () {
     if(this.$packages.installedPackages.hasOwnProperty("Compiler")) {
-      if(this.property.compiler.enbaled) {
+      if(this.property.compiler.enabled) {
         await this.$packages.installedPackages.Compiler.setup();
         Controller.bindCompilerInstance( await this.$packages.installedPackages.Compiler.engine.start(this.$app) );
       }

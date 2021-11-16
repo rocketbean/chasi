@@ -20,7 +20,7 @@ class ChasiController extends Controller {
   async index(request, response) {
 
     try {
-      return await this.next.render(request, response, '/')
+      return await this.compiler.render(request, response, '/')
     } catch(e) {
       throw {
         message: e.message,
