@@ -24,7 +24,6 @@ module.exports = (argument) => {
     return ${argument}Object;
   }
   
-  const ${argument} = Adapter.getConnection().model('${argument.toLowerCase()}', ${uppercased}Schema)
-  module.exports = ${argument}`
+  module.exports = Adapter.getConnection('${argument.toLowerCase()}', ${uppercased}Schema)`
 }
 

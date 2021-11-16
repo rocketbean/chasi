@@ -1,13 +1,15 @@
 {
 	"name": "Chasi Framework",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": "Nikko Mesina",
 	"scripts": {
 		"start": "node server.js",
 		"dev": "nodemon server.js -e html,js,css"
 	},
-  "nodemonConfig": {
-		"ignore": ["container/views/*"]
+	"nodemonConfig": {
+		"ignore": [
+			"container/views/*"
+		]
 	},
 	"devDependencies": {
 		"babel-preset-env": "^1.7.0",
@@ -15,6 +17,10 @@
 		"nodemon": "^2.0.1"
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.36",
+		"@fortawesome/free-brands-svg-icons": "^5.15.4",
+		"@fortawesome/free-solid-svg-icons": "^5.15.4",
+		"@fortawesome/react-fontawesome": "^0.1.16",
 		"@google-cloud/storage": "^5.8.5",
 		"@sendgrid/mail": "^7.1.1",
 		"axios": "^0.21.1",
