@@ -2,6 +2,7 @@ const Base = require('../base')
 const pluralize = require('pluralize')
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
+
 module.exports = class Models extends Base {
   
   /**
@@ -24,10 +25,7 @@ module.exports = class Models extends Base {
           var buff = Models.staticStackDir(`${dir}`);
           buff.map(filedir => {
             if(filedir instanceof Error) {
-              throw new Error(`${filedir.message} on ${filedir.constructor.modelName}`);
-            }
-            if(filedir instanceof Schema) {
-              // throw new Error(filedir)
+              throw new Error(`${filedir} on ${filedir.constructor.modelName}`);
             }
             let key = Reflect.construct(filedir, []).constructor.modelName
             if(Models.$bindMap[key]) key = Models.$bindMap[key]

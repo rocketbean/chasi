@@ -5,7 +5,6 @@ const Negotiator = require('./cluster');
 const Chasi = require('./framework/chasi/chasi')
 const fileUpload = require('express-fileupload');
 const Injector = require('./bootloader/injector');
-const ModelHandler = require('./bootloader/Model');
 const framework = require('./framework/frontload');
 const Controller = require('./statics/Controller');
 const Models = require('./statics/Models');
@@ -55,7 +54,6 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
     try {
       framework.loadStaticProperty(this._g, this.property)
       this.$observer = await Observer.init(this.property.events)
-      await ModelHandler.ready();
       let fw = new framework()
       this.internals = await fw.callstack(this._g);
       this.setStatus("initialized");
@@ -75,7 +73,7 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
       ServerWrap.initialize(this._g, this.property, this.$app);
       this.internals['server'] = new ServerWrap();
       this.$server = this.internals.server.install();
-      await this.connectDbInstsance()
+      await this.connectDbInstsance();
       this.$io = socketio(this.$server);
       SocketAdapter.setIo(this.$io);
       Base.install(this._g, this.property, this.$server, this.$app);
@@ -113,7 +111,6 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   }
 
   async initializeServices() {
-    await Adapter.init(this.property, this.dbconnections);
     Models.assignModels(this.property.app.modelsDir);
     Middlewares.assignMiddlewares(this.property.app.middlewares);
     await Controller.init(
@@ -152,10 +149,11 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
 
   async prepareCompiler () {
     if(this.$packages.installedPackages.hasOwnProperty("Compiler")) {
-      await this.$packages.installedPackages.Compiler.setup();
-      Controller.bindCompilerInstance( await this.$packages.installedPackages.Compiler.engine.start(this.$app) );
+      if(this.property.compiler.enbaled) {
+        await this.$packages.installedPackages.Compiler.setup();
+        Controller.bindCompilerInstance( await this.$packages.installedPackages.Compiler.engine.start(this.$app) );
+      }
     }
-
   }
 
   boot () {
@@ -187,6 +185,8 @@ class PackageHandler extends Negotiator(Injector, ErrorHandler) {
   async connectDbInstsance () {
     if(this.property.database.bootWithDB) this.dbconnections = await this.internals.database.connectAll();
     else this.dbconnections = await this.internals.database?.connectAll();
+    await Adapter.init(this.property, this.dbconnections);
+    return;
   }
 
   /**

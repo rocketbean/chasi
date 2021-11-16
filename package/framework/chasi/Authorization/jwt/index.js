@@ -3,7 +3,6 @@ const SessionStorage = require("../../../storage/session");
 const Gateway = require('../index')
 const ErrorHandler = require("../../../error/ErrorHandler")
 const Adapter = require("../../../../statics/Adapter")
-const ModelHandler = require("../../../../bootloader/Model")
 const Models = handle("/package/statics/Models")
 
 class JWTDriver extends ErrorHandler {
@@ -43,7 +42,6 @@ class JWTDriver extends ErrorHandler {
             
             let target = layer.$chasi.route.target
             let model = Models.$container[target.property.model]
-
             try {
                 if(!(target?.property?.enabled)) gateway = false
                 if(gateway) {
@@ -61,6 +59,7 @@ class JWTDriver extends ErrorHandler {
                     this.exception(e.message, 1, "danger")
                     res.status(401).send("failed authenticating token")
                 }
+                this.exception(`JWTCatch::error ${e.message}`, 0, "danger")
             }
         })
     }
