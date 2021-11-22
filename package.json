@@ -1,6 +1,6 @@
 {
 	"name": "ChasiFramework",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"author": "Nikko Mesina",
 	"scripts": {
 		"start": "node server.js",
@@ -17,6 +17,10 @@
 		"nodemon": "^2.0.1"
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.36",
+		"@fortawesome/free-brands-svg-icons": "^5.15.4",
+		"@fortawesome/free-solid-svg-icons": "^5.15.4",
+		"@fortawesome/react-fontawesome": "^0.1.16",
 		"@google-cloud/storage": "^5.8.5",
 		"@sendgrid/mail": "^7.1.1",
 		"axios": "^0.21.1",

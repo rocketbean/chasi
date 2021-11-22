@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const __v = require("validator")
 const bc = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const Adapter = require("../../package/statics/Adapter")
+const Adapter = handle("/package/statics/Adapter")
 
 let UserSchema = new mongoose.Schema({
 
@@ -91,5 +91,5 @@ UserSchema.pre('save', async function(next) {
 	next()
 })
 
-const User = Adapter.getConnection().model('users', UserSchema);
+const User = Adapter.getConnection('users', UserSchema);
 module.exports = User;

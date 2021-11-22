@@ -3,6 +3,7 @@ module.exports = {
    * Compile Drivers
    */
   driver: 'NextJs',
+  enabled: true,
   configs: {
     /**
      * Driver Configurations
