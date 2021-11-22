@@ -38,24 +38,24 @@ module.exports = {
       }
     },
 
-    local: {
-      url: checkout(process.env.dbConStringLocal),
-      db: checkout(process.env.databaseName),
-      options: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-      }
-    },
+    // local: {
+    //   url: checkout(process.env.dbConStringLocal),
+    //   db: checkout(process.env.databaseName),
+    //   options: {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true,
+    //     useCreateIndex: true
+    //   }
+    // },
 
-    stage: {
-      url: checkout(process.env.dbConStringStage),
-      db: checkout(process.env.stageDatabaseName),
-      options: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-      }
-    }
+    // stage: {
+    //   url: checkout(process.env.dbConStringStage),
+    //   db: checkout(process.env.stageDatabaseName),
+    //   options: {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true,
+    //     useCreateIndex: true
+    //   }
+    // }
   }
 }

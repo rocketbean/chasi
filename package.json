@@ -1,13 +1,15 @@
 {
-	"name": "Chasi Framework",
+	"name": "ChasiFramework",
 	"version": "1.0.1",
 	"author": "Nikko Mesina",
 	"scripts": {
 		"start": "node server.js",
 		"dev": "nodemon server.js -e html,js,css"
 	},
-  "nodemonConfig": {
-		"ignore": ["container/views/*"]
+	"nodemonConfig": {
+		"ignore": [
+			"container/views/*"
+		]
 	},
 	"devDependencies": {
 		"babel-preset-env": "^1.7.0",
@@ -25,6 +27,7 @@
 		"express": "^4.17.1",
 		"express-fileupload": "^1.2.1",
 		"jsonwebtoken": "^8.5.1",
+		"mediasoup": "^3.9.2",
 		"mongodb": "^3.5.2",
 		"mongoose": "^5.12.11",
 		"multer": "^1.4.2",
