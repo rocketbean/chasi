@@ -3,8 +3,10 @@ import styles from '../styles/Home.module.css'
 import { faGithubAlt, faReddit } from '@fortawesome/free-brands-svg-icons'
 import { faAt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Script from 'next/script'
+import { useRouter } from 'next/router'
 
-export default function Home() {
+const Home = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -33,7 +35,14 @@ export default function Home() {
           </span>
         </div>
       </main>
-
+      <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                console.log('%c Chasi!', 'font-family: "Roboto", padding:20px; font-weight: bold; font-size: 80px;color: white; text-shadow: 3px 3px 0 rgb(98,98,98) ');
+                  `,
+            }}
+      ></script>
     </div>
   )
 }
+export default Home;
