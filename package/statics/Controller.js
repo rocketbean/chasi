@@ -61,7 +61,7 @@ module.exports =  class Controller extends Base {
     }
 
     get services () {
-        return Controller.$services
+        return Controller.$services.booted
     }
 
     /**

@@ -38,6 +38,7 @@ module.exports = {
         'routers': 'container/services/RouterServiceProvider',
         'auth': 'container/services/AuthServiceProvider',
         'sockets': 'container/services/SocketServiceProvider',
+        'StreamEngine': 'container/services/StreamEngineServiceProvider',
         // 'Mailer': 'container/services/MailerServiceProvider',
     },
 

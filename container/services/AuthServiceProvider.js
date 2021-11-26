@@ -1,5 +1,7 @@
-class AuthServiceProvider {
-    static boot() {
+const Provider = handle("/package/statics/Provider");
+
+class AuthServiceProvider extends Provider{
+    static async boot() {
 
     }
 }

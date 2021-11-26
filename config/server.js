@@ -31,8 +31,8 @@ module.exports = {
      */
     mode: {
         dev: {
-            key: checkout(process.env.SSLcontainerKey, 'local'),
-            cert: checkout(process.env.SSLcontainerCrt, 'local'),
+            key: checkout(process.env.SSLcontainerKey2, 'local'),
+            cert: checkout(process.env.SSLcontainerCrt2, 'local'),
             protocol: 'https',
         },
         local: {

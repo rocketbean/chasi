@@ -1,8 +1,9 @@
 const AppSession = require("../modules/AppSession");
+const Provider = handle("/package/statics/Provider");
 
-class SessionStorageServiceProvider {
+class SessionStorageServiceProvider extends Provider {
     
-    static boot () {
+    static async boot () {
         return {
             AppSession
         }

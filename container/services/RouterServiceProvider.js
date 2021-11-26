@@ -1,7 +1,8 @@
 const Router = require("../../package/framework/chasi/Routing/Router");
+const Provider = handle("/package/statics/Provider");
 
-class RouterServiceProvider {
-    static boot () {
+class RouterServiceProvider extends Provider{
+    static async boot () {
         return [
             new Router({
                 name            : 'api',

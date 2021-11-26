@@ -1,7 +1,8 @@
 const Mailer = require("../modules/Mailer/mailer");
+const Provider = handle("/package/statics/Provider");
 
-class MailerServiceProvider {
-    static boot() {
+class MailerServiceProvider extends Provider{
+    static async boot() {
         // return new Mailer()
     }
 }
