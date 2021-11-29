@@ -34,12 +34,21 @@ module.exports = class Channel {
     }
 
     async join (client) {
-        this.peers[client.clientId] = client;
-        client.connect(this.channelId);
-        let con = new Connection(this, client);
-        this.connections.push(con.connectionId);
-        client.setStatusMessage(`joined to ${this.channelId}`);
-        return con;
+        try {
+            this.peers[client.clientId] = client;
+            client.connect(this.channelId);
+            let con = new Connection(this, client);
+            this.connections.push(con.connectionId);
+            client.setStatusMessage(`joined to ${this.channelId}`);
+            return con;
+        } catch(e) {
+            console.log(e)
+        }
+
+    }
+
+    async createRouterTransport(options) {
+        return  await this.router.createWebRtcTransport(options);
     }
 
 }

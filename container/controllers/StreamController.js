@@ -31,7 +31,7 @@ class StreamController extends Controller {
   }
 
   /**
-   * List of ObjectModel[]
+   * List of ObjectModel[] 
    * @param {request} [ExpressRequest] Object
    * @return {Array} translated as [ExpressResponse] Object
    * */

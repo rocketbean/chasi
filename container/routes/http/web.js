@@ -30,8 +30,10 @@ module.exports = function() {
             route.post('create', "StreamController@client");
         }));
 
-        route.group({prefix: 'connection'}, (() => {
-            
+        route.group({prefix: 'connection/:connection'}, (() => {
+            // route.post('test', "ConnectionController@test");
+            route.post('create-transport', "ConnectionController@transport");
+            route.post('connect-transport', "ConnectionController@connect");
         }));
     }));
 

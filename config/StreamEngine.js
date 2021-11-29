@@ -129,7 +129,23 @@ module.exports = {
           { ip: '127.0.0.1', announcedIp: null },
         ],
         enableUdp: true,
-        enableTcp: false,
+        enableSctp: true,
+        enableTcp: true,
+        sctpCapabilities : {
+          port: 5000,
+          /**
+           * Initially requested number of outgoing SCTP streams.
+           */
+          OS: 100,
+          /**
+           * Maximum number of incoming SCTP streams.
+           */
+          MIS: 24275,
+          /**
+           * Maximum allowed size for SCTP messages.
+           */
+          maxMessageSize: 24275,
+        },
         initialAvailableOutgoingBitrate: 1000000,
       }
     }

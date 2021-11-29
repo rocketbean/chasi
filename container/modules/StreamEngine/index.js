@@ -1,10 +1,13 @@
 
 const mediasoup = require("mediasoup");
+const Container = require("./bin/container");
+
 const Channel = require("./bin/channel");
 const Client = require("./bin/client");
+const Connection = require("./bin/connection");
 const starter = require("./bin/start");
 
-module.exports = class StreamEngine {
+module.exports = class StreamEngine extends Container {
 
     /**
      * CPU workers
@@ -19,30 +22,9 @@ module.exports = class StreamEngine {
      */
     static assigner = 0;
 
-    /* * * * * * *
-     * channels
-     *-----------
-     * Channel Container
-     */
-    static channels = {};
-
-    /* * * * * * *
-     * clients
-     *-----------
-     * Client Container
-     */
-    static clients = {};
-
     constructor($config) {
+        super();
         this.config = $config
-    }
-
-    get channels () {
-        return StreamEngine.channels
-    }
-
-    get clients () {
-        return StreamEngine.clients
     }
 
     assignWorker () {
@@ -83,6 +65,7 @@ module.exports = class StreamEngine {
 
     static async init ($config) {
        await starter(StreamEngine.workers, $config);
+       Container.config = $config; 
        return new StreamEngine($config);
     }
 }

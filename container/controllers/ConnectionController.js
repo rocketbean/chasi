@@ -3,14 +3,24 @@ const Controller = handle("/package/statics/Controller");
 
 class ConnectionController extends Controller {
 
+  get engine () {
+    return this.services.StreamEngine;
+  }
   /**
    * Write a New ModelEntry
    * @param {request} [ExpressRequest] Object
    * @return {} translated as [ExpressResponse] Object
    * */
-  async create(request, response) {
-    
-
+   async connect(request, response) {
+    try {
+      let {transportId, dtlsParameters} = request.body
+      let connection = this.engine.connections[request.params.connection];
+      let transport = connection.transports[transportId]
+      await transport.connect({ dtlsParameters });
+      return { connected: true };
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   /**
@@ -18,38 +28,14 @@ class ConnectionController extends Controller {
    * @param {request} [ExpressRequest] Object
    * @return {Object} translated as [ExpressResponse] Object
    * */
-  async index(request, response) {
-    
-
-  }
-
-  /**
-   * List of ObjectModel[]
-   * @param {request} [ExpressRequest] Object
-   * @return {Array} translated as [ExpressResponse] Object
-   * */
-  async list(request, response) {
-    
-    
-  }
-
-  /**
-   * Delete an ObjectModel[]
-   * @param {request} [ExpressRequest] Object
-   * @return {Bool} translated as [ExpressResponse] Object
-   * */
-  async delete(request, response) {
-    
-  }
-
-  /**
-   * Update an ObjectModel[]
-   * @param {request} [ExpressRequest] Object
-   * @return {Object} translated as [ExpressResponse] Object
-   * */
-  async update(request, response) {
-    
-    
+  async transport(request, response) {
+    try {
+      let connection = this.engine.connections[request.params.connection];
+      let transport = await connection.createTransport(request.body.direction)
+      return transport;
+    } catch(e) {
+      console.log(e)
+    }
   }
 }
 
