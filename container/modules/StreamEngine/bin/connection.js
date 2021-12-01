@@ -7,7 +7,7 @@ module.exports = class Connection extends Container{
     * valid transport 
     * direction values;
     */
-    static TransportDirection = ['send', 'recieve'];
+    static TransportDirection = ['send', 'recv'];
 
     constructor (channel, client) {
         super();
@@ -15,6 +15,7 @@ module.exports = class Connection extends Container{
         this.channel = channel;
         this.client = client;
         this.transports = {};
+        this.producer = {};
         this.dataProducer = {};
         this.setState()
         Connection.registerConnection(this)
@@ -61,7 +62,6 @@ module.exports = class Connection extends Container{
                     clientDirection: direction,
                 }
         })
-        console.log(transport)
         this.transportEvents(transport);
         this.transports[transport.id] = transport
         return this.destructureTransport(transport, this.dataProducer);
@@ -70,6 +70,16 @@ module.exports = class Connection extends Container{
     destructureTransport (transport) {
         let { id, iceParameters, iceCandidates, dtlsParameters } = transport;
         return {transportOptions: { id, iceParameters, iceCandidates, dtlsParameters }}
+    }
+
+    async publish (transport, params) {
+        let _p = {...params};
+        _p.appData['transportId'] = _p.transportId
+        delete  _p.transportId;
+        let producer = await transport.produce({..._p});
+        await this.channel.createProducer(producer);
+        console.log(producer.id)
+        return producer
     }
 
     /**

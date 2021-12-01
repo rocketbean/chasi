@@ -9,6 +9,7 @@ module.exports = class Channel {
         this.router = router;
         this.audioLevelObserver = audioLevelObserver;
         this.peers = {};
+        this.producers = {}
         this.connections = [];
         this.#setState();
     }
@@ -44,7 +45,10 @@ module.exports = class Channel {
         } catch(e) {
             console.log(e)
         }
+    }
 
+    async createProducer (producer) {
+        this.producers[producer.id] = producer
     }
 
     async createRouterTransport(options) {

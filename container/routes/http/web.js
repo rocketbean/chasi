@@ -31,9 +31,11 @@ module.exports = function() {
         }));
 
         route.group({prefix: 'connection/:connection'}, (() => {
-            // route.post('test', "ConnectionController@test");
             route.post('create-transport', "ConnectionController@transport");
             route.post('connect-transport', "ConnectionController@connect");
+            route.post('send-transport', "ConnectionController@send");
+            route.post('recv-transport', "ConnectionController@recv");
+            route.post('peers', "ConnectionController@peers");
         }));
     }));
 
