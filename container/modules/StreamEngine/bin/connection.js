@@ -77,8 +77,7 @@ module.exports = class Connection extends Container{
         _p.appData['transportId'] = _p.transportId
         delete  _p.transportId;
         let producer = await transport.produce({..._p});
-        await this.channel.createProducer(producer);
-        console.log(producer.id)
+        await this.channel.createPeer(this.client, producer);
         return producer
     }
 

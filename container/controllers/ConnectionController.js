@@ -64,21 +64,27 @@ class ConnectionController extends Controller {
       let { transportId, peer, rtpCapabilities } = request.body;
       let connection = this.engine.connections[request.params.connection];
       let transport = connection.transports[transportId];
-      let producer = connection.channel.producers[peer];
-      let consumer =  await transport.consume({
-        producerId: producer.id,
-        rtpCapabilities,
-        paused: true, 
-        appData: {}
+      let _peer = connection.channel.peers[peer];
+      let consumers = await _peer.consume(transport, {
+          rtpCapabilities,
+          paused: false, 
+          appData: {}
       })
-      return {
-        producerId: producer.id,
-        id: consumer.id,
-        kind: consumer.kind,
-        rtpParameters: consumer.rtpParameters,
-        type: consumer.type,
-        producerPaused: consumer.producerPaused
-      }
+      // let consumer =  await transport.consume({
+      //   producerId: producer.id,
+      //   rtpCapabilities,
+      //   paused: true, 
+      //   appData: {}
+      // })
+      // return {
+      //   producerId: producer.id,
+      //   id: consumer.id,
+      //   kind: consumer.kind,
+      //   rtpParameters: consumer.rtpParameters,
+      //   type: consumer.type,
+      //   producerPaused: consumer.producerPaused
+      // }
+      return consumers;
     } catch(e) {
       console.log(e)
     }
@@ -92,7 +98,7 @@ class ConnectionController extends Controller {
    async peers(request, response) {
     try {
       let connection = this.engine.connections[request.params.connection];
-      return connection.channel.producers
+      return connection.channel.peers
     } catch(e) {
       console.log(e)
     }
