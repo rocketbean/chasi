@@ -3,7 +3,7 @@ module.exports = (argument) => {
   return `
   class ${argument} {
     
-    static boot () {
+    static async boot () {
         // return {}
     }
   }

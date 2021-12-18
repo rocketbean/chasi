@@ -41,13 +41,13 @@ class Chasi extends Base {
 
     constructor () {
         super();
-        this.autoLoadServiceBootstrap()
         this.internals = [];
         this.services = {};
     }
 
-    autoLoadServiceBootstrap () {
-        this.services = new ServiceAdapter(Chasi.property.app.ServiceBootstrap).autoload();
+    async autoLoadServiceBootstrap () {
+        this.services = new ServiceAdapter(Chasi.property.app.ServiceBootstrap)
+        await this.services.autoload();
         adapter.services = this.services
         this.propagateServices()
     }
@@ -83,6 +83,7 @@ class Chasi extends Base {
         Router.init($app, dependency.$server);
         Auth.init($app, Chasi.property.authentication);
         let $chasi = new Chasi();
+        await $chasi.autoLoadServiceBootstrap()
         Chasi.VerifyInstallation(dependency, $chasi);
         return $chasi;
     }
