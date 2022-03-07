@@ -11,8 +11,6 @@ this framework implements services such as
 - Controller
 
 
-*and find the community for chasi, as i'll be posting any upcommings in that website, 
-and plus you can also add some discussions if you have any suggestions*
 
 
 # Installation
