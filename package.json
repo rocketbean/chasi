@@ -40,6 +40,6 @@
 		"socket.io": "^3.0.1",
 		"twilio": "^3.42.2",
 		"uniqid": "^5.2.0",
-		"validator": "^12.2.0"
+		"validator": "^13.7.0"
 	}
 }
