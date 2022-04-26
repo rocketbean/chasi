@@ -14,7 +14,7 @@ return`
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
-    "next": "12.0.3",
+    "next": "12.1.5",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
