@@ -1,4 +1,5 @@
-const route = require("../../../package/framework/chasi/Routing/Route")
+const route = require("../../../package/framework/chasi/Routing/Route");
+const { excludeFromProperty } = require("../../controllers/UserController");
 
 module.exports = function() {
     
@@ -12,5 +13,5 @@ module.exports = function() {
     * [AuthRouteExceptions] array option.
     */
 
-    route.post('/login', "UserController@login")
+    route.post('/login', "UserController@login");
 }

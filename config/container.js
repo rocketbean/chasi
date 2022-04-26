@@ -38,7 +38,7 @@ module.exports = {
         'routers': 'container/services/RouterServiceProvider',
         'auth': 'container/services/AuthServiceProvider',
         'sockets': 'container/services/SocketServiceProvider',
-        // 'Mailer': 'container/services/MailerServiceProvider',
+        // 'Mailer': 'container/services/MailerServiceProvider', // ->> enable this if you wish to provide email services
     },
 
     /**
@@ -55,7 +55,6 @@ module.exports = {
          * be installed to that Chasi Route MWs Repository,
          * then you can use it in your routes
          */
-
     }
 
 }

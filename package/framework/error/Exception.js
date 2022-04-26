@@ -42,7 +42,6 @@ class Exception {
                 return message;
                 break;
         }
- 
     }
 
     executeError() {

@@ -1,12 +1,15 @@
 const mongoose = require("mongoose")
 const __v = require("validator")
-const ErrorHandler= require('../../error/ErrorHandler');
+const ErrorHandler = require('../../error/ErrorHandler');
+const Exception = require('../../error/Exception');
 
 class DBWrapper extends ErrorHandler{
     static global;
     static property;
+    static requireConnectionProp = ['url', 'db']
     constructor () {
         super()
+        this.beforeInit()
         this.property = DBWrapper.property.database;
         this.secureBoot = DBWrapper.property.database.bootWithDB;
         this.hostat = this.property.connection.url+this.property.connection.db
@@ -92,8 +95,20 @@ class DBWrapper extends ErrorHandler{
         DBWrapper.global = global
         DBWrapper.property = property
     }
+
+    beforeInit() {
+        let connections = DBWrapper.property.database.connections
+        Object.keys(connections).forEach(con => {
+            DBWrapper.requireConnectionProp.forEach(prop => {
+                if(connections[con][prop] == undefined || connections[con][prop] == null) {
+                    this.exception(`${con}::${prop} is not defined`, 0, "DBWrapper::MissingPropertyError")
+                }
+            })
+        })
+    }
 }
 module.exports = (function (args) {
-    DBWrapper.bootstrap(args.global, args.property);
-    return new DBWrapper()
+        DBWrapper.bootstrap(args.global, args.property);
+        return new DBWrapper()
+
 })

@@ -39,6 +39,7 @@ class RouteRegistry extends ErrorHandler{
 
         } 
         Object.keys(this.stack).map(_r => {
+            this.readExemptions(this.stack[_r]);
             this.activateRoutes(this.stack[_r])
         })
         global.events.call('NewRouterEntry', {router: this.router, routes: this.mounted});
@@ -48,6 +49,14 @@ class RouteRegistry extends ErrorHandler{
         Object.keys(this.stack).map(_r => {
             this.registerRoute(this.stack[_r])
 
+        })
+    }
+    
+    readExemptions (route) {
+        route.fullpath = this.validateEndpoint(route);
+        route.exemptions.forEach(ex => {
+            let indx = route.middlewares.indexOf(ex);
+            if(indx > -1) route.middlewares.splice(indx, 1)
         })
     }
 
@@ -79,8 +88,8 @@ class RouteRegistry extends ErrorHandler{
 
     checkGwExceptions(route) {
         let _excptn = this.property.gateway.AuthRouteExceptions.
-            find(_r => (_r.url == route.fullpath && _r.m.toLowerCase() == route.method.toLowerCase()));
-        if(!route.container.gateway.enabled) return true
+            find(_r => (_r.url == route.fullpath.toLowerCase() && _r.m.toLowerCase() == route.method.toLowerCase()));
+        if(!(route.container.gateway.enabled)) return true
         return _excptn ? true : false;
     }
 

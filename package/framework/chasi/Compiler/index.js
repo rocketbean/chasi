@@ -17,22 +17,26 @@ class Compiler extends Base{
   }
 
   async setDrivers () {
-    (await Compiler.throughDirs(Compiler.dir)).map(async driver => {
-      Object.keys(driver).forEach(async name => {
-        let drivername = name.replace(path.extname(name), "");
-        let script = require(driver[name])
-        this.drivers[drivername] = await script.boot(this.property.configs[drivername])
-      })
-    });
+      (await Compiler.throughDirs(Compiler.dir)).map(async driver => {
+        Object.keys(driver).forEach(async name => {
+          let drivername = name.replace(path.extname(name), "");
+          let script = require(driver[name])
+          this.drivers[drivername] = await script.boot(this.property.configs[drivername])
+        })
+      });
+
   }
 
   async setup () {
-    await this.setDrivers();
-    await this.loadDriver();
+      await this.setDrivers();
+      await this.loadDriver();
+
   }
 
   static init (property) {
+
     return new Compiler(property.compiler);
+
   }
 
 }

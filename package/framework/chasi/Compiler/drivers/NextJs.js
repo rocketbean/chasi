@@ -56,7 +56,7 @@ class NextJs extends Driver {
   }
 
   async buildStatic () {
-    return await buildScript(this.root, this.state)
+      return await buildScript(this.root, this.state)
   }
 
   async verifyInstallation () {

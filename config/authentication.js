@@ -15,6 +15,7 @@ module.exports = {
                  * it should be registered here..
                  */
                 {"m": "POST", "url": "/api/login"},
+                {"m": "GET", "url": "/api/post"},
             ]
         },
         

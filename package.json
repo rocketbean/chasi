@@ -1,6 +1,6 @@
 {
 	"name": "Chasi Framework",
-	"version": "1.0.3",
+	"version": "1.0.5",
 	"author": "Nikko Mesina",
 	"scripts": {
 		"start": "node server.js",

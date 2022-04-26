@@ -65,6 +65,10 @@ class UserController extends Controller {
     async index (req) {
         return true;
     }
+
+    async post (req) {
+        return "success";
+    }
 }
 
 module.exports = new UserController();

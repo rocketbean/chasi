@@ -38,6 +38,6 @@ module.exports =  async (path, state) => {
       })
     })
 
-  })
+  }).catch(e => {})
 
 }

@@ -22,7 +22,6 @@ class BuildCompiler extends Event {
    */
   async fire (params) {
     await BuildCompiler.$packages.Compiler.engine.buildStatic()
-
   }
 }
 

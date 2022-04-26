@@ -10,7 +10,6 @@ class Route extends ErrorHandler{
     static groups = [];
     static prefixes = [];
     static middlewares = [];
-    
     constructor (property) {
         super();
         this.endpoint = property.endpoint
@@ -21,6 +20,7 @@ class Route extends ErrorHandler{
         this.prefixes = [];
         this.middlewares = [];
         this.groups = [];
+        this.exemptions = [];
         this.setRouteProperties()
     }
 
@@ -163,6 +163,16 @@ class Route extends ErrorHandler{
         if(!stack.hasOwnProperty('group')) stack.group = ObjectId().toString()
         let _group = RouteGroup.register(stack)
         Route.groups.push(_group);
+    }
+
+    exempt (middleware) {
+        if(Array.isArray(middleware)) middleware.map(mw => this.pushExcemption(mw))
+        else this.pushExcemption(middleware)
+        return this;
+    }
+
+    pushExcemption (middleware) {
+        this.exemptions.push(middleware)
     }
 }
 module.exports = Route;
