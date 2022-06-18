@@ -9,6 +9,7 @@ const SubModuleInstaller = require("../bin/nextjs/installSubModule.js");
 const getInstanceProperties = require("../bin/nextjs/getInstanceProperties.js");
 const npmscript = require("../bin/nextjs/installNpmScript");
 const setNext = require("../bin/nextjs/setNextConf");
+const viewDir = require("../bin/nextjs/makeViewDir");
 const buildScript = require("../bin/nextjs/buildScript");
 const express = require("express")
 
@@ -96,6 +97,9 @@ class NextJs extends Driver {
     try {
       let statePath = path.join(this.root, 'chasi.conf');
       if(!fs.existsSync(statePath)) {
+        if (!fs.existsSync(this.root)) {
+          await viewDir(this.root)
+        } 
         await this.createStateFile();
       }
       return require(statePath)

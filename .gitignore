@@ -5,3 +5,4 @@ certs
 statics/*
 package-lock.json
 build/*
+.gitmodules
