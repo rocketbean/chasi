@@ -1,4 +1,4 @@
-const fileserver = require("../defaults/defaultFileServer");
+const fileserver = require("../../defaults/nextjs/defaultFileServer");
 const path = require("path");
 const fs = require("fs");
 let now = new Date().toISOString();

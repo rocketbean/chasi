@@ -1,14 +1,15 @@
 const Driver = require("../Driver");
 const path = require("path");
 const fs = require("fs");
-const conf = require("../defaults/defaultConf");
-const fsinstaller = require("../bin/fileServerInstaller.js");
-const checkPackage = require("../bin/checkPackage.js");
-const PkgInstaller = require("../bin/packageInstaller.js");
-const getInstanceProperties = require("../bin/getInstanceProperties.js");
-const npmscript = require("../bin/installNpmScript");
-const setNext = require("../bin/setNextConf");
-const buildScript = require("../bin/buildScript");
+const conf = require("../defaults/nextjs/defaultConf");
+const fsinstaller = require("../bin/nextjs/fileServerInstaller.js");
+const checkPackage = require("../bin/nextjs/checkPackage.js");
+const PkgInstaller = require("../bin/nextjs/packageInstaller.js");
+const SubModuleInstaller = require("../bin/nextjs/installSubModule.js");
+const getInstanceProperties = require("../bin/nextjs/getInstanceProperties.js");
+const npmscript = require("../bin/nextjs/installNpmScript");
+const setNext = require("../bin/nextjs/setNextConf");
+const buildScript = require("../bin/nextjs/buildScript");
 const express = require("express")
 
 class NextJs extends Driver {
@@ -74,6 +75,12 @@ class NextJs extends Driver {
         this.state = await PkgInstaller(this.root, this.state);
         await this.updateConf(this.state);
         this.logger('[PackageInstaller] package installed');
+      }
+
+      if(this.state.status.submodule < 1) {
+        this.state = await SubModuleInstaller(this.root, this.property, this.state);
+        await this.updateConf(this.state);
+        this.logger('[Default Submodule] submodule installed');
       }
 
       await npmscript(this.root, this.property);

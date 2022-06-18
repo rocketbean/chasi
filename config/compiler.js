@@ -61,12 +61,25 @@ module.exports = {
       staticPath: '/public',
 
       /**
+       * SubModules to install
+       * chasi will automatically
+       * load the submodule path
+       * from a separate repository
+       * if enabled
+       */
+      submodule: {
+        enabled: true,
+        path: 'https://github.com/rocketbean/Chasi-Next.git'
+      },
+
+      /**
        * NextJS load Configurations
        */
       load: {
         dev: true,
         quiet: true,
         conf: {
+          url: "/",
           reactStrictMode: false,
           basePath: '/next',
           useFileSystemPublicRoutes: false,

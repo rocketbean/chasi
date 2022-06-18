@@ -2,7 +2,7 @@
 const Base = handle('/package/base');
 const path = require('path');
 
-class Compiler extends Base{
+class Compiler extends Base {
   static dir = `${basepath}/package/framework/chasi/Compiler/drivers`
 
   constructor (property) {

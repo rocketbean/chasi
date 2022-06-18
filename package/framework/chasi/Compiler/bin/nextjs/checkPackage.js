@@ -1,4 +1,4 @@
-const pkg = require("../defaults/defaultPackage");
+const pkg = require("../../defaults/nextjs/defaultPackage");
 const path = require("path");
 const fs = require("fs");
 let now = new Date().toISOString();
